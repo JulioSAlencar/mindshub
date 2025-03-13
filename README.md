@@ -127,13 +127,16 @@ Antes de começar, instale os seguintes programas na sua máquina:
 
 ## ➕ Comandos Úteis  
 
-### 🔄 Limpar o cache e imagens do Docker  
+### 🔄 Limpar o cache e imagens do Docker
+
 ```bash
 docker system prune -a
 ``-
+
 ```bash
 docker-compose up -d
 ``-
+
 ```bash
 docker-compose down
 ``-
