@@ -4,7 +4,7 @@ Um projeto desenvolvido com Laravel, Nginx, MySQL e Redis, utilizando Docker par
 
 ## 📌 Tecnologias Utilizadas  
 
-- **Laravel** v12.0.2
+- **Laravel** v12.2.0
 - **PHP** v8.2.27  
 - **Nginx** v1.27.4-alpine  
 - **MySQL** v8.0  
@@ -29,7 +29,7 @@ Antes de começar, instale os seguintes programas na sua máquina:
    ```env
     APP_NAME=Mindshub
     APP_ENV=local
-    APP_KEY=base64:4thWZ9f4GW8rKZKKyyURlXAr1R62Ak4pV3XFLPiqhO0=
+    APP_KEY=
     APP_DEBUG=true
     APP_URL=http://localhost
 
