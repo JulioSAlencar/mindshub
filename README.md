@@ -4,7 +4,7 @@ Um projeto desenvolvido com Laravel, Nginx, MySQL e Redis, utilizando Docker par
 
 ## 📌 Tecnologias Utilizadas  
 
-- **Laravel** v11.43.2  
+- **Laravel** v12.0.2
 - **PHP** v8.2.27  
 - **Nginx** v1.27.4-alpine  
 - **MySQL** v8.0  
