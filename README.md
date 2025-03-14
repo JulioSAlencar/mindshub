@@ -132,9 +132,11 @@ Antes de começar, instale os seguintes programas na sua máquina:
 ```bash
 docker system prune -a
 ```
+### Subir containers
 ```bash
 docker-compose up -d
 ```
+### Remover containers
 ```bash
 docker-compose down
 ```
