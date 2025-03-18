@@ -1,10 +1,10 @@
 # 🧠 MindsHub  
 
-Um projeto desenvolvido com Laravel, Nginx, MySQL e Redis, utilizando Docker para facilitar a configuração e o deploy.  
+Um projeto desenvolvido com Laravel, Node.js, Nginx, MySQL e Redis, utilizando Docker para facilitar a configuração e o deploy.  
 
 ## 📌 Tecnologias Utilizadas  
 
-- **Laravel** v12.2.0
+- **Laravel** v12.2.0  
 - **PHP** v8.2.27  
 - **Nginx** v1.27.4-alpine  
 - **MySQL** v8.0  
@@ -19,6 +19,7 @@ Um projeto desenvolvido com Laravel, Nginx, MySQL e Redis, utilizando Docker par
 Antes de começar, instale os seguintes programas na sua máquina:  
 
 - [Docker](https://www.docker.com/)
+- [Node.js](https://nodejs.org/) (Recomendado: LTS)
 
 ### ▶️ Rodando o Projeto  
 
@@ -27,6 +28,7 @@ Antes de começar, instale os seguintes programas na sua máquina:
    - Copie e cole o seguinte código dentro do arquivo `.env`:  
 
    ```env
+
     APP_NAME=Mindshub
     APP_ENV=local
     APP_KEY=
@@ -56,43 +58,10 @@ Antes de começar, instale os seguintes programas na sua máquina:
     DB_USERNAME=mindshub
     DB_PASSWORD=mindshub1234
 
-    SESSION_DRIVER=database
-    SESSION_LIFETIME=120
-    SESSION_ENCRYPT=false
-    SESSION_PATH=/
-    SESSION_DOMAIN=null
-
-    BROADCAST_CONNECTION=log
-    FILESYSTEM_DISK=local
-    QUEUE_CONNECTION=database
-
-    CACHE_STORE=database
-    # CACHE_PREFIX=
-
-    MEMCACHED_HOST=127.0.0.1
-
     REDIS_CLIENT=phpredis
     REDIS_HOST=redis_mindshub
     REDIS_PASSWORD=null
     REDIS_PORT=6379
-
-    MAIL_MAILER=log
-    MAIL_SCHEME=null
-    MAIL_HOST=127.0.0.1
-    MAIL_PORT=2525
-    MAIL_USERNAME=null
-    MAIL_PASSWORD=null
-    MAIL_FROM_ADDRESS="hello@example.com"
-    MAIL_FROM_NAME="${APP_NAME}"
-
-    AWS_ACCESS_KEY_ID=
-    AWS_SECRET_ACCESS_KEY=
-    AWS_DEFAULT_REGION=us-east-1
-    AWS_BUCKET=
-    AWS_USE_PATH_STYLE_ENDPOINT=false
-
-    VITE_APP_NAME="${APP_NAME}"
-
    ```
 
 2. **Subir os containers do projeto**  
@@ -120,6 +89,16 @@ Antes de começar, instale os seguintes programas na sua máquina:
    php artisan migrate
    ```
 
+7. **Instalar as dependências do front-end**  
+   ```bash
+   npm install
+   ```
+
+8. **Compilar os assets do front-end**  
+   ```bash
+   npm run dev
+   ```
+
 ### 🎯 Acesse o Projeto  
 
 - **Front-end:** [http://localhost/](http://localhost/)  
@@ -132,6 +111,12 @@ Antes de começar, instale os seguintes programas na sua máquina:
 ```bash
 docker system prune -a
 ```
+### Subir os containers 
+```bash
+docker-compose up -d
+```
+### Remover os containers
+
 ### Subir containers
 ```bash
 docker-compose up -d
