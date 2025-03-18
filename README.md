@@ -28,6 +28,29 @@ Antes de começar, instale os seguintes programas na sua máquina:
    - Copie e cole o seguinte código dentro do arquivo `.env`:  
 
    ```env
+
+    APP_NAME=Mindshub
+    APP_ENV=local
+    APP_KEY=
+    APP_DEBUG=true
+    APP_URL=http://localhost
+
+    APP_LOCALE=en
+    APP_FALLBACK_LOCALE=en
+    APP_FAKER_LOCALE=en_US
+
+    APP_MAINTENANCE_DRIVER=file
+    # APP_MAINTENANCE_STORE=database
+
+    PHP_CLI_SERVER_WORKERS=4
+
+    BCRYPT_ROUNDS=12
+
+    LOG_CHANNEL=stack
+    LOG_STACK=single
+    LOG_DEPRECATIONS_CHANNEL=null
+    LOG_LEVEL=debug
+
     DB_CONNECTION=mysql
     DB_HOST=mysql_mindshub
     DB_PORT=3306
@@ -83,7 +106,8 @@ Antes de começar, instale os seguintes programas na sua máquina:
 
 ## ➕ Comandos Úteis  
 
-### 🔄 Limpar o cache e imagens do Docker  
+### 🔄 Limpar o cache e imagens do Docker
+
 ```bash
 docker system prune -a
 ```
@@ -92,6 +116,12 @@ docker system prune -a
 docker-compose up -d
 ```
 ### Remover os containers
+
+### Subir containers
+```bash
+docker-compose up -d
+```
+### Remover containers
 ```bash
 docker-compose down
 ```
