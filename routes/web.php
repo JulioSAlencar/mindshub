@@ -27,7 +27,6 @@ Route::middleware(['auth', 'role:student'])->group(function () {
 // Rotas para professores
 Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::get('/teacher/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
-    Route::get('/teacher/portal', [TeacherController::class, 'portal'])->name('teacher.portal');
 });
 
 
