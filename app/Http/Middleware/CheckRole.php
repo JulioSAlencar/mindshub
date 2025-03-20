@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Container\Attributes\Auth;
+use Illuminate\Support\Facades\Auth;
 
 class CheckRole
 {
@@ -22,10 +22,11 @@ class CheckRole
 
         $user = Auth::user();
 
-        foreach($roles as $role) {
-            if($user->role === $role) {
-                return $next($request);
-            }
+        // Converte a string de funções em um array
+        $rolesArray = explode(',', $roles);
+
+        if (in_array($user->role, $rolesArray)) {
+            return $next($request);
         }
 
         abort(403, 'Acesso não autorizado');

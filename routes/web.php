@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,16 +21,14 @@ Route::middleware('auth')->group(function () {
 
 // Rotas para alunos
 Route::middleware(['auth', 'role:student'])->group(function () {
-    Route::get('/student', function () {
-        return view('student.dashboard');
-    });
+    Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
 });
 
 // Rotas para professores
 Route::middleware(['auth', 'role:teacher'])->group(function () {
-    Route::get('/teacher', function () {
-        return view('teacher.dashboard');
-    });
+    Route::get('/teacher/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
+    Route::get('/teacher/portal', [TeacherController::class, 'portal'])->name('teacher.portal');
 });
+
 
 require __DIR__.'/auth.php';
