@@ -16,10 +16,19 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, $roles): Response
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
+        $roles = explode('|', $roles);
+
+        $userRole = auth()->user()->role;
+
+
+        if (!in_array($userRole, $roles)) {
+            abort(403, 'Acesso não autorizado');
         }
 
+<<<<<<< Updated upstream
         $user = Auth::user();
 
         // Converte a string de funções em um array
@@ -30,5 +39,8 @@ class CheckRole
         }
 
         abort(403, 'Acesso não autorizado');
+=======
+        return $next($request);
+>>>>>>> Stashed changes
     }
 }

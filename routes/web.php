@@ -19,6 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+<<<<<<< Updated upstream
 // Rotas para alunos
 Route::middleware(['auth', 'role:student'])->group(function () {
     Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
@@ -27,6 +28,18 @@ Route::middleware(['auth', 'role:student'])->group(function () {
 // Rotas para professores
 Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::get('/teacher/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
+=======
+// Rotas para estudantes
+Route::prefix('student')->middleware(['auth', 'role:student'])->group(function () {
+    Route::get('/', [StudentController::class, 'dashboard'])->name('student.dashboard');
+
+});
+
+// Rotas para professores
+Route::prefix('teacher')->middleware(['auth', 'role:teacher'])->group(function () {
+    Route::get('/', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
+    Route::get('/disciplines', [TeacherController::class, 'disciplines'])->name('teacher.disciplines');
+>>>>>>> Stashed changes
 });
 
 
