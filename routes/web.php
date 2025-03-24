@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Auth\TypeUserController as AuthTypeUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\TypeUserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,6 +31,9 @@ Route::prefix('student')->middleware(['auth', 'role:student'])->group(function (
 Route::prefix('teacher')->middleware(['auth', 'role:teacher'])->group(function () {
     Route::get('/', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
 });
+
+Route::get('/auth/typeuser', [AuthTypeUserController::class, 'index'])
+     ->name('typeuser.page');
 
 
 require __DIR__.'/auth.php';

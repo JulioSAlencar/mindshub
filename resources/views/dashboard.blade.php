@@ -15,9 +15,6 @@
                         <p>professores não podem ver isso</p>
                     @else
                         <p>Alunos não podem ver isso</p>
-                        <a href="{{ route('teacher.disciplines') }}">
-                            <button type="button">Discipline</button>
-                        </a>
                     @endcan
                 </div>
             </div>
