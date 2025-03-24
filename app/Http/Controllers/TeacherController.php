@@ -10,15 +10,4 @@ class TeacherController extends Controller
     {
         return view('teacher.dashboard');
     }
-
-<<<<<<< Updated upstream
-    public function portal()
-    {
-        return view('teacher.portal_teacher');
-=======
-    public function disciplines()
-    {
-        return view('teacher.disciplines');
->>>>>>> Stashed changes
-    }
 }
