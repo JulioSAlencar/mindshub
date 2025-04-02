@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\TypeUserController as AuthTypeUserController;
+use App\Http\Controllers\DisciplineController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
@@ -10,6 +11,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/disciplines/page', [DisciplineController::class, 'index'])->name('disciplines.page');
+Route::get('/disciplines/create', [DisciplineController::class, 'create'])->name('disciplines.create');
+Route::get('/disciplines/{id}', [DisciplineController::class, 'show'])->name('disciplines.show'); // Corrigido
+Route::post('/disciplines', [DisciplineController::class, 'store']);
+
+
+Route::get('/page', [DisciplineController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('disciplines.page');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
