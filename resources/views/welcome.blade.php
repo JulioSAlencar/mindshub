@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mindshub</title>
+    @vite('resources/css/app.css')
 </head>
-<body>
+
+<body class="bg-gray-500">
     <h1>Good luck in front-end!</h1>
     <duv class="login">
         <a href="{{ route('login')}}">
@@ -22,4 +25,5 @@
         </a>
     </div>
 </body>
+
 </html>
