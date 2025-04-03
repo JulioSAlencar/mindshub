@@ -10,9 +10,4 @@ class TeacherController extends Controller
     {
         return view('teacher.dashboard');
     }
-
-    public function portal()
-    {
-        return view('teacher.portal_teacher');
-    }
 }

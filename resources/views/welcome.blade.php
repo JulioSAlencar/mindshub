@@ -16,12 +16,8 @@
         </a>
     </duv>
     <div class="registro">
-        <a href="{{ route('register', ['role' => 'student']) }}">
-            <button type="button">Registrar como Aluno</button>
-        </a>
-        <br>
-        <a href="{{ route('register', ['role' => 'teacher']) }}">
-            <button type="button">Registrar como Professor</button>
+        <a href="{{ route('typeuser.page') }}">
+            Cadastro
         </a>
     </div>
 </body>
