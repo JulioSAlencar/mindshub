@@ -15,10 +15,10 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-.docekr-composer.yml
 /auth.json
 /.fleet
 /.idea
 /.nova
 /.vscode
 /.zed
+docker-compose.yml 

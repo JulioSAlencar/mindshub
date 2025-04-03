@@ -10,14 +10,14 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{ __("You're logged in!") }}
+                    <br>
+
+                    <a href="{{ route('disciplines.page') }}" class="btn btn-success">Ver Disciplinas</a>
 
                     @can('is-student')
                         <p>professores não podem ver isso</p>
                     @else
                         <p>Alunos não podem ver isso</p>
-                        <a href="{{ route('teacher.disciplines') }}">
-                            <button type="button">Discipline</button>
-                        </a>
                     @endcan
                 </div>
             </div>
