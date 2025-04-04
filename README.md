@@ -4,7 +4,7 @@ Um projeto desenvolvido com Laravel, Node.js, Nginx, MySQL e Redis, utilizando D
 
 ## 📌 Tecnologias Utilizadas  
 
-- **Laravel** v12.2.0  
+- **Laravel** v12.7.2
 - **PHP** v8.2.27  
 - **Nginx** v1.27.4-alpine  
 - **MySQL** v8.0  
@@ -50,7 +50,7 @@ Antes de começar, instale os seguintes programas na sua máquina:
 
 3. **Acessar o container do back-end**  
    ```bash
-   docker exec -it backend bash
+   docker exec -it laravel_app bash   
    ```
 
 4. **Instalar as dependências do Laravel**  
