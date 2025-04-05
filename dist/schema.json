@@ -1,0 +1,908 @@
+{
+  "tables": {
+    "cache": {
+      "name": "cache",
+      "comment": null,
+      "columns": {
+        "key": {
+          "name": "key",
+          "type": "varchar(255)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": true,
+          "unique": false,
+          "notNull": true
+        },
+        "value": {
+          "name": "value",
+          "type": "mediumtext",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "expiration": {
+          "name": "expiration",
+          "type": "int",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "PRIMARY": {
+          "name": "PRIMARY",
+          "unique": false,
+          "columns": [
+            "key"
+          ],
+          "type": "btree"
+        }
+      }
+    },
+    "cache_locks": {
+      "name": "cache_locks",
+      "comment": null,
+      "columns": {
+        "key": {
+          "name": "key",
+          "type": "varchar(255)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": true,
+          "unique": false,
+          "notNull": true
+        },
+        "owner": {
+          "name": "owner",
+          "type": "varchar(255)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "expiration": {
+          "name": "expiration",
+          "type": "int",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "PRIMARY": {
+          "name": "PRIMARY",
+          "unique": false,
+          "columns": [
+            "key"
+          ],
+          "type": "btree"
+        }
+      }
+    },
+    "disciplines": {
+      "name": "disciplines",
+      "comment": null,
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint unsigned",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": true,
+          "unique": false,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(255)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "image": {
+          "name": "image",
+          "type": "varchar(255)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "PRIMARY": {
+          "name": "PRIMARY",
+          "unique": false,
+          "columns": [
+            "id"
+          ],
+          "type": "btree"
+        }
+      }
+    },
+    "failed_jobs": {
+      "name": "failed_jobs",
+      "comment": null,
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint unsigned",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": true,
+          "unique": false,
+          "notNull": true
+        },
+        "uuid": {
+          "name": "uuid",
+          "type": "varchar(255)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": true,
+          "notNull": true
+        },
+        "connection": {
+          "name": "connection",
+          "type": "text",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "queue": {
+          "name": "queue",
+          "type": "text",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "payload": {
+          "name": "payload",
+          "type": "longtext",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "exception": {
+          "name": "exception",
+          "type": "longtext",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "failed_at": {
+          "name": "failed_at",
+          "type": "timestamp",
+          "default": "CURRENT_TIMESTAMP",
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "PRIMARY": {
+          "name": "PRIMARY",
+          "unique": false,
+          "columns": [
+            "id"
+          ],
+          "type": "btree"
+        },
+        "failed_jobs_uuid_unique": {
+          "name": "failed_jobs_uuid_unique",
+          "unique": true,
+          "columns": [
+            "uuid"
+          ],
+          "type": "btree"
+        }
+      }
+    },
+    "job_batches": {
+      "name": "job_batches",
+      "comment": null,
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(255)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": true,
+          "unique": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "total_jobs": {
+          "name": "total_jobs",
+          "type": "int",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "pending_jobs": {
+          "name": "pending_jobs",
+          "type": "int",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "failed_jobs": {
+          "name": "failed_jobs",
+          "type": "int",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "failed_job_ids": {
+          "name": "failed_job_ids",
+          "type": "longtext",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "options": {
+          "name": "options",
+          "type": "mediumtext",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": false
+        },
+        "cancelled_at": {
+          "name": "cancelled_at",
+          "type": "int",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "int",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "finished_at": {
+          "name": "finished_at",
+          "type": "int",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "PRIMARY": {
+          "name": "PRIMARY",
+          "unique": false,
+          "columns": [
+            "id"
+          ],
+          "type": "btree"
+        }
+      }
+    },
+    "jobs": {
+      "name": "jobs",
+      "comment": null,
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint unsigned",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": true,
+          "unique": false,
+          "notNull": true
+        },
+        "queue": {
+          "name": "queue",
+          "type": "varchar(255)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "payload": {
+          "name": "payload",
+          "type": "longtext",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "attempts": {
+          "name": "attempts",
+          "type": "tinyint unsigned",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "reserved_at": {
+          "name": "reserved_at",
+          "type": "int unsigned",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": false
+        },
+        "available_at": {
+          "name": "available_at",
+          "type": "int unsigned",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "int unsigned",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "jobs_queue_index": {
+          "name": "jobs_queue_index",
+          "unique": false,
+          "columns": [
+            "queue"
+          ],
+          "type": "btree"
+        },
+        "PRIMARY": {
+          "name": "PRIMARY",
+          "unique": false,
+          "columns": [
+            "id"
+          ],
+          "type": "btree"
+        }
+      }
+    },
+    "migrations": {
+      "name": "migrations",
+      "comment": null,
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int unsigned",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": true,
+          "unique": false,
+          "notNull": true
+        },
+        "migration": {
+          "name": "migration",
+          "type": "varchar(255)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "batch": {
+          "name": "batch",
+          "type": "int",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "PRIMARY": {
+          "name": "PRIMARY",
+          "unique": false,
+          "columns": [
+            "id"
+          ],
+          "type": "btree"
+        }
+      }
+    },
+    "password_reset_tokens": {
+      "name": "password_reset_tokens",
+      "comment": null,
+      "columns": {
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": true,
+          "unique": false,
+          "notNull": true
+        },
+        "token": {
+          "name": "token",
+          "type": "varchar(255)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "PRIMARY": {
+          "name": "PRIMARY",
+          "unique": false,
+          "columns": [
+            "email"
+          ],
+          "type": "btree"
+        }
+      }
+    },
+    "personal_access_tokens": {
+      "name": "personal_access_tokens",
+      "comment": null,
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint unsigned",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": true,
+          "unique": false,
+          "notNull": true
+        },
+        "tokenable_type": {
+          "name": "tokenable_type",
+          "type": "varchar(255)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "tokenable_id": {
+          "name": "tokenable_id",
+          "type": "bigint unsigned",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "token": {
+          "name": "token",
+          "type": "varchar(64)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": true,
+          "notNull": true
+        },
+        "abilities": {
+          "name": "abilities",
+          "type": "text",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": false
+        },
+        "last_used_at": {
+          "name": "last_used_at",
+          "type": "timestamp",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": false
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "personal_access_tokens_tokenable_type_tokenable_id_index": {
+          "name": "personal_access_tokens_tokenable_type_tokenable_id_index",
+          "unique": false,
+          "columns": [
+            "tokenable_type",
+            "tokenable_id"
+          ],
+          "type": "btree"
+        },
+        "PRIMARY": {
+          "name": "PRIMARY",
+          "unique": false,
+          "columns": [
+            "id"
+          ],
+          "type": "btree"
+        },
+        "personal_access_tokens_token_unique": {
+          "name": "personal_access_tokens_token_unique",
+          "unique": true,
+          "columns": [
+            "token"
+          ],
+          "type": "btree"
+        }
+      }
+    },
+    "sessions": {
+      "name": "sessions",
+      "comment": null,
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(255)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": true,
+          "unique": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "bigint unsigned",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": false
+        },
+        "ip_address": {
+          "name": "ip_address",
+          "type": "varchar(45)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": false
+        },
+        "user_agent": {
+          "name": "user_agent",
+          "type": "text",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": false
+        },
+        "payload": {
+          "name": "payload",
+          "type": "longtext",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "last_activity": {
+          "name": "last_activity",
+          "type": "int",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "sessions_last_activity_index": {
+          "name": "sessions_last_activity_index",
+          "unique": false,
+          "columns": [
+            "last_activity"
+          ],
+          "type": "btree"
+        },
+        "sessions_user_id_index": {
+          "name": "sessions_user_id_index",
+          "unique": false,
+          "columns": [
+            "user_id"
+          ],
+          "type": "btree"
+        },
+        "PRIMARY": {
+          "name": "PRIMARY",
+          "unique": false,
+          "columns": [
+            "id"
+          ],
+          "type": "btree"
+        }
+      }
+    },
+    "users": {
+      "name": "users",
+      "comment": null,
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint unsigned",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": true,
+          "unique": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": true,
+          "notNull": true
+        },
+        "email_verified_at": {
+          "name": "email_verified_at",
+          "type": "timestamp",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": false
+        },
+        "password": {
+          "name": "password",
+          "type": "varchar(255)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        },
+        "remember_token": {
+          "name": "remember_token",
+          "type": "varchar(100)",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "default": null,
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": false
+        },
+        "role": {
+          "name": "role",
+          "type": "varchar(255)",
+          "default": "student",
+          "check": null,
+          "comment": null,
+          "primary": false,
+          "unique": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "PRIMARY": {
+          "name": "PRIMARY",
+          "unique": false,
+          "columns": [
+            "id"
+          ],
+          "type": "btree"
+        },
+        "users_email_unique": {
+          "name": "users_email_unique",
+          "unique": true,
+          "columns": [
+            "email"
+          ],
+          "type": "btree"
+        }
+      }
+    }
+  },
+  "relationships": {}
+}

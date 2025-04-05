@@ -1,37 +1,50 @@
 <?php
 
+use App\Http\Controllers\Auth\TypeUserController as AuthTypeUserController;
+use App\Http\Controllers\DisciplineController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\TypeUserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('home');
-})->name('home');
+    return view('welcome');
+});
 
-Route::get('/escolhaUsuario', function () {
-    return view('users.escolha-usuario');
-})->name('escolhaUsuario.page');
+Route::get('/disciplines/page', [DisciplineController::class, 'index'])->name('disciplines.page');
+Route::get('/disciplines/create', [DisciplineController::class, 'create'])->name('disciplines.create');
+Route::get('/disciplines/{id}', [DisciplineController::class, 'show'])->name('disciplines.show'); // Corrigido
+Route::post('/disciplines', [DisciplineController::class, 'store']);
 
-Route::get('/register/teacher', function () {
-    return view('users.register-teacher'); // Certifique-se de que a view existe
-})->name('register.teacher');
 
-Route::get('/register/student', function () {
-    return view('users.register-student'); // Certifique-se de que a view existe
-})->name('register.student');
-
+Route::get('/page', [DisciplineController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('disciplines.page');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Agrupamento de rotas autenticadas
 Route::middleware('auth')->group(function () {
-    require __DIR__ . '/profile.php';
-    require __DIR__ . '/student.php';
-    require __DIR__ . '/teacher.php';
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Importa rotas de autenticação
-require __DIR__ . '/auth.php';
+// Rotas para estudantes
+Route::prefix('student')->middleware(['auth', 'role:student'])->group(function () {
+    Route::get('/', [StudentController::class, 'dashboard'])->name('student.dashboard');
+
+});
+
+// Rotas para professores
+Route::prefix('teacher')->middleware(['auth', 'role:teacher'])->group(function () {
+    Route::get('/', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
+});
+
+Route::get('/auth/typeuser', [AuthTypeUserController::class, 'index'])
+     ->name('typeuser.page');
+
+
+require __DIR__.'/auth.php';

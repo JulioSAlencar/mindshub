@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-<header class="relative bg-white h-12 flex items-center justify-end p-2.5 border-b -z-20">
+<header class="relative bg-white h-12 flex items-center justify-end p-2.5 border-b -z-10">
 
   <p class="font-semibold mr-10">ALUNO: <sapn>Manoel Francisco</sapn>
   </p>

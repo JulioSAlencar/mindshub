@@ -23,7 +23,7 @@
     <div class="flex flex-col text-white gap-10 px-6 text-xl">
       <i id="menu-close" class="fas fa-bars text-3xl text-blue-500 cursor-pointer hover:translate-x-1 hover:text-white transition-all duration-300"></i>
 
-      <a href="#" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
+      <a href="#" class="flex items-center gap-4 hover:scale-125 hover:text-blue-500 transition-all duration-300">
         <i class="fas fa-home text-3xl"></i>
         <p class="text-lg">Dashboard</p>
       </a>
@@ -50,8 +50,6 @@
     </div>
   </nav>
 </aside>
-
-
 
 <script>
   document.getElementById('menu-toggle').addEventListener('click', function() {
