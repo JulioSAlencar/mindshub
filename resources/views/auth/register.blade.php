@@ -57,7 +57,45 @@
                 <h3 class="text-lg font-bold mb-4">Termos de Uso</h3>
 
                 <div class="space-y-4">
-                    <p>Para poder usar esse site você tera que rebola de ladinho para os crias!</p>
+                    <p>**TERMO DE USO DA PLATAFORMA GAMIFICADA MIDSHUB**
+
+                        **1. ACEITAÇÃO DOS TERMOS**
+                        Ao acessar e utilizar a Midshub, você concorda em cumprir os termos e condições aqui estabelecidos. Caso não concorde, por favor, não utilize a plataforma.
+
+                        **2. DESCRIÇÃO DO SERVIÇO**
+                        A Midshub é um ambiente gamificado que oferece desafios, recompensas, rankings e outras funcionalidades. O objetivo é proporcionar uma experiência interativa para os usuários, respeitando as diretrizes estabelecidas.
+
+                        **3. CADASTRO E CONTA**
+                        - O usuário deve fornecer informações precisas e atualizadas ao se cadastrar.
+                        - O uso da conta é pessoal e intransferível.
+                        - A plataforma se reserva o direito de suspender ou excluir contas que violem os termos de uso.
+
+                        **4. REGRAS DE CONDUTA**
+                        - Respeitar os demais usuários e a equipe da plataforma.
+                        - Não utilizar a plataforma para atividades ilegais ou que infrinjam direitos de terceiros.
+                        - Não tentar manipular rankings, pontos ou recompensas de forma fraudulenta.
+
+                        **5. RECOMPENSAS E PONTUAÇÃO**
+                        - O sistema de pontuação e recompensas está sujeito a alterações a critério da plataforma.
+                        - Recompensas são intransferíveis e podem estar sujeitas a regras específicas.
+
+                        **6. PRIVACIDADE E SEGURANÇA**
+                        - Os dados fornecidos pelo usuário serão tratados conforme a nossa [Política de Privacidade].
+                        - A plataforma adota medidas de segurança para proteger as informações dos usuários, mas não se responsabiliza por acessos indevidos causados por negligência do usuário.
+
+                        **7. RESPONSABILIDADE DA PLATAFORMA**
+                        - A plataforma não garante que o serviço estará disponível ininterruptamente.
+                        - A plataforma não se responsabiliza por prejuízos decorrentes do uso inadequado dos serviços.
+
+                        **8. ALTERAÇÕES NO TERMO DE USO**
+                        Este termo pode ser atualizado a qualquer momento. Notificações serão enviadas em caso de mudanças significativas.
+
+                        **9. CONTATO**
+                        Em caso de dúvidas ou sugestões, entre em contato pelo e-mail: [E-mail de Suporte].
+
+                        Ao utilizar a Midshub, você confirma que leu e concorda com estes termos.
+
+                    </p>
                 </div>
 
                 <div class="mt-6 flex justify-end">
