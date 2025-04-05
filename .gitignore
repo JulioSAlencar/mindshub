@@ -21,3 +21,7 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+.github/workflows/
+schema.json
+dist/
+
