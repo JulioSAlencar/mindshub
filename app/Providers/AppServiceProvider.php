@@ -2,38 +2,32 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Gate;
-use App\Models\User;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
-
-class AppServiceProvider extends ServiceProvider
+class RouteServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
-    public function register(): void
-    {
-        //
-    }
-
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-        Gate::define('is-teacher', function (User $user) {
-            return $user->role === 'teacher';
-        });
+        $this->routes(function () {
+            Route::middleware('web')
+                ->group(base_path('routes/web.php'));
 
-        // Define o gate para aluno
-        Gate::define('is-student', function (User $user) {
-            return $user->role === 'student';
-        });
+            Route::middleware('web')
+                ->group(base_path('routes/student.php'));
 
-        // Gate para ações específicas de professor
-        Gate::define('manage-courses', function (User $user) {
-            return $user->role === 'teacher';
+            Route::middleware('web')
+                ->group(base_path('routes/teacher.php'));
+
+            Route::middleware('web')
+                ->group(base_path('routes/profile.php'));
+
+            Route::middleware('web')
+                ->group(base_path('routes/auth.php'));
+
+            Route::middleware('api')
+                ->prefix('api')
+                ->group(base_path('routes/api.php'));
         });
     }
 }

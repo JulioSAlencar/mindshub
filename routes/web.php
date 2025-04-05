@@ -12,39 +12,41 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/escolha', function () {
+    return view('users.escolha-usuario');
+});
+
+Route::get('/home', function () {
+    return view('users.home');
+});
+
 Route::get('/disciplines/page', [DisciplineController::class, 'index'])->name('disciplines.page');
 Route::get('/disciplines/create', [DisciplineController::class, 'create'])->name('disciplines.create');
 Route::get('/disciplines/{id}', [DisciplineController::class, 'show'])->name('disciplines.show'); // Corrigido
 Route::post('/disciplines', [DisciplineController::class, 'store']);
 
-
-Route::get('/page', [DisciplineController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('disciplines.page');
-
+// ❌ Middleware desativado para desenvolvimento (acesso sem login)
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})
+    // ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// ❌ Middleware 'auth' desativado temporariamente
+// Route::middleware('auth')->group(function () {
+Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
-// Rotas para estudantes
-Route::prefix('student')->middleware(['auth', 'role:student'])->group(function () {
-    Route::get('/', [StudentController::class, 'dashboard'])->name('student.dashboard');
+// ❌ Middleware de autenticação e verificação de role desativados
+// Route::prefix('student')->middleware(['auth', 'role:student'])->group(function () {
+Route::get('/student', [StudentController::class, 'dashboard'])->name('student.dashboard');
+// });
 
-});
+// ❌ Middleware de autenticação e verificação de role desativados
+// Route::prefix('teacher')->middleware(['auth', 'role:teacher'])->group(function () {
+Route::get('/teacher', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
+// });
 
-// Rotas para professores
-Route::prefix('teacher')->middleware(['auth', 'role:teacher'])->group(function () {
-    Route::get('/', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
-});
-
-Route::get('/auth/typeuser', [AuthTypeUserController::class, 'index'])
-     ->name('typeuser.page');
-
-
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
