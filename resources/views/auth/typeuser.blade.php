@@ -1,45 +1,49 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tipo de usuario</title>
+    <title>Mindshub - Escolha seu Tipo de Usuário</title>
     @vite('resources/css/app.css')
 </head>
-<body class="bg-gray-700 h-screen flex items-center justify-center">
-    <div class="w-[72.75rem] h-[43.75rem] rounded-2xl bg-gray-900 flex items-center justify-between p-10 relative">
 
-        <!-- Imagem de fundo -->
-        <div class="w-[31.125rem] h-[31.75rem] flex items-center">
-            <img class="w-full" src="{{ asset('assets/images/bgLogin.png') }}" alt="Imagem de Login">
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white rounded-xl shadow-lg flex w-[62.5rem] p-8">
+        <!-- Imagem -->
+        <div class="w-1/2 flex items-center justify-center">
+            <img src="{{ asset('assets/images/tipoUserImg.svg') }}" alt="Ilustração de professores e alunos" class="max-w-full">
         </div>
 
-        <!-- Linha divisória vertical -->
-        <div class="h-[80%] w-px bg-white absolute left-1/2 transform -translate-x-1/2"></div>
+        <!-- Linha divisória -->
+        <div class="w-px bg-gray-300 mx-6"></div>
 
-        <!-- Formulário -->
-        <form class="w-[25rem] flex flex-col justify-center items-start mr-12" action="">
-            <div class="mb-10">
-                <h1 class="text-7xl text-white">MindsHub</h1>
-                <p class="text-white text-2xl mt-5">Qual tipo de usuario <span class="text-purple-500">você é?!</span></p>
+        <!-- Formulário de escolha -->
+        <div class="w-1/2 flex flex-col justify-center">
+            <h1 class="text-7xl text-gray-950 text-center">Mindshub</h1>
+            <p class="text-gray-800 text-2xl mt-2 text-center">Que tipo de usuário <span class="text-blue-500 font-semibold">Você</span> é?!</p>
+
+            <div class="mt-6 flex flex-col gap-4">
+                <a href="{{ route('register', ['role' => 'teacher']) }}" class="bg-blue-500 text-white text-center py-2 rounded-lg font-semibold hover:bg-blue-700 transition mt-14">
+                    Sou professor
+                </a>
+                <a href="{{ route('register', ['role' => 'student']) }}" class="bg-blue-500 text-white text-center py-2 rounded-lg font-semibold hover:bg-blue-700 transition mt-7">
+                    Sou aluno
+                </a>
             </div>
 
-            <a href="{{ route('register', ['role' => 'student']) }}">
-                <button class="bg-purple-900 text-white text-xl rounded-lg py-3 mt-10 w-full" type="button">Registrar como Aluno</button>
-            </a>
-            <br>
-            <a href="{{ route('register', ['role' => 'teacher']) }}">
-                <button class="bg-purple-900 text-white text-xl rounded-lg py-3 mt-10 w-full" type="button">Registrar como Professor</button>
-            </a>
+            <!-- Linha decorativa -->
+            <div class="flex justify-between items-center mt-14">
+                <span class="w-1/3 h-px bg-gray-300"></span>
+                <span class="w-1/3 h-px bg-gray-300"></span>
+            </div>
 
-            <!-- Linhas horizontais -->
-            <div class="w-full h-px bg-white mt-10"></div>
-
-            <p class="text-white text-lg mt-4">Já possui conta?
-                <a class="text-purple-500 hover:underline" href="{{ route('login') }}">Faça Login</a>
+            <!-- Link para login -->
+            <p class="text-center text-gray-600 mt-14">
+                Possui uma conta?
+                <a href="{{ route('login') }}" class="text-blue-600 font-semibold hover:underline">Entrar</a>
             </p>
-        </form>
-
+        </div>
     </div>
 </body>
 
