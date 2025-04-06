@@ -38,6 +38,10 @@ Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.up
 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
 
+// Route::prefix(['middleware' => ['auth', 'is_teacher']], function() {
+    Route::get('missions/create', [MissionController::class, 'store'])->name('mission.create');
+// });
+
 // ❌ Middleware de autenticação e verificação de role desativados
 // Route::prefix('student')->middleware(['auth', 'role:student'])->group(function () {
 Route::get('/student', [StudentController::class, 'dashboard'])->name('student.dashboard');
@@ -49,6 +53,6 @@ Route::get('/teacher', [TeacherController::class, 'dashboard'])->name('teacher.d
 // });
 
 Route::get('/auth/typeuser', [AuthTypeUserController::class, 'index'])
-     ->name('typeuser.page');
+    ->name('typeuser.page');
 
 require __DIR__ . '/auth.php';

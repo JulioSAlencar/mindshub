@@ -28,7 +28,6 @@ class CheckRole
             abort(403, 'Acesso não autorizado');
         }
 
-<<<<<<< Updated upstream
         $user = Auth::user();
 
         // Converte a string de funções em um array
@@ -39,8 +38,5 @@ class CheckRole
         }
 
         abort(403, 'Acesso não autorizado');
-=======
-        return $next($request);
->>>>>>> Stashed changes
     }
 }
