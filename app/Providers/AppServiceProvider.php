@@ -2,32 +2,18 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
-class RouteServiceProvider extends ServiceProvider
+class AppServiceProvider extends ServiceProvider
 {
+    public function register(): void
+    {
+    }
+
     public function boot(): void
     {
-        $this->routes(function () {
-            Route::middleware('web')
-                ->group(base_path('routes/web.php'));
-
-            Route::middleware('web')
-                ->group(base_path('routes/student.php'));
-
-            Route::middleware('web')
-                ->group(base_path('routes/teacher.php'));
-
-            Route::middleware('web')
-                ->group(base_path('routes/profile.php'));
-
-            Route::middleware('web')
-                ->group(base_path('routes/auth.php'));
-
-            Route::middleware('api')
-                ->prefix('api')
-                ->group(base_path('routes/api.php'));
-        });
+        Gate::define('is-student', fn ($user) => $user->role === 'student');
+        Gate::define('is-teacher', fn ($user) => $user->role === 'teacher');
     }
 }
