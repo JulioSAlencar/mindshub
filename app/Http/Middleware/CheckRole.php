@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
+
 class CheckRole
 {
     /**
@@ -16,31 +17,19 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, $roles): Response
     {
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             return redirect('/login');
         }
-        $roles = explode('|', $roles);
 
-        $userRole = auth()->user()->role;
+        // Converte "student|teacher" em array ['student', 'teacher']
+        $rolesArray = explode('|', $roles);
 
+        $userRole = Auth::user()->role;
 
-        if (!in_array($userRole, $roles)) {
+        if (!in_array($userRole, $rolesArray)) {
             abort(403, 'Acesso não autorizado');
         }
 
-<<<<<<< Updated upstream
-        $user = Auth::user();
-
-        // Converte a string de funções em um array
-        $rolesArray = explode(',', $roles);
-
-        if (in_array($user->role, $rolesArray)) {
-            return $next($request);
-        }
-
-        abort(403, 'Acesso não autorizado');
-=======
         return $next($request);
->>>>>>> Stashed changes
     }
 }
