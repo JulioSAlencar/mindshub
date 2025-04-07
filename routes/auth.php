@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
 // 📌 Páginas públicas (acessíveis durante o desenvolvimento)
 Route::get('/register/{role?}', [RegisteredUserController::class, 'create'])->name('register');
@@ -20,6 +21,12 @@ Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->n
 Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
 Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
 Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.store');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
 /*
 // 🔒 Grupo de rotas protegidas (somente usuários autenticados)

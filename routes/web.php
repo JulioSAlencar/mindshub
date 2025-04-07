@@ -39,7 +39,7 @@ Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.
 // });
 
 // Route::prefix(['middleware' => ['auth', 'is_teacher']], function() {
-    Route::get('missions/create', [MissionController::class, 'store'])->name('mission.create');
+// Route::get('missions/create', [MissionController::class, 'store'])->name('mission.create');
 // });
 
 // ❌ Middleware de autenticação e verificação de role desativados
