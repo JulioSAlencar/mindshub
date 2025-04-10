@@ -47,8 +47,10 @@
       <div class="w-full h-px bg-gray-400 mt-10"></div>
 
       <p class="text-gray-950 text-lg mt-4">Ainda não possui conta?
-        <a class="text-blue-500 hover:underline" href="{{ route('escolhaUsuario.page') }}">Se registre agora!</a>
+        <a class="text-blue-500 hover:underline" href="{{ route('typeuser.page') }}">Se registre agora!</a>
       </p>
+      
+      <a href="{{ route('password.request') }}">Esqueci minha senha</a>
     </form>
 
   </div>

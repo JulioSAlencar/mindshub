@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('statement');
             $table->string('correct_answer');
             $table->text('explanation');
-            $table->json('worng_answers'); // Array de respostas erradas
+            $table->json('wrong_answers');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->timestamps();

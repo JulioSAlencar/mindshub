@@ -24,7 +24,6 @@
                 <textarea name="description" id="description" class="form-control" placeholder="Descrição da disciplina"></textarea>
             </div>
             <input type="submit" class="btn btn-primary" value="Criar Disciplina">
-
         </form>
     </div>
 </body>

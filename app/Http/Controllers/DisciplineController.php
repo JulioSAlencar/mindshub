@@ -13,7 +13,8 @@ class DisciplineController extends Controller
     }
 
     public function create(){
-        return view('disciplines.create');
+        $disciplines = Discipline::all();
+        return view('disciplines.create', compact('disciplines'));
     }
 
     public function store(Request $request){
@@ -43,13 +44,18 @@ class DisciplineController extends Controller
 
         $discipline->save();
 
-        return redirect('page?msg=' . urlencode('Disciplina criada com sucesso!'));
+        return redirect('disciplines.page?msg=' . urlencode('Disciplina criada com sucesso!'));
 
     }
 
     public function show($id) {
         $discipline = Discipline::findOrFail($id);
         return view('disciplines.show', ['discipline' => $discipline]);
+    }
+
+    public function mission() {
+        $disciplines = Discipline::all();
+        return view('disciplines.index', ['disciplines' => $disciplines]);
     }
 
 }

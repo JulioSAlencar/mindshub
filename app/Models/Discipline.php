@@ -9,7 +9,8 @@ class Discipline extends Model
 {
     use HasFactory;
 
-    public function missions() {
+    public function missions()
+    {
         return $this->hasMany(Mission::class);
     }
 }

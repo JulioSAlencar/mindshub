@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\TypeUserController as AuthTypeUserController;
 use App\Http\Controllers\DisciplineController;
+use App\Http\Controllers\MissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
@@ -20,8 +21,9 @@ Route::get('/home', function () {
 });
 
 Route::get('/disciplines/page', [DisciplineController::class, 'index'])->name('disciplines.page');
+Route::get('/disciplines/index', [DisciplineController::class, 'mission'])->name('disciplines.index');
 Route::get('/disciplines/create', [DisciplineController::class, 'create'])->name('disciplines.create');
-Route::get('/disciplines/{id}', [DisciplineController::class, 'show'])->name('disciplines.show'); // Corrigido
+Route::get('/disciplines/{id}', [DisciplineController::class, 'show'])->name('disciplines.show');
 Route::post('/disciplines', [DisciplineController::class, 'store']);
 
 // ❌ Middleware desativado para desenvolvimento (acesso sem login)
@@ -54,5 +56,11 @@ Route::get('/teacher', [TeacherController::class, 'dashboard'])->name('teacher.d
 
 Route::get('/auth/typeuser', [AuthTypeUserController::class, 'index'])
     ->name('typeuser.page');
+
+
+Route::get('/missions/create/{discipline}', [MissionController::class, 'create'])->name('missions.create');
+Route::post('/missions', [MissionController::class, 'store'])->name('missions.store');
+
+
 
 require __DIR__ . '/auth.php';
