@@ -7,17 +7,26 @@ use Illuminate\Http\Request;
 
 class DisciplineController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $disciplines = Discipline::all();
         return view('disciplines.page', ['disciplines' => $disciplines]);
     }
 
-    public function create(){
+    public function create()
+    {
         $disciplines = Discipline::all();
         return view('disciplines.create', compact('disciplines'));
     }
 
-    public function store(Request $request){
+    public function content()
+    {
+        $disciplines = Discipline::all();
+        return view('disciplines.content', compact('disciplines'));
+    }
+
+    public function store(Request $request)
+    {
 
         $request->validate([
             'title' => 'required|string|max:255',
@@ -45,17 +54,17 @@ class DisciplineController extends Controller
         $discipline->save();
 
         return redirect('disciplines.page?msg=' . urlencode('Disciplina criada com sucesso!'));
-
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         $discipline = Discipline::findOrFail($id);
         return view('disciplines.show', ['discipline' => $discipline]);
     }
 
-    public function mission() {
+    public function mission()
+    {
         $disciplines = Discipline::all();
         return view('disciplines.index', ['disciplines' => $disciplines]);
     }
-
 }
