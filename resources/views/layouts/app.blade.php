@@ -14,11 +14,11 @@
         <!-- Sidebar -->
         <x-sidebar />
 
-        <div id="main-header" class="flex flex-col flex-1">
+        <div id="main-header" class="flex flex-col flex-1 ml-20">
             <x-header />
 
             <!-- Conteúdo Principal -->
-            <main class="flex-1 p-4 items-center justify-items-center">
+            <main class="flex-1 p-4">
                 @yield('content')
             </main>
         </div>
