@@ -23,6 +23,7 @@ Route::get('/home', function () {
     return view('users.home');
 });
 
+Route::get('/disciplines/content', [DisciplineController::class, 'content'])->name('disciplines.content');
 Route::get('/disciplines/page', [DisciplineController::class, 'index'])->name('disciplines.page');
 Route::get('/disciplines/index', [DisciplineController::class, 'mission'])->name('disciplines.index');
 Route::get('/disciplines/create', [DisciplineController::class, 'create'])->name('disciplines.create');
@@ -46,12 +47,12 @@ Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.
 
 // ❌ Middleware de autenticação e verificação de role desativados
 Route::prefix('student')->middleware(['auth', 'role:student'])->group(function () {
-Route::get('/student', [StudentController::class, 'dashboard'])->name('student.dashboard');
+    Route::get('/student', [StudentController::class, 'dashboard'])->name('student.dashboard');
 });
 
 // ❌ Middleware de autenticação e verificação de role desativados
 Route::prefix('teacher')->middleware(['auth', 'role:teacher'])->group(function () {
-Route::get('/teacher', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
+    Route::get('/teacher', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
 });
 
 Route::get('/auth/typeuser', [AuthTypeUserController::class, 'index'])
