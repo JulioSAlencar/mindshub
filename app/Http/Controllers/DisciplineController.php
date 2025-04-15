@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Discipline;
 use Illuminate\Http\Request;
+use App\Models\RecentDisciplineView;
 
 class DisciplineController extends Controller
 {
@@ -48,8 +49,15 @@ class DisciplineController extends Controller
 
     }
 
-    public function show($id) {
+    public function show($id){
         $discipline = Discipline::findOrFail($id);
+
+        // Registra ou atualiza a visualização recente
+        RecentDisciplineView::updateOrCreate(
+            ['user_id' => auth()->id(), 'discipline_id' => $discipline->id],
+            ['viewed_at' => now()]
+        );
+
         return view('disciplines.show', ['discipline' => $discipline]);
     }
 

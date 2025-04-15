@@ -7,6 +7,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,11 +29,8 @@ Route::get('/disciplines/create', [DisciplineController::class, 'create'])->name
 Route::get('/disciplines/{id}', [DisciplineController::class, 'show'])->name('disciplines.show');
 Route::post('/disciplines', [DisciplineController::class, 'store']);
 
-// ❌ Middleware desativado para desenvolvimento (acesso sem login)
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})
-    // ->middleware(['auth', 'verified'])
+Route::get('/dashboard', [DashboardController::class, 'dashboard'])
+    // ->middleware(['auth', 'verified']) // descomente quando for para produção
     ->name('dashboard');
 
 // ❌ Middleware 'auth' desativado temporariamente
