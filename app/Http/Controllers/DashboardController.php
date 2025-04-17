@@ -6,28 +6,34 @@ use Illuminate\Http\Request;
 use App\Models\Discipline;
 use App\Models\RecentDisciplineView;
 use Carbon\Carbon;
-use Illuminate\Container\Attributes\Auth;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    public function dashboard()
+    public function dashboard(Request $request)
     {
-        
-        $user = auth()->user();
+        $userId = auth()->id();
+        $search = $request->input('search');
 
         $recentDisciplines = RecentDisciplineView::with('discipline')
-            ->where('user_id', $user->id)
+            ->where('user_id', $userId)
             ->orderByDesc('viewed_at')
             ->limit(5)
             ->get();
-            
-        $disciplines = Discipline::all();
-        
-        return view('dashboard', compact('recentDisciplines', 'disciplines'));
+
+        if ($search) {
+            $disciplines = Discipline::where('title', 'like', '%' . $search . '%')->get();
+        } else {
+            $disciplines = Discipline::all();
+        }
+
+        return view('dashboard', compact('recentDisciplines', 'disciplines', 'search'));
     }
+
+
     public function registerDisciplineView($disciplineId)
     {
-        $userId = Auth::id();
+        $userId = auth()->id();
 
         RecentDisciplineView::updateOrCreate(
             ['user_id' => $userId, 'discipline_id' => $disciplineId],
@@ -37,12 +43,11 @@ class DashboardController extends Controller
         $views = RecentDisciplineView::where('user_id', $userId)
             ->orderBy('viewed_at', 'desc')
             ->skip(5)
-            ->take(PHP_INT_MAX) 
+            ->take(PHP_INT_MAX)
             ->get();
 
         foreach ($views as $view) {
             $view->delete();
         }
     }
-
 }

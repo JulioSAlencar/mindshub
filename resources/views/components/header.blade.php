@@ -2,6 +2,11 @@
 
 <header class="relative bg-white h-12 flex items-center justify-end p-2.5 border-b">
 
+  <form action="{{ route('dashboard') }}" method="GET">
+    <input type="text" name="search" value="{{ request('search') }}" placeholder="Buscar disciplina">
+    <button type="submit">Buscar</button>
+  </form>
+
   <!-- @auth
         @can('is-student')
             <p class="font-semibold mr-10">Aluno: {{ Auth::user()->name }}</p>

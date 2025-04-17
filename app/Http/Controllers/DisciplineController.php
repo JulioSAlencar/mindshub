@@ -10,7 +10,9 @@ class DisciplineController extends Controller
 {
     public function index()
     {
+
         $disciplines = Discipline::all();
+
         return view('disciplines.page', ['disciplines' => $disciplines]);
     }
 
