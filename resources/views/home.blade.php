@@ -33,6 +33,7 @@
                     class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition">
                     Cadastro
                 </a>
+
             </main>
         </div>
     </div>

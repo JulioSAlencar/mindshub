@@ -6,6 +6,11 @@
     <title>laravel</title>
 </head>
 <body>
+    @if (session('error'))
+        <div style="color: red;">
+            {{ session('error') }}
+        </div>
+    @endif
 
     <div class="diciplinas">
         <h1>criar disicplina</h1>

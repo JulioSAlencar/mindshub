@@ -16,7 +16,7 @@
             <h1>{{ $discipline->title}}</h1>
             <h5>{{ $discipline->description }}</h5>
         </div>
-
+        <button>Inscrever - se</button>
     </div>
 
 </body>

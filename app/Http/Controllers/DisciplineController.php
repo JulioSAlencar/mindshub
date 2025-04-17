@@ -54,15 +54,12 @@ class DisciplineController extends Controller
 
         $discipline->save();
 
-        return redirect('disciplines.page?msg=' . urlencode('Disciplina criada com sucesso!'));
+        return redirect()->route('disciplines.page')->with('success', 'Disciplina criada com sucesso!');
     }
 
-<<<<<<< HEAD
-    public function show($id){
-=======
+
     public function show($id)
     {
->>>>>>> 195659c6dc0da5b4f70949a89b013390ed068afd
         $discipline = Discipline::findOrFail($id);
 
         // Registra ou atualiza a visualização recente
