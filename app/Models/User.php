@@ -24,6 +24,8 @@ class User extends Authenticatable
         'role',
         'terms_accepted',
         'terms_accepted_at',
+        'xp',
+        'level'
 
     ];
 
@@ -59,5 +61,10 @@ class User extends Authenticatable
     public function disciplinesParticipant()
     {
         return $this->belongsToMany('App\Models\Discipline');
+    }
+
+    public function medals() 
+    {
+        return $this->belongsToMany('App\Models\Medal');
     }
 }
