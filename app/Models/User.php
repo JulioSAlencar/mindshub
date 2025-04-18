@@ -53,4 +53,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Discipline');
     }
+
+    public function disciplinesParticipant()
+    {
+        return $this->belongsToMany('App\Models\Discipline');
+    }
 }

@@ -2,6 +2,16 @@
 
 @section('content')
 
+@if(session('msg'))
+  <div class="alert alert-success">
+      {{ session('msg') }}
+  </div>
+@endif
+@if(session('error'))
+  <div class="alert alert-danger">
+      {{ session('error') }}
+  </div>
+@endif
 <div class="flex items-center justify-between p-8">
   <div class="flex items-center">
     <picture>

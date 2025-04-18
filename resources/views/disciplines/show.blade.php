@@ -16,9 +16,15 @@
             <h1>{{ $discipline->title}}</h1>
             <h5>{{ $discipline->description }}</h5>
             <p>Professor: {{ $disciplineOwner['name'] }}</p>
-            <p>x Pessoas se inscreveram</p>
+            <p>{{ count($discipline->users) }} Pessoas se inscreveram</p>
+            <form action="/disciplines/join/{{ $discipline->id }}" method="POST">
+                @csrf
+                <a href="{{ route('disciplines.join', ['id' => $discipline->id]) }}" class="btn btn-primary" onclick="event.preventDefault(); this.closest('form').submit();">
+                    Inscrever-se
+                </a>                
+            </form>
+            
         </div>
-        <button>Inscrever - se</button>
     </div>
 
 </body>

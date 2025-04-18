@@ -22,15 +22,21 @@ Route::get('/home', function () {
     return view('users.home');
 });
 
-Route::get('/disciplines/content', [DisciplineController::class, 'content'])->name('disciplines.content');
-Route::get('/disciplines/page', [DisciplineController::class, 'index'])->name('disciplines.page');
-Route::get('/disciplines/index', [DisciplineController::class, 'mission'])->name('disciplines.index');
+// Página principal e outras visões
+Route::get('/disciplines/page', [DisciplineController::class, 'index'])->name('disciplines.page'); // Página principal
+Route::get('/disciplines/index', [DisciplineController::class, 'mission'])->name('disciplines.index'); // Missão
+Route::get('/disciplines/content', [DisciplineController::class, 'content'])->name('disciplines.content'); // Conteúdo
+
+// CRUD
 Route::get('/disciplines/create', [DisciplineController::class, 'create'])->name('disciplines.create');
-Route::get('/disciplines/{id}', [DisciplineController::class, 'show'])->name('disciplines.show');
-Route::delete('/disciplines/{id}', [DisciplineController::class, 'destroy'])->name('disciplines.destroy');
-Route::get('/disciplines/edit/{id}', [DisciplineController::class, 'edit'])->name('disciplines.edit');
 Route::post('/disciplines', [DisciplineController::class, 'store']);
+
+Route::get('/disciplines/{id}', [DisciplineController::class, 'show'])->name('disciplines.show');
+Route::post('/disciplines/join/{id}', [DisciplineController::class, 'joinDiscipline'])->name('disciplines.join');
+Route::get('/disciplines/edit/{id}', [DisciplineController::class, 'edit'])->name('disciplines.edit');
 Route::put('/disciplines/update/{id}', [DisciplineController::class, 'update'])->name('disciplines.update');
+Route::delete('/disciplines/{id}', [DisciplineController::class, 'destroy'])->name('disciplines.destroy');
+
 
 
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])
