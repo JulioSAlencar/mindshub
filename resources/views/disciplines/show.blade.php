@@ -15,6 +15,7 @@
         <div id="info-container">
             <h1>{{ $discipline->title}}</h1>
             <h5>{{ $discipline->description }}</h5>
+            <p>Professor: {{ $disciplineOwner['name'] }}</p>
             <p>x Pessoas se inscreveram</p>
         </div>
         <button>Inscrever - se</button>

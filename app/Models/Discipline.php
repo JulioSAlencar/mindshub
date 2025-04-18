@@ -13,4 +13,9 @@ class Discipline extends Model
     {
         return $this->hasMany(Mission::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 }

@@ -48,4 +48,9 @@ class User extends Authenticatable
             'role' => 'string',
         ];
     }
+
+    public function disciplines()
+    {
+        return $this->hasMany('App\Models\Discipline');
+    }
 }
