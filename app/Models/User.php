@@ -67,4 +67,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Models\Medal');
     }
+
+    public function disciplinePreferences() 
+    {
+        return $this->hasMany(DisciplinePreference::class);
+    }
+
+    public function preferredDisciplines()
+    {
+        return $this->belongsToMany('App\Models\DisciplinePreference');
+    }
 }

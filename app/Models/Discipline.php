@@ -23,4 +23,14 @@ class Discipline extends Model
     {
         return $this->belongsToMany('App\Models\User');
     }
+
+    public function preferences()
+    {
+        return $this->hasMany(DisciplinePreference::class);
+    }
+
+    public function usersWhoPrefer()
+    {
+        return $this->belongsToMany('App\Models\DisciplinePreference');
+    }
 }
