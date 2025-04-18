@@ -6,7 +6,6 @@ use App\Models\Mission;
 use App\Models\Discipline;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Validator;
 
 class MissionController extends Controller
 {
@@ -18,9 +17,9 @@ class MissionController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'discipline_id' => 'required|exists:disciplines,id',
-            'missions' => 'required|array|min:1|max:10',
+            'missions' => 'required|array|min:1 | max:10',
             'missions.*.statement' => 'required|string',
             'missions.*.correct_answer' => 'required|string',
             'missions.*.explanation' => 'required|string',
@@ -29,9 +28,9 @@ class MissionController extends Controller
             'missions.*.end_date' => 'required|date|after:missions.*.start_date',
         ]);
 
-        foreach ($request->missions as $missionData) {
+        foreach ($validated['missions'] as $missionData) {
             Mission::create([
-                'discipline_id' => $request->discipline_id,
+                'discipline_id' => $validated['discipline_id'],
                 'statement' => $missionData['statement'],
                 'correct_answer' => $missionData['correct_answer'],
                 'explanation' => $missionData['explanation'],
@@ -41,6 +40,8 @@ class MissionController extends Controller
             ]);
         }
 
-        return redirect()->route('disciplines.index')->with('success', 'Missões criadas com sucesso!');
+        return redirect()->route('disciplines.content', ['id' => $validated['discipline_id']])
+            ->with('success', 'Missões criadas com sucesso!');
     }
+
 }

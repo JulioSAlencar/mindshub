@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
@@ -26,14 +28,28 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $user = $request->user();
+        $user->fill($request->validated());
+    
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
-
-        $request->user()->save();
-
+    
+        if ($request->hasFile('profile_photo')) {
+            // Apagar imagem antiga, se existir
+            if ($user->profile_photo && File::exists(public_path($user->profile_photo))) {
+                File::delete(public_path($user->profile_photo));
+            }
+    
+            // Gerar novo nome e salvar a nova imagem
+            $filename = Str::uuid() . '.' . $request->file('profile_photo')->getClientOriginalExtension();
+            $request->file('profile_photo')->move(public_path('assets/profile_photos'), $filename);
+    
+            $user->profile_photo = 'assets/profile_photos/' . $filename;
+        }
+    
+        $user->save();
+    
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 

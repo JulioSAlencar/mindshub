@@ -24,8 +24,7 @@ Route::get('/home', function () {
 
 // Página principal e outras visões
 Route::get('/disciplines/page', [DisciplineController::class, 'index'])->name('disciplines.page'); // Página principal
-Route::get('/disciplines/index', [DisciplineController::class, 'mission'])->name('disciplines.index'); // Missão
-Route::get('/disciplines/content', [DisciplineController::class, 'content'])->name('disciplines.content'); // Conteúdo
+Route::get('/disciplines/content/{id}', [DisciplineController::class, 'content'])->name('disciplines.content'); // Conteúdo
 
 // CRUD
 Route::get('/disciplines/create', [DisciplineController::class, 'create'])->name('disciplines.create');
@@ -68,8 +67,12 @@ Route::get('/auth/typeuser', [AuthTypeUserController::class, 'index'])
     ->name('typeuser.page');
 
 
-Route::get('/missions/create/{discipline}', [MissionController::class, 'create'])->name('missions.create');
-Route::post('/missions', [MissionController::class, 'store'])->name('missions.store');
+// Routes/web.php
+Route::get('/missions/create/{discipline}', [MissionController::class, 'create'])
+     ->name('missions.create');
+     
+Route::post('/missions', [MissionController::class, 'store'])
+     ->name('missions.store');
 
 
 

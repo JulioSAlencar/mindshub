@@ -36,9 +36,9 @@
                     <tr>
                         <td scope="row">{{ $loop->index + 1 }}</td>
                         <td><a href="/disciplines/{{ $discipline->id }}">{{ $discipline->title }}</a></td>
-                        <td>0</td>
+                        <td>{{ count($discipline->users) }}</td>
                         <td>
-                            <a class="btn btn-primary" href="/disciplines/{{ $discipline->id }}">ver</a>
+                            <a class="btn btn-primary" href="{{ route('disciplines.content', ['id' => $discipline->id]) }}">Entrar</a>
                             <a class="btn btn-secondary" href="/disciplines/edit/{{ $discipline->id }}">Editar</a>
                             
                             <form action="{{ route('disciplines.destroy', $discipline->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir?');">

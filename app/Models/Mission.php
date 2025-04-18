@@ -19,6 +19,10 @@ class Mission extends Model
         'end_date',
     ];
 
+    protected $casts = [
+        'wrong_answers' => 'array',
+    ];
+
     // Se uma missão pertence a uma disciplina
     public function discipline()
     {

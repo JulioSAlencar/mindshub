@@ -124,19 +124,22 @@ class DisciplineController extends Controller
     /**
      * Exibe a página de conteúdos.
      */
-    public function content()
+    public function content($id)
     {
-        $disciplines = Discipline::all();
-        return view('disciplines.content', compact('disciplines'));
+        $discipline = Discipline::findOrFail($id);
+
+        $disciplineOwner = User::find($discipline->user_id)->toArray();
+
+        return view('disciplines.content', compact('discipline', 'disciplineOwner'));
     }
 
     /**
      * Exibe uma página alternativa (ex: missão, valores).
      */
-    public function mission()
+    public function mission($id)
     {
-        $disciplines = Discipline::all();
-        return view('disciplines.index', compact('disciplines'));
+        $discipline = Discipline::findOrFail($id);
+        return view('missions.create', compact('discipline'));
     }
 
     /**
@@ -153,15 +156,15 @@ class DisciplineController extends Controller
         $discipline = Discipline::findOrFail($id);
 
         if ($discipline->user_id === $user->id) {
-            return redirect()->route('disciplines.content')->with('error', 'Você não pode se inscrever na sua própria disciplina.');
+            return redirect()->route('disciplines.content', ['id' => $discipline->id])->with('error', 'Você não pode se inscrever na sua própria disciplina.');
         }
     
         if ($user->disciplinesParticipant()->where('discipline_id', $id)->exists()) {
-            return redirect()->route('disciplines.content')->with('error', 'Você já está inscrito nesta disciplina.');
+            return redirect()->route('disciplines.content', ['id' => $discipline->id])->with('error', 'Você já está inscrito nesta disciplina.');
         }
 
         $user->disciplinesParticipant()->attach($id);
 
-        return redirect()->route('disciplines.content')->with('msg', 'Você se inscreveu na disciplina');
+        return redirect()->route('disciplines.content', ['id' => $discipline->id])->with('msg', 'Você se inscreveu na disciplina');
     }
 }

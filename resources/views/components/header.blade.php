@@ -7,6 +7,20 @@
     <button type="submit">Buscar</button>
   </form>
 
+  <div class="flex items-center gap-4 text-2xl">
+        {{-- Foto de perfil --}}
+        @auth
+            @if (Auth::user()->profile_photo)
+                <img src="{{ asset(Auth::user()->profile_photo) }}"
+                    alt="Foto de perfil"
+                    class="w-10 h-10 rounded-full object-cover border border-gray-300 shadow-sm">
+            @else
+                <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-sm text-white">
+                    <i class="fas fa-user"></i>
+                </div>
+            @endif
+        @endauth
+    </div>
   <!-- @auth
         @can('is-student')
             <p class="font-semibold mr-10">Aluno: {{ Auth::user()->name }}</p>
@@ -28,15 +42,26 @@
   <p class="font-semibold mr-10">Você não está logado</p>
   @endauth
 
-
   <div class="flex items-center gap-3 text-2xl">
-    <a class="flex items-center gap-1.5 p-2 transition-all duration-300 ease-in-out hover:-translate-x-1 hover:text-blue-700 text-blue-500" href="">
-      <i class="fas fa-bell"></i>
-    </a>
-    <a class="flex items-center gap-1.5 p-2 transition-all duration-300 ease-in-out hover:translate-x-1 text-blue-500 hover:text-red-500" href="">
-      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+    {{-- Notificação (só exemplo) --}}
+    <a class="flex items-center gap-1.5 p-2 transition-all duration-300 ease-in-out hover:-translate-x-1 hover:text-blue-700 text-blue-500" href="#">
+        <i class="fas fa-bell"></i>
     </a>
 
-  </div>
+    {{-- Botão de logout --}}
+    <a
+        href="#"
+        class="flex items-center gap-1.5 p-2 transition-all duration-300 ease-in-out hover:translate-x-1 text-blue-500 hover:text-red-500"
+        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+    >
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+    </a>
+
+    {{-- Formulário escondido --}}
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+        @csrf
+    </form>
+</div>
+
 
 </header>

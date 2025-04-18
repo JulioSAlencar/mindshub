@@ -1,5 +1,7 @@
 <aside id="sidebar" class="fixed top-0 left-0 bottom-0 w-20 bg-slate-900 flex flex-col items-center transition-all duration-500 overflow-hidden">
-  <img id="sidebar-logo" class="w-14 py-3" src="{{ asset('assets/images/logoSideBar.svg') }}" alt="">
+  <a href="{{ route('dashboard')}}">
+    <img id="sidebar-logo" class="w-14 py-3" src="{{ asset('assets/images/logoSideBar.svg') }}" alt="">
+  </a>
 
   <nav class="mt-24">
     <div class="flex items-center text-3xl text-white flex-col gap-8">

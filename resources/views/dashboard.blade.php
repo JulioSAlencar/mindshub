@@ -3,7 +3,7 @@
 
 @section('content')
     <h1 class="text-xl font-bold">Olá, bem-vindo ao Mindshub!</h1>
-
+    <div class="mt-4">
     @if (!request('search'))
         <h3>Disciplinas Recentemente Acessadas</h3>
 
@@ -18,7 +18,15 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $view->discipline->title }}</h5>
                             <p class="card-text">{{ $view->discipline->description }}</p>
-                            <a href="{{ route('disciplines.show', $view->discipline->id) }}" class="btn btn-sm btn-primary mt-2">Ver mais</a>
+                            @can('is-subscribed', $view->discipline)
+                                <a href="{{ route('disciplines.content', ['id' => $view->discipline->id]) }}" class="btn btn-sm btn-success mt-2">Entrar</a>
+                            @elsecan('is-creator', $view->discipline)
+                                <a href="{{ route('disciplines.content', ['id' => $view->discipline->id]) }}" class="btn btn-sm btn-success mt-2">Entrar</a>
+                            @else
+                                <a href="{{ route('disciplines.show', $view->discipline->id) }}" class="btn btn-sm btn-primary mt-2">Ver mais</a>
+                            @endcan
+                        
+
                         </div>
                     </div>
                 @endforeach
@@ -44,7 +52,15 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $discipline->title }}</h5>
                             <p class="card-text">{{ $discipline->description }}</p>
-                            <a href="/disciplines/{{ $discipline->id }}" class="btn btn-primary">Ver mais</a>
+                            @can('is-subscribed', $discipline)
+                                <a href="{{ route('disciplines.content', ['id' => $discipline->id]) }}" class="btn btn-success">Entrar</a>
+                            @elsecan('is-creator', $discipline)
+                                <a href="{{ route('disciplines.content', ['id' => $discipline->id]) }}" class="btn btn-success">Entrar</a>
+                            @else
+                                <a href="/disciplines/{{ $discipline->id }}" class="btn btn-primary">Ver mais</a>
+                            @endcan
+
+
                         </div>
                     </div>
                 @endforeach
