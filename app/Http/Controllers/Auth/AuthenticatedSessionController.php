@@ -31,10 +31,20 @@ class AuthenticatedSessionController extends Controller
             'password' => 'required',
         ]);
 
-        Auth::attempt(
-            $request->only('email', 'password'),
-            $request->filled('remember')
-        );
+        $credentials = $request->only('email', 'password');
+        $remember = $request->filled('remember');
+
+        if(!Auth::attempt($credentials, $remember)) {
+            \Log::warning("Tentativa de login falhou para o e-mail: {$credentials['email']}", [
+                'ip' => $request->ip(),
+                'time' => now(),
+            ]);
+
+            // Retorna com erro
+            return back()->withErrors([
+                'email' => 'As credenciais informadas estão incorretas',
+            ])->withInput();
+        }
 
         $request->session()->regenerate();
 
