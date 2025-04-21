@@ -73,4 +73,20 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function deletePhoto(Request $request)
+    {
+        $user = auth()->user();
+
+        if ($user->profile_photo && File::exists(public_path($user->profile_photo))) {
+            File::delete(public_path($user->profile_photo));
+        }
+
+        // Define como null ou um caminho padrão, se preferir
+        $user->profile_photo = null;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Foto de perfil removida com sucesso.');
+    }
+
 }

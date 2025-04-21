@@ -45,7 +45,7 @@
         <i class="fas fa-folder text-3xl"></i>
         <p class="text-lg">Relatórios</p>
       </a>
-      <a href="#" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
+      <a href="" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
         <i class="fas fa-user text-3xl"></i>
         <p class="text-lg">Motorista</p>
       </a>

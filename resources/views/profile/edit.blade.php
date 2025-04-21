@@ -1,14 +1,7 @@
+@extends('layouts.app')
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-
-</head>
+@section('content')
 <body>
     <x-slot name="header">
         <h2 class="fw-semibold fs-4 text-dark">
@@ -24,6 +17,8 @@
                 <div class="col-12 col-md-6">
                     <div class="card shadow">
                         <div class="card-body">
+                            <img src="{{ $user->profile_photo ? asset($user->profile_photo) : asset('assets/profile_photos/default.png') }}" style="width: 200px; height: 200px;" />
+
                             @include('profile.partials.update-profile-information-form')
                         </div>
                     </div>
@@ -51,4 +46,4 @@
         </div>
     </div>    
 </body>
-</html>
+@endsection

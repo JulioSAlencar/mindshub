@@ -16,7 +16,7 @@
                     class="w-10 h-10 rounded-full object-cover border border-gray-300 shadow-sm">
             @else
                 <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-sm text-white">
-                    <i class="fas fa-user"></i>
+                    <img src="{{ asset('assets/profile_photos/default.png') }}" alt="Imagem padrão" class="w-10 h-10 rounded-full object-cover border border-gray-300 shadow-sm">
                 </div>
             @endif
         @endauth

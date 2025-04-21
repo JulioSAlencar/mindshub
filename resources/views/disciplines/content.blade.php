@@ -23,7 +23,11 @@
       <div class="ml-11">
         <h1 class="text-4xl mb-8">{{ $discipline->title }}</h1>
         <div class="flex items-center">
-          <img src="{{ asset('assets/disciplines/fotoUsuario.svg') }}" alt="imagem professor">
+          @if (!empty($disciplineOwner['profile_photo']))
+              <img src="{{ asset($disciplineOwner['profile_photo']) }}" alt="Imagem do professor"  class="w-10 h-10 rounded-full object-cover border border-gray-300 shadow-sm>
+          @else
+              <img src="{{ asset('assets/profile_photos/default.png') }}" alt="Imagem padrão" class="w-10 h-10 rounded-full object-cover border border-gray-300 shadow-sm">
+          @endif
           <p class="text-2xl">Prof. {{ $disciplineOwner['name'] }}</p>
         </div>
       </div>

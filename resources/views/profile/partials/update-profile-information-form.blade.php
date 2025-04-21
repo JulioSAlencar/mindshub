@@ -9,6 +9,7 @@
         </p>
     </header>
 
+    {{-- Formulário principal --}}
     <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
@@ -24,7 +25,7 @@
                 onchange="previewImage(event)"
             />
             <x-input-error class="mt-2" :messages="$errors->get('profile_photo')" />
-        
+
             <!-- Preview da imagem -->
             <div class="mt-4">
                 <img
@@ -63,19 +64,24 @@
         </div>
     </form>
 
-    <!-- Script para pré-visualizar a imagem -->
+    {{-- Formulário separado para remover foto --}}
+    <form action="{{ route('profile.photo.delete') }}" method="POST" class="mt-4">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="text-red-600 hover:underline">Remover Foto</button>
+    </form>
+
     <script>
         function previewImage(event) {
             const preview = document.getElementById('photo-preview');
             const file = event.target.files[0];
 
-            // Verifica se o usuário selecionou um arquivo
             if (file) {
                 const reader = new FileReader();
 
                 reader.onload = function(e) {
                     preview.src = e.target.result;
-                    preview.style.display = 'block'; // Exibe a imagem
+                    preview.style.display = 'block';
                 }
 
                 reader.readAsDataURL(file);
