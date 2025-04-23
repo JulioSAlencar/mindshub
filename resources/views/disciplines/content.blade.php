@@ -39,13 +39,19 @@
                 class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
             Adicionar Conteúdo
         </button>
-        <a href="{{ route('missions.create', ['discipline' => $discipline->id]) }}">
+        <a href="{{ route('missions.index', ['discipline' => $discipline->id]) }}">
           <button x-show="tab === 'missoes'" 
                   class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
               Adicionar Missão
           </button>
         </a>
     </div>
+    <a href="{{ route('missions.index', $discipline->id) }}">
+      <button>Ver Missões de {{ $discipline->name }}</button>
+    </a>
+    <a href="{{ route('missions.create', $discipline->id) }}">
+        <button>Criar Missão para {{ $discipline->title }}</button>
+    </a>
     @endcan
   </div>
 
@@ -122,51 +128,24 @@
 
     <!-- div mãe items -->
     <div class="w-3/4 flex flex-col gap-6 justify-center">
-
-      <!-- item 1 -->
+      @foreach ($missions as $mission)
       <div class="bg-gray-600 rounded-md p-2 flex justify-between items-center">
-        <div class="flex items-center gap-3 w-">
-          <img src="{{ asset('assets/icons/grafico.svg') }}" alt="icone">
-          <div>
-            <p class="text-lg font-medium mb-2">Funções Quadraticas - Apostila</p>
-            <p class="text-sm text-gray-400">Publicado em 23/03/25 - PDF - 3.2 MB</p>
+          <div class="flex items-center gap-3">
+              <img src="{{ asset('assets/icons/grafico.svg') }}" alt="icone">
+              <div>
+                  <p class="text-lg font-medium mb-2">{{ $mission->title }}</p>
+                  <p class="text-sm text-gray-400">
+                      Quantidade de questões: {{ $mission->questions->count() }}<br>
+                      Publicado em {{ $mission->created_at->format('d/m/y') }}
+                  </p>
+              </div>
           </div>
-        </div>
-        <button class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">Ver resposta</button>
+          <a href="{{ route('missions.show', $mission->id) }}">
+            <button class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">Responder</button>
+        </a>
       </div>
-
-      <!-- item 2 -->
-      <div class="bg-gray-600 rounded-md p-2 flex justify-between items-center">
-        <div class="flex items-center gap-3 w-">
-          <img src="{{ asset('assets/icons/grafico.svg') }}" alt="icone">
-          <div>
-            <p class="text-lg font-medium mb-2">Funções Quadraticas - Apostila</p>
-            <p class="text-sm text-gray-400">Publicado em 23/03/25 - PDF - 3.2 MB</p>
-          </div>
-        </div>
-        <button class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">Ver resposta</button>
-      </div>
-
-      <!-- item 3 -->
-      <div class="bg-gray-600 rounded-md p-2 flex justify-between items-center">
-        <div class="flex items-center gap-3 w-">
-          <img src="{{ asset('assets/icons/grafico.svg') }}" alt="icone">
-          <div>
-            <p class="text-lg font-medium mb-2">Funções Quadraticas - Apostila</p>
-            <p class="text-sm text-gray-400">Publicado em 23/03/25 - PDF - 3.2 MB</p>
-          </div>
-        </div>
-        <button class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">Ver resposta</button>
-      </div>
-
+      @endforeach
     </div>
-
-    <!-- div mãe img -->
-    <picture class="grid justify-center">
-      <img src="{{ asset('assets/images/bgConteudo.png') }}" alt="imagem de ilustrativa">
-    </picture>
-  </div>
-
 </div>
 
 @endsection

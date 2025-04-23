@@ -71,14 +71,21 @@ Route::prefix('teacher')->middleware(['auth', 'role:teacher'])->group(function (
 Route::get('/auth/typeuser', [AuthTypeUserController::class, 'index'])
     ->name('typeuser.page');
 
+Route::get('/missions/{discipline}/index', [MissionController::class, 'index'])->name('missions.index');
 
-// Routes/web.php
-Route::get('/missions/create/{discipline}', [MissionController::class, 'create'])
-    ->name('missions.create');
+Route::get('/missions/create/{discipline}', [MissionController::class, 'create'])->name('missions.create');
 
-Route::post('/missions', [MissionController::class, 'store'])
-    ->name('missions.store');
+Route::post('/missions', [MissionController::class, 'store'])->name('missions.store');
 
+Route::get('/missions/{mission}/add-questions', [MissionController::class, 'addQuestions'])->name('missions.addQuestions');
+
+Route::post('/missions/{mission}/questions', [MissionController::class, 'storeQuestions'])->name('missions.storeQuestions');
+
+Route::get('/missions/{mission}', [MissionController::class, 'show'])->name('missions.show');
+
+Route::post('/missions/{mission}/submit/{index}', [MissionController::class, 'submit'])->name('missions.submit');
+
+Route::get('/missions/end/{disciplineId}', [MissionController::class, 'end'])->name('missions.end');
 
 
 require __DIR__ . '/auth.php';

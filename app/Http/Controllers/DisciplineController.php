@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Discipline;
+use App\Models\Mission;
 use App\Models\RecentDisciplineView;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -130,7 +131,9 @@ class DisciplineController extends Controller
 
         $disciplineOwner = User::find($discipline->user_id)->toArray();
 
-        return view('disciplines.content', compact('discipline', 'disciplineOwner'));
+        $missions = Mission::where('discipline_id', $discipline->id)->get();
+
+        return view('disciplines.content', compact('discipline', 'disciplineOwner', 'missions'));
     }
 
     /**

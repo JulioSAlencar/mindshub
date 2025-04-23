@@ -11,21 +11,21 @@ class Mission extends Model
 
     protected $fillable = [
         'discipline_id',
-        'statement',
-        'correct_answer',
-        'explanation',
-        'wrong_answers',
+        'title',
         'start_date',
         'end_date',
-    ];
-
-    protected $casts = [
-        'wrong_answers' => 'array',
+        'created_at',
+        'updated_at'
     ];
 
     // Se uma missão pertence a uma disciplina
     public function discipline()
     {
         return $this->belongsTo(Discipline::class);
+    }
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
     }
 }

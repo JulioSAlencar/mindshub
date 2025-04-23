@@ -1,8 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const addButton = document.getElementById("add-mission");
     const missionsWrapper = document.getElementById("missions-wrapper");
-
-    let missionIndex = 1; // Começa em 1 porque o primeiro bloco já existe
+    let missionIndex = 1;
 
     addButton.addEventListener("click", () => {
         if (missionIndex >= 10) {
@@ -10,27 +9,21 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // Seleciona o primeiro bloco como base
         const firstMission = document.querySelector(".mission-block");
         const newMission = firstMission.cloneNode(true);
 
-        // Atualiza os campos com o novo índice
+        // Atualiza o índice
         newMission.setAttribute("data-index", missionIndex);
         newMission.querySelector("h5").textContent = `${missionIndex + 1}/10 Questão`;
 
+        // Atualiza os names dos inputs
         const inputs = newMission.querySelectorAll("input, textarea");
-
         inputs.forEach(input => {
-            // Limpa os valores
+            const name = input.name.replace(/\[0\]/g, `[${missionIndex}]`);
+            input.name = name;
             input.value = "";
-
-            // Atualiza os atributos "name"
-            if (input.name) {
-                input.name = input.name.replace(/\[0\]/g, `[${missionIndex}]`);
-            }
         });
 
-        // Adiciona o novo bloco ao wrapper
         missionsWrapper.appendChild(newMission);
         missionIndex++;
     });
