@@ -1,7 +1,8 @@
-import './bootstrap';
-import './sidebar';
+import "./bootstrap";
+import "./sidebar";
+import "./toggle";
 
-import Alpine from 'alpinejs';
+import Alpine from "alpinejs";
 
 window.Alpine = Alpine;
 

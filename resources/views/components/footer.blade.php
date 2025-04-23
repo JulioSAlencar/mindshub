@@ -49,7 +49,7 @@
         <a class="transition-all duration-300 ease-in-out hover:translate-x-1 hover:text-blue-500 hover:underline decoration-blue-500" href="#">
           <li>FAQ</li>
         </a>
-        <a class="transition-all duration-300 ease-in-out hover:translate-x-1 hover:text-blue-500 hover:underline decoration-blue-500" href="#">
+        <a class="transition-all duration-300 ease-in-out hover:translate-x-1 hover:text-blue-500 hover:underline decoration-blue-500" href="{{ route('termos') }}">
           <li>Termos de Uso</li>
         </a>
         <a class="transition-all duration-300 ease-in-out hover:translate-x-1 hover:text-blue-500 hover:underline decoration-blue-500" href="#">

@@ -22,6 +22,11 @@ Route::get('/home', function () {
     return view('users.home');
 });
 
+// Termos de uso
+Route::get('/termos', function () {
+    return view('TermsOfUse');
+})->name('termos');
+
 // Página principal e outras visões
 Route::get('/disciplines/page', [DisciplineController::class, 'index'])->name('disciplines.page'); // Página principal
 Route::get('/disciplines/content/{id}', [DisciplineController::class, 'content'])->name('disciplines.content'); // Conteúdo
@@ -69,10 +74,10 @@ Route::get('/auth/typeuser', [AuthTypeUserController::class, 'index'])
 
 // Routes/web.php
 Route::get('/missions/create/{discipline}', [MissionController::class, 'create'])
-     ->name('missions.create');
-     
+    ->name('missions.create');
+
 Route::post('/missions', [MissionController::class, 'store'])
-     ->name('missions.store');
+    ->name('missions.store');
 
 
 
