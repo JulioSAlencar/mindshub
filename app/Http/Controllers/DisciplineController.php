@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Discipline;
 use App\Models\Mission;
+use App\Models\MissionAnswer;
 use App\Models\RecentDisciplineView;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -133,7 +134,13 @@ class DisciplineController extends Controller
 
         $missions = Mission::where('discipline_id', $discipline->id)->get();
 
-        return view('disciplines.content', compact('discipline', 'disciplineOwner', 'missions'));
+        $answeredMissionIds = MissionAnswer::whereIn('mission_id', $missions->pluck('id'))
+        ->where('user_id', auth()->id())
+        ->pluck('mission_id')
+        ->toArray();
+
+
+        return view('disciplines.content', compact('discipline', 'disciplineOwner', 'missions', 'answeredMissionIds'));
     }
 
     /**
@@ -170,4 +177,5 @@ class DisciplineController extends Controller
 
         return redirect()->route('disciplines.content', ['id' => $discipline->id])->with('msg', 'Você se inscreveu na disciplina');
     }
+
 }

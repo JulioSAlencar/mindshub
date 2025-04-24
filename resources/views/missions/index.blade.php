@@ -2,6 +2,16 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
+    
+    <div class="goback">
+        <a href="{{ route('disciplines.content', $discipline->id) }}">
+            <button x-show="tab === 'missoes'"
+                class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
+                voltar
+            </button>
+        </a>
+    </div>
+    
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-2xl font-bold">Missões</h1>
         <a href="{{ route('missions.create', $discipline->id) }}">

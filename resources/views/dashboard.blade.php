@@ -15,9 +15,9 @@
                 @foreach ($recentDisciplines as $view)
                     <div class="card col-md-3 mb-3">
                         <small class="text-muted">Acessado {{ $view->viewed_at->diffForHumans() }}</small><br>
-                        <img src="/assets/disciplines/{{ $view->discipline->image }}" 
-                            alt="{{ $view->discipline->title }}"
-                            style="width: 200px; height: 200px; object-fit: cover; border-radius: 10px;">
+                        <img src="{{ asset($view->discipline->image ? 'assets/disciplines/' . $view->discipline->image : 'assets/disciplines/defalt_discipline.png') }}" 
+                        alt="{{ $view->discipline->title }}"
+                        style="width: 200px; height: 200px; object-fit: cover; border-radius: 10px;">
                         <div class="card-body">
                             <h5 class="card-title">{{ $view->discipline->title }}</h5>
                             <p class="card-text">{{ $view->discipline->description }}</p>

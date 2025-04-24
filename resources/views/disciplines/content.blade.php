@@ -39,19 +39,26 @@
                 class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
             Adicionar Conteúdo
         </button>
-        <a href="{{ route('missions.index', ['discipline' => $discipline->id]) }}">
+        <a href="{{ route('missions.create', $discipline->id) }}">
           <button x-show="tab === 'missoes'" 
                   class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
-              Adicionar Missão
+                  Criar Missão
+          </button>
+        </a>
+        <a href="{{ route('missions.index', $discipline->id) }}">
+          <button x-show="tab === 'missoes'" 
+                  class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
+                  Ver Missões
+          </button>
+        </a>
+        <a href="{{ route('disciplines.edit', $discipline->id) }}">
+          <button x-show="" 
+                  class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
+                  Configurações da Disciplina
           </button>
         </a>
     </div>
-    <a href="{{ route('missions.index', $discipline->id) }}">
-      <button>Ver Missões de {{ $discipline->name }}</button>
-    </a>
-    <a href="{{ route('missions.create', $discipline->id) }}">
-        <button>Criar Missão para {{ $discipline->title }}</button>
-    </a>
+
     @endcan
   </div>
 
@@ -140,9 +147,22 @@
                   </p>
               </div>
           </div>
-          <a href="{{ route('missions.show', $mission->id) }}">
-            <button class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">Responder</button>
-        </a>
+
+          @if (in_array($mission->id, $answeredMissionIds))
+            <a href="{{ route('missions.result', $mission->id) }}" class="inline-block bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 transition font-medium mb-4">
+              Ver meu resultado
+            </a>
+          @else
+              <a href="{{ route('missions.show', $mission->id) }}">
+                <button class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">Responder</button>
+              </a>
+          @endif
+
+          @can("is-teacher")
+            <a href="{{ route('missions.responses', $mission->id) }}" class="btn btn-primary">
+              Ver respostas dos alunos
+            </a>        
+          @endcan
       </div>
       @endforeach
     </div>

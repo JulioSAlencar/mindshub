@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Mission;
 use App\Models\Discipline;
+use App\Models\MissionAnswer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -16,15 +17,23 @@ class MissionController extends Controller
         return view('missions.index', compact('missions', 'discipline'));
     }
 
-    // Formulário de criação da missão para uma disciplina específica
     public function create(Discipline $discipline)
     {
         return view('missions.create', compact('discipline'));
     }
 
-    // Armazenar dados básicos da missão
-    public function store(Request $request)
+    public function store(Request $request, Mission $mission)
     {
+        $userId = auth()->id();
+
+        $alreadyAnswered = MissionAnswer::where('mission_id', $mission->id)
+            ->where('user_id', $userId)
+            ->exists();
+    
+        if ($alreadyAnswered) {
+            return redirect()->back()->with('error', 'Você já respondeu essa missão.');
+        }
+
         $request->validate([
             'title' => 'required|string|max:255',
             'discipline_id' => 'required|exists:disciplines,id',
@@ -37,7 +46,6 @@ class MissionController extends Controller
         return redirect()->route('missions.addQuestions', $mission);
     }
 
-    // Mostrar formulário para adicionar questões (passo 2)
     public function addQuestions(Mission $mission)
     {
         return view('missions.add-questions', compact('mission'));
@@ -78,91 +86,91 @@ class MissionController extends Controller
     
         $currentQuestion = $questions[0];
         $currentIndex = 0;
+
+        $alreadyAnswered = MissionAnswer::where('mission_id', $mission->id)
+        ->where('user_id', auth()->id())
+        ->exists();
+
     
         return view('missions.show', [
             'mission' => $mission,
             'questions' => $questions, 
             'currentQuestion' => $currentQuestion,
             'currentIndex' => $currentIndex,
+            'alreadyAnswered' => $alreadyAnswered,
         ]);
     }
 
 
-    public function submit(Mission $mission, $index, Request $request)
+    public function submit(Mission $mission, $index, Request $request, MissionAnswer $answerService)
     {
-        // Validate the incoming request (ensure an answer was selected)
         $request->validate([
             'answer' => 'required|string',
         ]);
-    
-        // Eager load questions if not already loaded (optional, but good practice)
+
         $mission->load('questions');
         $questions = $mission->questions;
-    
-        // --- Optional: Check if the index is valid ---
+
         if (!isset($questions[$index])) {
-            // Index out of bounds, maybe redirect with an error
-            return redirect()->route('missions.show', ['mission' => $mission->id])->with('error', 'Questão inválida.');
+            return redirect()->route('missions.show', $mission->id)->with('error', 'Questão inválida.');
         }
-        // --- End Optional Check ---
-    
-        // Get the question that was just answered
-        $answeredQuestion = $questions[$index];
+
+        $question = $questions[$index];
         $selectedAnswer = $request->input('answer');
-    
-        // Check if the selected answer is correct
-        $isCorrect = ($selectedAnswer === $answeredQuestion->correct_answer);
-    
-        // --- TODO: Store the result ---
-        // Here you would typically store the user's answer, whether it was correct, user ID, etc.
-        // Example:
-        // AnswerLog::create([
-        //     'user_id' => auth()->id(), // Assuming you have user authentication
-        //     'mission_id' => $mission->id,
-        //     'question_id' => $answeredQuestion->id,
-        //     'selected_answer' => $selectedAnswer,
-        //     'is_correct' => $isCorrect,
-        // ]);
-        // --- End TODO ---
-    
-    
-        // Determine the next question index
+
+        $answerService->storeAnswer($mission, $question, $selectedAnswer);
+
         $nextIndex = $index + 1;
-    
-        // Check if there is a next question in this mission
+
         if ($nextIndex < $questions->count()) {
-            // Get the next question
-            $nextQuestion = $questions[$nextIndex];
-    
-            // Show the next question
             return view('missions.show', [
                 'mission' => $mission,
-                'questions' => $questions, // Pass all questions again
-                'currentQuestion' => $nextQuestion, // The next question
-                'currentIndex' => $nextIndex,      // The index of the next question
+                'questions' => $questions,
+                'currentQuestion' => $questions[$nextIndex],
+                'currentIndex' => $nextIndex,
             ]);
-        } else {
-            // No more questions, the mission is finished
-            // Redirect to the end page, passing the discipline ID
-            // You might want to pass the mission ID too, or calculate results here
-            return redirect()->route('missions.end', ['disciplineId' => $mission->discipline_id])
-                             ->with('success', 'Missão concluída!'); // Optional success message
         }
+
+        return redirect()->route('missions.end', ['mission' => $mission])
+        ->with('success', 'Missão concluída!');
     }
 
-    public function end($disciplineId)
+
+    public function end(Mission $mission)
     {
-        // You could fetch the discipline name here if needed
-        $discipline = Discipline::find($disciplineId);
-        // You could also fetch results if you stored them
-        // $results = //... query results for the user and this mission/discipline
+        $discipline = $mission->discipline;
+    
+        if (!$discipline) {
+            return redirect()->route('dashboard')->with('error', 'Disciplina da missão não encontrada.');
+        }
     
         return view('missions.end', [
-            'disciplineId' => $disciplineId,
-            'discipline' => $discipline // Pass the discipline object
-            // 'results' => $results // Pass results if calculated
-            ]);
+            'discipline' => $discipline,
+            'mission' => $mission,
+        ]);
+    }
+    
+
+    public function result(Mission $mission)
+    {
+        $user = auth()->user();
+
+        $answers = $mission->answers()->where('user_id', $user->id)->with('question')->get();
+
+        $totalQuestions = $answers->count();
+        $correctAnswers = $answers->where('is_correct', true)->count();
+        $score = $totalQuestions > 0 ? round(($correctAnswers / $totalQuestions) * 100, 2) : 0;
+
+        return view('missions.result', compact('mission', 'answers', 'score', 'correctAnswers', 'totalQuestions'));
     }
 
-    
+    public function responses(Mission $mission)
+    {
+        $responses = \App\Models\MissionAnswer::with('user', 'question')
+            ->where('mission_id', $mission->id)
+            ->get()
+            ->groupBy('user_id');
+
+        return view('missions.responses', compact('mission', 'responses'));
+    }
 }

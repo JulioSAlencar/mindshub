@@ -85,7 +85,11 @@ Route::get('/missions/{mission}', [MissionController::class, 'show'])->name('mis
 
 Route::post('/missions/{mission}/submit/{index}', [MissionController::class, 'submit'])->name('missions.submit');
 
-Route::get('/missions/end/{disciplineId}', [MissionController::class, 'end'])->name('missions.end');
+Route::get('/missions/{mission}/end', [MissionController::class, 'end'])->name('missions.end');
+
+Route::get('/missions/{mission}/result', [MissionController::class, 'result'])->name('missions.result');
+
+Route::get('/missions/{mission}/responses', [MissionController::class, 'responses'])->name('missions.responses');
 
 
 require __DIR__ . '/auth.php';
