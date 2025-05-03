@@ -29,9 +29,9 @@
 
       <div class="grid gap-6 w-full">
         <input type="email" name="email" placeholder="Email" value="{{ old('email') }}"
-          class="bg-gray-200 rounded-lg text-lg border-none p-3 text-white">
+          class="bg-gray-200 rounded-lg text-lg border-none p-3 text-black">
         <input type="password" name="password" placeholder="Senha"
-          class="bg-gray-200 rounded-lg text-lg border-none p-3 text-white">
+          class="bg-gray-200 rounded-lg text-lg border-none p-3 text-black">
       </div>
       <!-- Remember Me -->
       <div class="block mt-4">
