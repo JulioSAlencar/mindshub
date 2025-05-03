@@ -8,15 +8,16 @@
       <i id="menu-toggle" class="fas fa-bars text-blue-500 cursor-pointer hover:scale-125 hover:text-white transition-all duration-300"></i>
 
       <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="#"><i class="fas fa-home"></i></a>
-      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="#"><i class="fas fa-file-alt"></i></a>
-      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="#"><i class="fas fa-truck"></i></a>
-      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="#"><i class="fas fa-route"></i></a>
-      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="#"><i class="fas fa-folder"></i></a>
-      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="#"><i class="fas fa-user"></i></a>
+      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="#"><i class="fas fa-book"></i></a>
+      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="#"><i class="fas fa-bullseye"></i></a>
+      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="#"><i class="fas fa-trophy"></i></a>
+      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="#">
+        <i class="fas fa-flag"></i> <!-- TODO: Replace this icon and label when the correct feature is known -->
+      </a>
+      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="#"><i class="fas fa-cog"></i></a>
     </div>
   </nav>
 </aside>
-
 
 <aside id="sidebar-expanded" class="fixed top-0 left-0 bottom-0 w-48 bg-slate-900 flex flex-col transition-all duration-500 overflow-hidden hidden">
   <img id="sidebar-logo-expanded" class="w-36 py-3 mx-auto" src="{{ asset('assets/images/logoSideBarOpen.svg') }}" alt="">
@@ -27,27 +28,27 @@
 
       <a href="#" class="flex items-center gap-4 hover:scale-125 hover:text-blue-500 transition-all duration-300">
         <i class="fas fa-home text-3xl"></i>
-        <p class="text-lg">Dashboard</p>
+        <p class="text-lg">Home</p>
       </a>
       <a href="#" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
-        <i class="fas fa-file-alt text-3xl"></i>
-        <p class="text-lg">Motorista</p>
+        <i class="fas fa-book text-3xl"></i>
+        <p class="text-lg">Disciplinas</p>
       </a>
       <a href="#" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
-        <i class="fas fa-truck text-3xl"></i>
-        <p class="text-lg">Caminhão</p>
+        <i class="fas fa-bullseye text-3xl"></i>
+        <p class="text-lg">Missões</p>
       </a>
       <a href="#" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
-        <i class="fas fa-route text-3xl"></i>
-        <p class="text-lg">Rotas</p>
+        <i class="fas fa-trophy text-3xl"></i>
+        <p class="text-lg">Ranking</p>
       </a>
       <a href="#" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
-        <i class="fas fa-folder text-3xl"></i>
-        <p class="text-lg">Relatórios</p>
+        <i class="fas fa-flag text-3xl"></i>
+        <p class="text-lg">(Texto)</p> <!-- TODO: Replace label with correct feature name -->
       </a>
-      <a href="" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
-        <i class="fas fa-user text-3xl"></i>
-        <p class="text-lg">Motorista</p>
+      <a href="#" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
+        <i class="fas fa-cog text-3xl"></i>
+        <p class="text-lg">Configurações</p>
       </a>
     </div>
   </nav>
