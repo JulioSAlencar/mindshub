@@ -12,7 +12,7 @@
     <ul>
         @foreach($answers as $answer)
             <li>
-                <strong>Pergunta:</strong> {{ $answer->question->text }} <br>
+                <strong>Pergunta:</strong> {{ $answer->question->statement }} <br>
                 <strong>Sua resposta:</strong> {{ $answer->selected_answer }} <br>
                 <strong>Correta?</strong> {{ $answer->is_correct ? 'Sim ✅' : 'Não ❌' }}
             </li>

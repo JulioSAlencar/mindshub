@@ -77,11 +77,16 @@ class MissionController extends Controller
     public function show(Mission $mission)
     {
         $mission->load('questions');
+
+        if (auth()->user()->role === 'teacher' && $mission->discipline->user_id === auth()->id()) {
+            return redirect()->route('missions.index', $mission->discipline_id)
+                ->with('error', 'Você não pode responder à sua própria missão.');
+        }        
     
         if ($mission->questions->isEmpty()) {
             return redirect()->route('missions.index', $mission->discipline_id)->with('error', 'Esta missão ainda não possui questões.');
         }
-    
+  
         $questions = $mission->questions;
     
         $currentQuestion = $questions[0];
@@ -166,7 +171,8 @@ class MissionController extends Controller
 
     public function responses(Mission $mission)
     {
-        $responses = \App\Models\MissionAnswer::with('user', 'question')
+        $discipline = Discipline::findOrFail($id);
+        $responses = MissionAnswer::with('user', 'question')
             ->where('mission_id', $mission->id)
             ->get()
             ->groupBy('user_id');

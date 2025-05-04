@@ -8,11 +8,11 @@
       <i id="menu-toggle" class="fas fa-bars text-blue-500 cursor-pointer hover:scale-125 hover:text-white transition-all duration-300"></i>
 
       <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="{{ route('dashboard') }}"><i class="fas fa-home"></i></a>
-      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="{{ route('disciplinas') }}"><i class="fas fa-book"></i></a>
-      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="{{ route('missoes') }}"><i class="fas fa-bullseye"></i></a>
-      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="{{ route('ranking') }}"><i class="fas fa-trophy"></i></a>
-      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="{{ route('trilhas') }}"><i class="fas fa-flag"></i></a>
-      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="{{ route('configuracoes') }}"><i class="fas fa-cog"></i></a>
+      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="{{ route('disciplines.page') }}"><i class="fas fa-book"></i></a>
+      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="#"><i class="fas fa-bullseye"></i></a>
+      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="#"><i class="fas fa-trophy"></i></a>
+      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="#"><i class="fas fa-flag"></i></a>
+      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="{{ route('profile.edit')}}"><i class="fas fa-cog"></i></a>
     </div>
   </nav>
 </aside>
@@ -28,23 +28,23 @@
         <i class="fas fa-home text-3xl"></i>
         <p class="text-lg">Dashboard</p>
       </a>
-      <a href="{{ route('disciplinas') }}" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
+      <a href="#" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
         <i class="fas fa-book text-3xl"></i>
         <p class="text-lg">Disciplinas</p>
       </a>
-      <a href="{{ route('missoes') }}" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
+      <a href="#" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
         <i class="fas fa-bullseye text-3xl"></i>
         <p class="text-lg">Missões</p>
       </a>
-      <a href="{{ route('ranking') }}" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
+      <a href="#" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
         <i class="fas fa-trophy text-3xl"></i>
         <p class="text-lg">Ranking</p>
       </a>
-      <a href="{{ route('trilhas') }}" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
+      <a href="#" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
         <i class="fas fa-flag text-3xl"></i>
         <p class="text-lg">Trilhas</p>
       </a>
-      <a href="{{ route('configuracoes') }}" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
+      <a href="#" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
         <i class="fas fa-cog text-3xl"></i>
         <p class="text-lg">Configurações</p>
       </a>

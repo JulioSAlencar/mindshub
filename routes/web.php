@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\TypeUserController as AuthTypeUserController;
+use App\Http\Controllers\ContentDisciplineController;
 use App\Http\Controllers\DisciplineController;
 use App\Http\Controllers\MissionController;
 use App\Http\Controllers\ProfileController;
@@ -40,6 +41,9 @@ Route::post('/disciplines/join/{id}', [DisciplineController::class, 'joinDiscipl
 Route::get('/disciplines/edit/{id}', [DisciplineController::class, 'edit'])->name('disciplines.edit');
 Route::put('/disciplines/update/{id}', [DisciplineController::class, 'update'])->name('disciplines.update');
 Route::delete('/disciplines/{id}', [DisciplineController::class, 'destroy'])->name('disciplines.destroy');
+
+Route::get('/disciplines/addContent/{id}', [ContentDisciplineController::class, 'index'])->name('disciplines.addContents');
+Route::post('/disciplines/addContent/{id}', [ContentDisciplineController::class, 'store'])->name('disciplines.storeContent');
 
 
 

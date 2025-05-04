@@ -35,21 +35,17 @@
 
     @can("is-teacher")
     <div class="text-right mb-4">
-        <button x-show="tab === 'conteudo'" 
-                class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
+        <a href="{{ route('disciplines.addContents', ['id' => $discipline->id]) }}" x-show="tab === 'conteudo'" 
+          class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
             Adicionar Conteúdo
-        </button>
-        <a href="{{ route('missions.create', $discipline->id) }}">
-          <button x-show="tab === 'missoes'" 
-                  class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
-                  Criar Missão
-          </button>
         </a>
-        <a href="{{ route('missions.index', $discipline->id) }}">
-          <button x-show="tab === 'missoes'" 
-                  class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
-                  Ver Missões
-          </button>
+        <a href="{{ route('missions.create', $discipline->id) }}" x-show="tab === 'missoes'" 
+          class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
+            Criar Missão
+        </a>
+        <a href="{{ route('missions.index', $discipline->id) }}" x-show="tab === 'missoes'" 
+          class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
+            Ver Missões
         </a>
         <a href="{{ route('disciplines.edit', $discipline->id) }}">
           <button x-show="" 
@@ -85,43 +81,22 @@
 
     <!-- div mãe items -->
     <div class="w-3/4 flex flex-col gap-6 justify-center">
-
-      <!-- item 1 -->
-      <div class="bg-gray-600 rounded-md p-2 flex justify-between items-center">
-        <div class="flex items-center gap-3 w-">
-          <img src="{{ asset('assets/icons/prancheta.svg') }}" alt="icone">
-          <div>
-            <p class="text-lg font-medium mb-2">Funções Quadraticas - Apostila</p>
-            <p class="text-sm text-gray-400">Publicado em 23/03/25 - PDF - 3.2 MB</p>
-          </div>
+      @foreach ($discipline->contents as $content)
+        <div class="bg-gray-600 rounded-md p-2 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="{{ asset('assets/icons/prancheta.svg') }}" alt="icone" class="w-10 h-10">
+                <div>
+                    <p class="text-lg font-medium mb-2">{{ $content->title }}</p>
+                    <p class="text-sm text-gray-400">
+                        Publicado em {{ $content->created_at->format('d/m/y') }} - {{ strtoupper($content->file_type) }} - {{ number_format($content->file_size / 1048576, 2) }} MB
+                    </p>
+                </div>
+            </div>
+            <a href="{{ url($content->file_path) }}" target="_blank">
+                <button class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">Ver</button>
+            </a>
         </div>
-        <button class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">Ver</button>
-      </div>
-
-      <!-- item 2 -->
-      <div class="bg-gray-600 rounded-md p-2 flex justify-between items-center">
-        <div class="flex items-center gap-3 w-">
-          <img src="{{ asset('assets/icons/prancheta.svg') }}" alt="icone">
-          <div>
-            <p class="text-lg font-medium mb-2">Funções Quadraticas - Apostila</p>
-            <p class="text-sm text-gray-400">Publicado em 23/03/25 - PDF - 3.2 MB</p>
-          </div>
-        </div>
-        <button class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">Ver</button>
-      </div>
-
-      <!-- item 3 -->
-      <div class="bg-gray-600 rounded-md p-2 flex justify-between items-center">
-        <div class="flex items-center gap-3 w-">
-          <img src="{{ asset('assets/icons/prancheta.svg') }}" alt="icone">
-          <div>
-            <p class="text-lg font-medium mb-2">Funções Quadraticas - Apostila</p>
-            <p class="text-sm text-gray-400">Publicado em 23/03/25 - PDF - 3.2 MB</p>
-          </div>
-        </div>
-        <button class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">Ver</button>
-      </div>
-
+      @endforeach
     </div>
 
     <!-- div mãe img -->
@@ -133,39 +108,46 @@
   <!-- Missões -->
   <div x-show="tab === 'missoes'" class="bg-gray-900 p-6 rounded-b-lg text-white grid grid-cols-2">
 
-    <!-- div mãe items -->
-    <div class="w-3/4 flex flex-col gap-6 justify-center">
-      @foreach ($missions as $mission)
+  <!-- div mãe items -->
+  <div class="w-3/4 flex flex-col gap-6 justify-center">
+    @foreach ($missions as $mission)
       <div class="bg-gray-600 rounded-md p-2 flex justify-between items-center">
-          <div class="flex items-center gap-3">
-              <img src="{{ asset('assets/icons/grafico.svg') }}" alt="icone">
-              <div>
-                  <p class="text-lg font-medium mb-2">{{ $mission->title }}</p>
-                  <p class="text-sm text-gray-400">
-                      Quantidade de questões: {{ $mission->questions->count() }}<br>
-                      Publicado em {{ $mission->created_at->format('d/m/y') }}
-                  </p>
-              </div>
+        <div class="flex items-center gap-3">
+          <img src="{{ asset('assets/icons/grafico.svg') }}" alt="icone">
+          <div>
+            <p class="text-lg font-medium mb-2">{{ $mission->title }}</p>
+            <p class="text-sm text-gray-400">
+              Quantidade de questões: {{ $mission->questions->count() }}<br>
+              Publicado em {{ $mission->created_at->format('d/m/y') }}
+            </p>
           </div>
-
-          @if (in_array($mission->id, $answeredMissionIds))
-            <a href="{{ route('missions.result', $mission->id) }}" class="inline-block bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 transition font-medium mb-4">
-              Ver meu resultado
-            </a>
-          @else
-              <a href="{{ route('missions.show', $mission->id) }}">
-                <button class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">Responder</button>
+        </div>
+    @endforeach
+        {{-- Botões de ação --}}
+        <div class="flex items-center gap-2">
+          @can("is-student")
+            @if (in_array($mission->id, $answeredMissionIds))
+              <a href="{{ route('missions.result', $mission->id) }}" class="inline-block bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 transition font-medium">
+                Ver meu resultado
               </a>
-          @endif
+            @else
+              @if (!(Auth::user()->role === 'teacher' && $mission->discipline->user_id === Auth::id()))
+                <a href="{{ route('missions.show', $mission->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition font-medium">
+                  Responder
+                </a>
+              @endif
+            @endif
+          @endcan
 
           @can("is-teacher")
             <a href="{{ route('missions.responses', $mission->id) }}" class="btn btn-primary">
               Ver respostas dos alunos
-            </a>        
+            </a>
           @endcan
+        </div>
       </div>
-      @endforeach
-    </div>
+    @endforeach
+  </div>
 </div>
 
 @endsection
