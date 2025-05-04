@@ -39,6 +39,10 @@
           class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
             Adicionar Conteúdo
         </a>
+        <a href="{{ route('disciplines.editContents', $discipline->id) }}" x-show="tab === 'conteudo'" 
+          class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
+            Editar Conteúdo
+        </a>
         <a href="{{ route('missions.create', $discipline->id) }}" x-show="tab === 'missoes'" 
           class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
             Criar Missão

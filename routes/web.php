@@ -43,7 +43,10 @@ Route::put('/disciplines/update/{id}', [DisciplineController::class, 'update'])-
 Route::delete('/disciplines/{id}', [DisciplineController::class, 'destroy'])->name('disciplines.destroy');
 
 Route::get('/disciplines/addContent/{id}', [ContentDisciplineController::class, 'index'])->name('disciplines.addContents');
-Route::post('/disciplines/addContent/{id}', [ContentDisciplineController::class, 'store'])->name('disciplines.storeContent');
+Route::post('/disciplines/addContent/{id}', [ContentDisciplineController::class, 'store'])->name('disciplines.storeContents');
+Route::put('/disciplines/addContent/{id}', [ContentDisciplineController::class, 'update'])->name('disciplines.updateContents');
+Route::delete('/disciplines/content/{id}', [ContentDisciplineController::class, 'destroy'])->name('disciplines.destroyContents');
+Route::get('/disciplines/content/{id}/edit', [ContentDisciplineController::class, 'edit'])->name('disciplines.editContents');
 
 
 

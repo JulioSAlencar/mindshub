@@ -171,12 +171,13 @@ class MissionController extends Controller
 
     public function responses(Mission $mission)
     {
-        $discipline = Discipline::findOrFail($id);
+        $discipline = Discipline::findOrFail($mission->discipline_id); 
+    
         $responses = MissionAnswer::with('user', 'question')
             ->where('mission_id', $mission->id)
             ->get()
             ->groupBy('user_id');
 
-        return view('missions.responses', compact('mission', 'responses'));
+        return view('missions.responses', compact('mission', 'responses', 'discipline'));
     }
 }

@@ -42,4 +42,42 @@ class ContentDisciplineController extends Controller
 
     }
 
+    public function update(Request $request, $id)
+    {
+        $content = ContentDiscipline::findOrFail($id);
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,png,jpg,jpeg',
+        ]);
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $destinationPath = public_path('assets/contents');
+            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move($destinationPath, $filename);
+            $content->file_path = 'assets/contents/' . $filename;
+        }
+
+        $content->title = $request->title;
+        $content->save();
+
+        return redirect()->route('disciplines.content', ['id' => $content->discipline_id])
+                     ->with('success', 'Conteúdo atualizado com sucesso!');
+    }
+    public function edit($id)
+    {
+        $content = ContentDiscipline::findOrFail($id);
+        return view('disciplines.editContent', compact('content'));
+    }
+
+    public function destroy($id)
+    {
+        $content = ContentDiscipline::findOrFail($id);
+        $content->delete();
+
+        return redirect()->route('disciplines.content', ['id' => $content->discipline_id])
+                     ->with('success', 'Conteúdo excluído com sucesso!');
+    }
+
 }
