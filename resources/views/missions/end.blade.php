@@ -25,7 +25,7 @@
 
         {{-- Botão para voltar para a disciplina relacionada --}}
         {{-- CORRIGIDO: usar $discipline->id consistentemente --}}
-        <a href="{{ route('disciplines.content', $discipline->id) }}" class="inline-block bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition font-medium">
+        <a href="{{ route('disciplines.showContent', $discipline->id) }}" class="inline-block bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition font-medium">
             Voltar para {{ $discipline->name ?? 'Disciplina' }}
         </a>
 

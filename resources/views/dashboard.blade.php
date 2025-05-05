@@ -2,11 +2,10 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 
 @section('content')
-    <h1 class="text-xl font-bold">Olá, bem-vindo ao Mindshub!</h1>
+    <h1 class="text-xl font-bold">Olá, bem-vindo ao Mindshub! teste</h1>
     <div class="mt-4">
     @if (!request('search'))
         <h3>Disciplinas Recentemente Acessadas</h3>
-
         @if ($recentDisciplines->count() > 0)
             <div class="row">
                 @foreach ($recentDisciplines as $view)
@@ -19,9 +18,9 @@
                             <h5 class="card-title">{{ $view->discipline->title }}</h5>
                             <p class="card-text">{{ $view->discipline->description }}</p>
                             @can('is-subscribed', $view->discipline)
-                                <a href="{{ route('disciplines.content', ['id' => $view->discipline->id]) }}" class="btn btn-sm btn-success mt-2">Entrar</a>
+                                <a href="{{ route('disciplines.showContent', ['id' => $view->discipline->id]) }}" class="btn btn-sm btn-success mt-2">Entrar</a>
                             @elsecan('is-creator', $view->discipline)
-                                <a href="{{ route('disciplines.content', ['id' => $view->discipline->id]) }}" class="btn btn-sm btn-success mt-2">Entrar</a>
+                                <a href="{{ route('disciplines.showContent', ['id' => $view->discipline->id]) }}" class="btn btn-sm btn-success mt-2">Entrar</a>
                             @else
                                 <a href="{{ route('disciplines.show', $view->discipline->id) }}" class="btn btn-sm btn-primary mt-2">Ver mais</a>
                             @endcan
@@ -53,14 +52,12 @@
                             <h5 class="card-title">{{ $discipline->title }}</h5>
                             <p class="card-text">{{ $discipline->description }}</p>
                             @can('is-subscribed', $discipline)
-                                <a href="{{ route('disciplines.content', ['id' => $discipline->id]) }}" class="btn btn-success">Entrar</a>
+                                <a href="{{ route('disciplines.showContent', ['id' => $discipline->id]) }}" class="btn btn-success">Entrar</a>
                             @elsecan('is-creator', $discipline)
-                                <a href="{{ route('disciplines.content', ['id' => $discipline->id]) }}" class="btn btn-success">Entrar</a>
+                                <a href="{{ route('disciplines.showContent', ['id' => $discipline->id]) }}" class="btn btn-success">Entrar</a>
                             @else
-                                <a href="/disciplines/{{ $discipline->id }}" class="btn btn-primary">Ver mais</a>
+                                <a href="{{ route('disciplines.show', ['id' => $discipline->id]) }}" class="btn btn-primary">Ver mais</a>
                             @endcan
-
-
                         </div>
                     </div>
                 @endforeach

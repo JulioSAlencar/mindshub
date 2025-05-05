@@ -4,7 +4,7 @@
 <div class="container mx-auto px-4 py-8">
     
     <div class="goback">
-        <a href="{{ route('disciplines.content', $discipline->id) }}">
+        <a href="{{ route('disciplines.showContent', $discipline->id) }}">
             <button x-show="tab === 'missoes'"
                 class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
                 voltar

@@ -4,7 +4,7 @@
 <div class="container mt-4">
     <h2>Editar Conteúdo</h2>
 
-    <form method="POST" action="{{ route('disciplines.updateContents', $content->id) }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('contents.update', $content->id) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -20,7 +20,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Atualizar</button>
-        <a href="{{ route('disciplines.content', $content->discipline_id) }}" class="btn btn-secondary">Cancelar</a>
+        <a href="{{ route('disciplines.showContent', $content->discipline_id) }}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 @endsection

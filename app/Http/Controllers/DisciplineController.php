@@ -126,7 +126,7 @@ class DisciplineController extends Controller
     /**
      * Exibe a página de conteúdos.
      */
-    public function content($id)
+    public function showContent($id)
     {
         $discipline = Discipline::findOrFail($id);
 
@@ -139,8 +139,7 @@ class DisciplineController extends Controller
         ->pluck('mission_id')
         ->toArray();
 
-
-        return view('disciplines.content', compact('discipline', 'disciplineOwner', 'missions', 'answeredMissionIds'));
+        return view('disciplines.showContent', compact('discipline', 'disciplineOwner', 'missions', 'answeredMissionIds'));
     }
 
     /**
@@ -166,16 +165,16 @@ class DisciplineController extends Controller
         $discipline = Discipline::findOrFail($id);
 
         if ($discipline->user_id === $user->id) {
-            return redirect()->route('disciplines.content', ['id' => $discipline->id])->with('error', 'Você não pode se inscrever na sua própria disciplina.');
+            return redirect()->route('disciplines.showContent', ['id' => $discipline->id])->with('error', 'Você não pode se inscrever na sua própria disciplina.');
         }
     
         if ($user->disciplinesParticipant()->where('discipline_id', $id)->exists()) {
-            return redirect()->route('disciplines.content', ['id' => $discipline->id])->with('error', 'Você já está inscrito nesta disciplina.');
+            return redirect()->route('disciplines.showContent', ['id' => $discipline->id])->with('error', 'Você já está inscrito nesta disciplina.');
         }
 
         $user->disciplinesParticipant()->attach($id);
 
-        return redirect()->route('disciplines.content', ['id' => $discipline->id])->with('msg', 'Você se inscreveu na disciplina');
+        return redirect()->route('disciplines.showContent', ['id' => $discipline->id])->with('msg', 'Você se inscreveu na disciplina');
     }
 
 }

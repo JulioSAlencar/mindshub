@@ -3,7 +3,7 @@
 @section('content')
 
 <!-- Formulário de envio -->
-<form method="POST" action="{{ route('disciplines.storeContent', $discipline->id) }}" enctype="multipart/form-data" class="mt-6">
+<form method="POST" action="{{ route('contents.store', $discipline->id) }}" enctype="multipart/form-data" class="mt-6">
     @csrf
     <input type="text" name="title" placeholder="Título do conteúdo" required class="w-full p-2 rounded mb-2">
     <input type="file" name="file" required class="w-full p-2 rounded mb-4">

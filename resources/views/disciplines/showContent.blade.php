@@ -35,11 +35,11 @@
 
     @can("is-teacher")
     <div class="text-right mb-4">
-        <a href="{{ route('disciplines.addContents', ['id' => $discipline->id]) }}" x-show="tab === 'conteudo'" 
+        <a href="{{ route('contents.createForm', ['id' => $discipline->id]) }}" x-show="tab === 'conteudo'" 
           class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
             Adicionar Conteúdo
         </a>
-        <a href="{{ route('disciplines.editContents', $discipline->id) }}" x-show="tab === 'conteudo'" 
+        <a href="{{ route('contents.editContents', $discipline->id) }}" x-show="tab === 'conteudo'" 
           class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
             Editar Conteúdo
         </a>
@@ -126,7 +126,6 @@
             </p>
           </div>
         </div>
-    @endforeach
         {{-- Botões de ação --}}
         <div class="flex items-center gap-2">
           @can("is-student")

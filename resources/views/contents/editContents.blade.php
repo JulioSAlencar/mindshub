@@ -8,7 +8,7 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <a href="{{ route('disciplines.addContents', ['id' => $discipline->id]) }}" class="btn btn-primary mb-3">Adicionar Novo Conteúdo</a>
+    <a href="{{ route('contents.createForm', ['id' => $discipline->id]) }}" class="btn btn-primary mb-3">Adicionar Novo Conteúdo</a>
 
     @if($discipline->contents->count())
         <table class="table">
@@ -25,9 +25,9 @@
                     <td>{{ $content->title }}</td>
                     <td><a href="{{ asset($content->file_path) }}" target="_blank">Visualizar</a></td>
                     <td>
-                        <a href="{{ route('disciplines.editContents', $content->id) }}" class="btn btn-sm btn-warning">Editar</a>
+                        <a href="{{ route('contents.editContent', $content->id) }}" class="btn btn-sm btn-warning">Editar</a>
                         
-                        <form action="{{ route('disciplines.destroyContents', $content->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Deseja excluir este conteúdo?')">
+                        <form action="{{ route('contents.destroy', $content->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Deseja excluir este conteúdo?')">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-sm btn-danger" type="submit">Excluir</button>
