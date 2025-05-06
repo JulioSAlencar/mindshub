@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\ContentController;
+use App\Http\Controllers\TrailController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -70,6 +71,8 @@ Route::prefix('contents')->group(function () {
 });
 
 
+Route::get('/trails/{id}/average-progress', [TrailController::class, 'averageProgress']);
+
 
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])
     // ->middleware(['auth', 'verified']) // descomente quando for para produção
@@ -118,6 +121,7 @@ Route::get('/missions/{mission}/end', [MissionController::class, 'end'])->name('
 Route::get('/missions/{mission}/result', [MissionController::class, 'result'])->name('missions.result');
 
 Route::get('/missions/{mission}/responses', [MissionController::class, 'responses'])->name('missions.responses');
+
 
 
 require __DIR__ . '/auth.php';
