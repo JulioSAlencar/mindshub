@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('medal_id')->constrained('medals')->onDelete('cascade');
+            $table->timestamp('earned_at')->nullable();
             $table->timestamps();
         });
     }
