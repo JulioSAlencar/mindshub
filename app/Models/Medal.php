@@ -17,6 +17,12 @@ class Medal extends Model
         'xp_required',
     ];
 
+    const CONDITION_TYPES = [
+        'xp',
+        'completed_missions',
+        'trail_completed',
+    ];
+
     // 🔗 Usuários que ganharam essa medalha
     public function users()
     {
