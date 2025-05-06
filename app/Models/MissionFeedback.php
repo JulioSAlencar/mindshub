@@ -15,5 +15,10 @@ class MissionFeedback extends Model
     public function mission() {
         return $this->belongsTo(Mission::class);
     }
+
+    public function category() {
+        return $this->belongsTo(FeedbackCategory::class);
+    }
+
 }
 
