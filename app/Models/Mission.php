@@ -34,4 +34,14 @@ class Mission extends Model
         return $this->hasMany(MissionAnswer::class);
     }
 
+    public function complete(User $user, int $duration)
+    {
+        $this->users()->updateExistingPivot($user->id, [
+            'completed_at' => now(),
+            'duration_minutes' => $duration,
+        ]);
+
+        $user->addXp($this->xp_reward);
+    }
+
 }
