@@ -77,4 +77,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Models\DisciplinePreference');
     }
+
+    public function missionFeedbacks() {
+        return $this->hasMany(MissionFeedback::class);
+    }
 }
