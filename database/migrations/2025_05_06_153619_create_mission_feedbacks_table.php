@@ -6,16 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+
+    public function up()
     {
         Schema::create('mission_feedbacks', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('mission_id')->constrained()->onDelete('cascade');
+            $table->text('content'); // dificuldade relatada
             $table->timestamps();
         });
     }
+    
 
     /**
      * Reverse the migrations.
