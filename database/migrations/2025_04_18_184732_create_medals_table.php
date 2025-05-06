@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedInteger('xp_required');
+            $table->enum('condition_type', ['xp', 'completed_missions', 'trail_completed']);
+            $table->integer('condition_value');
             $table->timestamps();
         });
     }
