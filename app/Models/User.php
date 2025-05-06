@@ -81,4 +81,8 @@ class User extends Authenticatable
     public function missionFeedbacks() {
         return $this->hasMany(MissionFeedback::class);
     }
+
+    public function trailFeedbacks() {
+        return $this->hasMany(TrailFeedbacks::class);
+    }
 }
