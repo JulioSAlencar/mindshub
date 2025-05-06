@@ -6,7 +6,7 @@ use App\Models\Mission;
 use App\Models\Discipline;
 use App\Models\MissionAnswer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 class MissionController extends Controller
 {
@@ -179,5 +179,22 @@ class MissionController extends Controller
             ->groupBy('user_id');
 
         return view('missions.responses', compact('mission', 'responses', 'discipline'));
+    }
+
+    public function complete(Mission $mission)
+    {
+        $user = Auth::user();
+    
+        // Evita concluir mais de uma vez
+        if ($user->missions()->where('mission_id', $mission->id)->exists()) {
+            return back()->with('message', 'Missão já concluída.');
+        }
+    
+        $user->missions()->attach($mission->id, ['completed_at' => now()]);
+    
+        // Adiciona XP e verifica level/medalhas
+        $user->addXp($mission->xp_reward);
+    
+        return back()->with('success', 'Missão concluída! XP recebido.');
     }
 }
