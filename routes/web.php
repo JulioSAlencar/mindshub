@@ -10,6 +10,7 @@ use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use App\Http\Controllers\ContentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -64,6 +65,8 @@ Route::prefix('contents')->group(function () {
 
     // Excluir conteúdo
     Route::delete('{id}', [ContentDisciplineController::class, 'destroy'])->name('contents.destroy');
+
+    Route::put('{id}/approve', [ContentController::class, 'approve'])->name('contents.approve');
 });
 
 
