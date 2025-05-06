@@ -85,4 +85,20 @@ class User extends Authenticatable
     public function trailFeedbacks() {
         return $this->hasMany(TrailFeedbacks::class);
     }
+
+    public function badges(){
+    return $this->belongsToMany(Badges::class, 'user_badges')->withTimestamps();
+}
+
+    public function missions()
+    {
+        return $this->belongsTo(Mission::class)
+                    ->withPivot('xp_earned', 'completed_at')
+                    ->withTimestamps();
+    } 
+
+    public function calculateTotalXP() 
+    {
+        return $this->missions()->sum('mission_user.xp_earned');
+    }
 }
