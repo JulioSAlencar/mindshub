@@ -44,4 +44,7 @@ class Mission extends Model
         $user->addXp($this->xp_reward);
     }
 
+    public function feedbacks() {
+        return $this->hasMany(MissionFeedback::class);
+    }
 }
