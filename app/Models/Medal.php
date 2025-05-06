@@ -35,7 +35,7 @@ class Medal extends Model
         $this->save();
     }
 
-    private function calculateLvel() 
+    private function calculateLvel(int $xp) 
     {
         return (int) floor($xp / 100) + 1;
     }
