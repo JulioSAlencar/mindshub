@@ -32,20 +32,20 @@
 
             <div class="grid gap-6 w-full">
                 <input type="text" name="name" placeholder="Nome completo" value="{{ old('name') }}"
-                    class="bg-gray-200 rounded-lg text-lg border-none p-3 text-gray-950 w-full @error('name') border-red-500 @enderror">
+                    class="bg-gray-200 rounded-lg text-lg border-none p-3 text-gray-950 placeholder-black  w-full @error('name') border-red-500 @enderror">
                 @error('name')
                     <p class="text-red-500 text-sm">{{ $message }}</p>
                 @enderror
 
                 <input type="email" name="email" placeholder="Email" value="{{ old('email') }}"
-                    class="bg-gray-200 rounded-lg text-lg border-none p-3 text-gray-950 w-full @error('email') border-red-500 @enderror">
+                    class="bg-gray-200 rounded-lg text-lg border-none p-3 text-gray-950 placeholder-black  w-full @error('email') border-red-500 @enderror">
                 @error('email')
                     <p class="text-red-500 text-sm">{{ $message }}</p>
                 @enderror
 
                 <div class="relative">
                     <input type="password" id="password" name="password" placeholder="Senha"
-                        class="bg-gray-200 rounded-lg text-lg border-none p-3 text-gray-950 w-full pr-10 outline-none @error('password') border-red-500 @enderror">
+                        class="bg-gray-200 rounded-lg text-lg border-none p-3 text-gray-950 placeholder-black  w-full pr-10 outline-none @error('password') border-red-500 @enderror">
                     <i class="fas fa-eye cursor-pointer absolute right-3 top-4 text-gray-500 toggle-password" data-target="password"></i>
                     @error('password')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -54,7 +54,7 @@
 
                 <div class="relative">
                     <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirmar senha"
-                        class="bg-gray-200 rounded-lg text-lg border-none p-3 text-gray-950 w-full pr-10 outline-none">
+                        class="bg-gray-200 rounded-lg text-lg border-none p-3 text-gray-950 placeholder-black  w-full pr-10 outline-none">
                     <i class="fas fa-eye cursor-pointer absolute right-3 top-4 text-gray-500 toggle-password" data-target="password_confirmation"></i>
                     <p id="confirmPasswordError" class="text-red-500 text-sm hidden mt-1">As senhas não coincidem!</p>
                 </div>
