@@ -1,6 +1,7 @@
 @extends('layouts.app')
+@section('title', 'Minhas Disciplinas')
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 @section('content')
     @if(session('msg'))
         <div class="alert alert-success">
@@ -33,18 +34,27 @@
                         <td><a href="/disciplines/{{ $discipline->id }}">{{ $discipline->title }}</a></td>
                         <td>{{ count($discipline->users) }}</td>
                         <td>
-                            <a class="btn btn-primary" href="{{ route('disciplines.showContent', ['id' => $discipline->id]) }}">Entrar</a>
-                            <a class="btn btn-secondary" href="/disciplines/edit/{{ $discipline->id }}">Editar</a>
-                            
-                            <form action="{{ route('disciplines.destroy', $discipline->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Excluir</button>
-                            </form>
+                            {{-- Se o usuário estiver inscrito, mostra o botão Entrar --}}
+                            @if ($discipline->users->contains(auth()->user()))
+                                <a class="btn btn-primary" href="{{ route('disciplines.showContent', ['id' => $discipline->id]) }}">Entrar</a>
+                            @endif
+            
+                            {{-- Somente o criador pode editar ou excluir --}}
+                            @if ($discipline->creator_id === auth()->user()->id)
+                                <a class="btn btn-primary" href="{{ route('disciplines.showContent', ['id' => $discipline->id]) }}">Entrar</a>
+                                
+                                <a class="btn btn-secondary" href="/disciplines/edit/{{ $discipline->id }}">Editar</a>
+            
+                                <form action="{{ route('disciplines.destroy', $discipline->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Excluir</button>
+                                </form>
+                            @endif
                         </td>
                     </tr>                
                 @endforeach    
-            </tbody>
+            </tbody>            
         </table>
         @else
         <p>Você ainda não tem disciplina, <a href="{{ route('disciplines.create')}}">criar nova disciplina</a></p>

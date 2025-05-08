@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', $discipline->title)
+
 @section('content')
 
 @if(session('msg'))
@@ -105,7 +107,7 @@
 
     <!-- div mãe img -->
     <picture class="grid justify-center">
-      <img src="{{ asset('assets/images/bgConteudo.png') }}" alt="imagem de ilustrativa">
+      {{-- <img src="{{ asset('assets/images/bgConteudo.png') }}" alt="imagem de ilustrativa"> --}}
     </picture>
   </div>
 

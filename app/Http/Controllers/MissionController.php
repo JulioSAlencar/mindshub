@@ -39,9 +39,16 @@ class MissionController extends Controller
             'discipline_id' => 'required|exists:disciplines,id',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
+            'duration_minutes' => 'nullable|integer|min:1'
         ]);
 
-        $mission = Mission::create($request->all());
+        $mission = Mission::create($request->only([
+            'title',
+            'discipline_id',
+            'start_date',
+            'end_date',
+            'duration_minutes'
+        ]));
 
         return redirect()->route('missions.addQuestions', $mission);
     }

@@ -30,21 +30,24 @@ Route::get('/termos', function () {
     return view('TermsOfUse');
 })->name('termos');
 
-// Página principal e visualização
-Route::get('/disciplines/page', [DisciplineController::class, 'index'])->name('disciplines.page'); // Página principal
-Route::get('/disciplines/content/{id}', [DisciplineController::class, 'showContent'])->name('disciplines.showContent'); // Mostrar conteúdos de uma disciplina
+Route::middleware(['auth'])->group(function () {
 
-// CRUD de disciplinas
-Route::get('/disciplines/create', [DisciplineController::class, 'create'])->name('disciplines.create'); // Formulário de criação
-Route::post('/disciplines', [DisciplineController::class, 'store'])->name('disciplines.store'); // Salvar disciplina
+    // Página principal e visualização
+    Route::get('/disciplines/page', [DisciplineController::class, 'index'])->name('disciplines.page'); // Página principal
+    Route::get('/disciplines/content/{id}', [DisciplineController::class, 'showContent'])->name('disciplines.showContent'); // Mostrar conteúdos de uma disciplina
+    Route::get('/disciplines/subscribed/', [DisciplineController::class, 'disciplinesParticipant'])->name('disciplines.participating'); // Mostrar conteúdos de uma disciplina
 
-Route::get('/disciplines/{id}', [DisciplineController::class, 'show'])->name('disciplines.show'); // Visualizar disciplina
-Route::post('/disciplines/join/{id}', [DisciplineController::class, 'joinDiscipline'])->name('disciplines.join'); // Participar
+    // CRUD de disciplinas
+    Route::get('/disciplines/create', [DisciplineController::class, 'create'])->name('disciplines.create'); // Formulário de criação
+    Route::post('/disciplines', [DisciplineController::class, 'store'])->name('disciplines.store'); // Salvar disciplina
 
-Route::get('/disciplines/edit/{id}', [DisciplineController::class, 'edit'])->name('disciplines.edit'); // Formulário de edição
-Route::put('/disciplines/update/{id}', [DisciplineController::class, 'update'])->name('disciplines.update'); // Atualizar disciplina
-Route::delete('/disciplines/{id}', [DisciplineController::class, 'destroy'])->name('disciplines.destroy'); // Excluir disciplina
+    Route::get('/disciplines/{id}', [DisciplineController::class, 'show'])->name('disciplines.show'); // Visualizar disciplina
+    Route::post('/disciplines/join/{id}', [DisciplineController::class, 'joinDiscipline'])->name('disciplines.join'); // Participar
 
+    Route::get('/disciplines/edit/{id}', [DisciplineController::class, 'edit'])->name('disciplines.edit'); // Formulário de edição
+    Route::put('/disciplines/update/{id}', [DisciplineController::class, 'update'])->name('disciplines.update'); // Atualizar disciplina
+    Route::delete('/disciplines/{id}', [DisciplineController::class, 'destroy'])->name('disciplines.destroy'); // Excluir disciplina
+});
 
 Route::prefix('disciplines')->group(function () {
     // Formulário para adicionar novo conteúdo

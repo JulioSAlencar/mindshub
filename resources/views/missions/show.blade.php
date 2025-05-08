@@ -6,23 +6,19 @@
 
         <h1 class="text-2xl font-bold mb-2">Missão: {{ $mission->title }}</h1>
         <p class="text-sm text-gray-400 mb-4">Questão {{ $currentIndex + 1 }} de {{ $questions->count() }}</p>
+        <p class="text-sm text-gray-400 mb-2">Tempo estimado: {{ $mission->duration_minutes }} minutos</p>
 
         <hr class="border-gray-600 my-4">
 
-        {{-- Display the current question --}}
         <div class="mb-6">
             <p class="text-lg font-semibold mb-3">{{ $currentQuestion->statement }}</p>
         </div>
-
-        {{-- Form to submit the answer --}}
-        {{-- The route needs the mission ID and the current question index --}}
+        
         <form method="POST" action="{{ route('missions.submit', ['mission' => $mission->id, 'index' => $currentIndex]) }}">
             @csrf {{-- CSRF Protection Token --}}
 
             <div class="space-y-3 mb-6">
                 @php
-                    // Combine correct and wrong answers and shuffle them
-                    // Decode wrong answers if they are stored as JSON
                     $wrongAnswers = json_decode($currentQuestion->wrong_answers, true) ?? []; // Handle potential JSON errors
                     $options = array_merge([$currentQuestion->correct_answer], $wrongAnswers);
                     shuffle($options); // Randomize answer order
@@ -44,4 +40,5 @@
 
     </div>
 </div>
+
 @endsection

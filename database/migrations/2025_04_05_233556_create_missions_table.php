@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('discipline_id')->constrained('disciplines')->onDelete('cascade');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
+            $table->unsignedInteger('duration_minutes')->nullable();
             $table->timestamps();
         });
     }

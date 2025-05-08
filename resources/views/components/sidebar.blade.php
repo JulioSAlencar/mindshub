@@ -8,7 +8,10 @@
       <i id="menu-toggle" class="fas fa-bars text-blue-500 cursor-pointer hover:scale-125 hover:text-white transition-all duration-300"></i>
 
       <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="{{ route('dashboard') }}"><i class="fas fa-home"></i></a>
-      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="{{ route('disciplines.page') }}"><i class="fas fa-book"></i></a>
+      @can('is-teacher')  
+        <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="{{ route('disciplines.page') }}"><i class="fas fa-book"></i></a>
+      @endcan
+      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="{{ route('disciplines.participating') }}"><i class="fas fa-book"></i></a>
       <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="#"><i class="fas fa-bullseye"></i></a>
       <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="#"><i class="fas fa-trophy"></i></a>
       <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="#"><i class="fas fa-flag"></i></a>

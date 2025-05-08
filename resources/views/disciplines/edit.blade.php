@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', $discipline->title)
+
 @section('content')
     @if (session('error'))
         <div style="color: red;">

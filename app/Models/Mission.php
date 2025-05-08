@@ -15,7 +15,8 @@ class Mission extends Model
         'start_date',
         'end_date',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'duration_minutes'
     ];
 
     // Se uma missão pertence a uma disciplina

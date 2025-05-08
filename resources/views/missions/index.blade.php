@@ -32,9 +32,14 @@
                     </p>
                 </div>
                 <div class="flex gap-2">
+                    @can("is-teacher")
+                    <a href="{{ route('missions.responses', $mission->id) }}" class="btn btn-primary">
+                      Ver respostas dos alunos
+                    </a>
                     <a href="{{ route('missions.addQuestions', $mission) }}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
                         Editar Questões
                     </a>
+                  @endcan
                 </div>
             </div>
         </div>

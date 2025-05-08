@@ -43,6 +43,12 @@
                     <input type="datetime-local" name="end_date" required
                         class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">Tempo para concluir a missão (em minutos)</label>
+                    <input type="number" name="duration_minutes" min="1"
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Ex: 90 para 1h30min">
+                </div>
             </div>
         
             <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">

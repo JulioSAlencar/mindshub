@@ -6,31 +6,21 @@ use App\Models\Discipline;
 use App\Models\Mission;
 use App\Models\MissionAnswer;
 use App\Models\RecentDisciplineView;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class DisciplineController extends Controller
 {
-    /**
-     * Exibe a página principal com todas as disciplinas.
-     */
     public function index()
     {
         $disciplines = Discipline::all();
         return view('disciplines.page', compact('disciplines'));
     }
 
-    /**
-     * Exibe a página de criação de disciplina.
-     */
     public function create()
     {
         return view('disciplines.create');
     }
 
-    /**
-     * Armazena uma nova disciplina no banco de dados.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -49,19 +39,16 @@ class DisciplineController extends Controller
             $discipline->image = $imageName;
         }
 
-        $discipline->user_id = auth()->id();
+        $discipline->creator_id = auth()->id(); // atualizado
         $discipline->save();
 
         return redirect()->route('disciplines.page')->with('success', 'Disciplina criada com sucesso!');
     }
 
-    /**
-     * Exibe uma disciplina específica.
-     */
     public function show($id)
     {
         $discipline = Discipline::findOrFail($id);
-        $disciplineOwner = User::find($discipline->user_id)->toArray();
+        $disciplineOwner = $discipline->creator->toArray(); // atualizado
 
         if (auth()->check()) {
             RecentDisciplineView::updateOrCreate(
@@ -73,18 +60,12 @@ class DisciplineController extends Controller
         return view('disciplines.show', compact('discipline', 'disciplineOwner'));
     }
 
-    /**
-     * Exibe a página de edição de disciplina.
-     */
     public function edit($id)
     {
         $discipline = Discipline::findOrFail($id);
         return view('disciplines.edit', compact('discipline'));
     }
 
-    /**
-     * Atualiza uma disciplina existente.
-     */
     public function update(Request $request, $id)
     {
         $discipline = Discipline::findOrFail($id);
@@ -107,9 +88,6 @@ class DisciplineController extends Controller
         return redirect()->route('disciplines.page')->with('msg', 'Disciplina atualizada com sucesso!');
     }
 
-    /**
-     * Remove uma disciplina.
-     */
     public function destroy($id)
     {
         $discipline = Discipline::findOrFail($id);
@@ -123,37 +101,27 @@ class DisciplineController extends Controller
         return redirect()->route('disciplines.page')->with('msg', 'Disciplina excluída com sucesso!');
     }
 
-    /**
-     * Exibe a página de conteúdos.
-     */
     public function showContent($id)
     {
         $discipline = Discipline::findOrFail($id);
-
-        $disciplineOwner = User::find($discipline->user_id)->toArray();
+        $disciplineOwner = $discipline->creator->toArray(); // atualizado
 
         $missions = Mission::where('discipline_id', $discipline->id)->get();
 
         $answeredMissionIds = MissionAnswer::whereIn('mission_id', $missions->pluck('id'))
-        ->where('user_id', auth()->id())
-        ->pluck('mission_id')
-        ->toArray();
+            ->where('user_id', auth()->id())
+            ->pluck('mission_id')
+            ->toArray();
 
         return view('disciplines.showContent', compact('discipline', 'disciplineOwner', 'missions', 'answeredMissionIds'));
     }
 
-    /**
-     * Exibe uma página alternativa (ex: missão, valores).
-     */
     public function mission($id)
     {
         $discipline = Discipline::findOrFail($id);
         return view('missions.create', compact('discipline'));
     }
 
-    /**
-     * Inscreve o usuário na disciplina.
-     */
     public function joinDiscipline($id)
     {
         $user = auth()->user();
@@ -164,10 +132,10 @@ class DisciplineController extends Controller
 
         $discipline = Discipline::findOrFail($id);
 
-        if ($discipline->user_id === $user->id) {
+        if ($discipline->creator_id === $user->id) {
             return redirect()->route('disciplines.showContent', ['id' => $discipline->id])->with('error', 'Você não pode se inscrever na sua própria disciplina.');
         }
-    
+
         if ($user->disciplinesParticipant()->where('discipline_id', $id)->exists()) {
             return redirect()->route('disciplines.showContent', ['id' => $discipline->id])->with('error', 'Você já está inscrito nesta disciplina.');
         }
@@ -177,4 +145,16 @@ class DisciplineController extends Controller
         return redirect()->route('disciplines.showContent', ['id' => $discipline->id])->with('msg', 'Você se inscreveu na disciplina');
     }
 
+    public function disciplinesParticipant()
+    {
+        $user = auth()->user();
+    
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Você precisa estar logado para ver suas inscrições.');
+        }
+    
+        $disciplines = $user->disciplinesParticipant; // retorna as disciplinas vinculadas
+    
+        return view('disciplines.participating', compact('disciplines')); // substitua 'nome_da_view' pelo nome da view que exibirá
+    }
 }
