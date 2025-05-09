@@ -1,6 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
+
+@if (session('success'))
+    <div 
+        x-data="{ show: true }" 
+        x-init="setTimeout(() => show = false, 3000)" 
+        x-show="show"
+        class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded transition-opacity duration-500"
+    >
+        <strong>Sucesso!</strong> {{ session('success') }}
+    </div>
+@endif
+
 <div class="container mx-auto px-4 py-8">
     
     <div class="goback">
@@ -36,7 +48,7 @@
                     <a href="{{ route('missions.responses', $mission->id) }}" class="btn btn-primary">
                       Ver respostas dos alunos
                     </a>
-                    <a href="{{ route('missions.addQuestions', $mission) }}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                    <a href="{{ route('missions.editQuestions', $mission->id )}}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
                         Editar Questões
                     </a>
                   @endcan

@@ -48,4 +48,5 @@ class Mission extends Model
     public function feedbacks() {
         return $this->hasMany(MissionFeedback::class);
     }
+
 }

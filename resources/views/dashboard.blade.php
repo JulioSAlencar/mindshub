@@ -24,8 +24,6 @@
                             @else
                                 <a href="{{ route('disciplines.show', $view->discipline->id) }}" class="btn btn-sm btn-primary mt-2">Ver mais</a>
                             @endcan
-                        
-
                         </div>
                     </div>
                 @endforeach

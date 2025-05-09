@@ -16,10 +16,13 @@ class DashboardController extends Controller
         $search = $request->input('search');
 
         $recentDisciplines = RecentDisciplineView::with('discipline')
-            ->where('user_id', $userId)
-            ->orderByDesc('viewed_at')
-            ->limit(5)
-            ->get();
+        ->where('user_id', $userId)
+        ->whereHas('discipline', function ($query) use ($userId) {
+            $query->where('creator_id', '!=', $userId);
+        })
+        ->orderByDesc('viewed_at')
+        ->limit(5)
+        ->get();
 
         if ($search) {
             $disciplines = Discipline::where('title', 'like', '%' . $search . '%')->get();

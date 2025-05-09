@@ -18,9 +18,8 @@ class Question extends Model
     ];
 
     protected $casts = [
-        'wrong_answers' => 'array',
+        'wrong_answers' => 'array'
     ];
-    
     
     public function mission()
     {

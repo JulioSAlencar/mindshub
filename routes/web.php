@@ -105,25 +105,28 @@ Route::prefix('teacher')->middleware(['auth', 'role:teacher'])->group(function (
 Route::get('/auth/typeuser', [AuthTypeUserController::class, 'index'])
     ->name('typeuser.page');
 
+// Listagem e Visualização
 Route::get('/missions/{discipline}/index', [MissionController::class, 'index'])->name('missions.index');
+Route::get('/missions/{mission}', [MissionController::class, 'show'])->name('missions.show');
+Route::get('/missions/{mission}/result', [MissionController::class, 'result'])->name('missions.result');
+Route::get('/missions/{mission}/responses', [MissionController::class, 'responses'])->name('missions.responses');
 
+// Criação de Missões
 Route::get('/missions/create/{discipline}', [MissionController::class, 'create'])->name('missions.create');
-
 Route::post('/missions', [MissionController::class, 'store'])->name('missions.store');
 
-Route::get('/missions/{mission}/add-questions', [MissionController::class, 'addQuestions'])->name('missions.addQuestions');
-
+// Adição e Atualização de Questões
+Route::get('/missions/{mission}/add-questions/{disciplineId}', [MissionController::class, 'createQuestions'])->name('missions.indexQuestions');
+Route::get('/missions/{mission}/edit-questions', [MissionController::class, 'editQuestionsPage'])->name('missions.editQuestions');
+Route::put('/missions/{mission}/update-questions', [MissionController::class, 'updateQuestions'])->name('missions.updateQuestions');
 Route::post('/missions/{mission}/questions', [MissionController::class, 'storeQuestions'])->name('missions.storeQuestions');
+Route::post('/missions/{mission}/add-question', [MissionController::class, 'addQuestion'])->name('missions.addQuestion');
+Route::post('/missions/{mission}/remove-question', [MissionController::class, 'removeQuestion'])->name('missions.removeQuestion');
 
-Route::get('/missions/{mission}', [MissionController::class, 'show'])->name('missions.show');
-
+// Submissão e Finalização de Missões
 Route::post('/missions/{mission}/submit/{index}', [MissionController::class, 'submit'])->name('missions.submit');
-
 Route::get('/missions/{mission}/end', [MissionController::class, 'end'])->name('missions.end');
 
-Route::get('/missions/{mission}/result', [MissionController::class, 'result'])->name('missions.result');
-
-Route::get('/missions/{mission}/responses', [MissionController::class, 'responses'])->name('missions.responses');
 
 
 
