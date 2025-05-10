@@ -102,4 +102,11 @@ class User extends Authenticatable
         return $this->missions()->sum('mission_user.xp_earned');
     }
 
+    public function gainXp($amount) 
+    {
+        $this->xp += $amount;
+        $this->level = floor($this->xp / 100) + 1;
+        $this->save();
+    }
+
 }
