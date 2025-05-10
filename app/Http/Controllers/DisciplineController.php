@@ -23,9 +23,13 @@ class DisciplineController extends Controller
 
     public function store(Request $request)
     {
+
+        $this->authorize('manage', Discipline::class);
+
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required|string'
+            'description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $discipline = new Discipline();
