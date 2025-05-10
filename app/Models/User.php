@@ -109,4 +109,8 @@ class User extends Authenticatable
         $this->save();
     }
 
+    public function classModels()
+    {
+        return $this->belongsToMany(ClassModel::class,'class_model_user')->withTimestamps();
+    }
 }
