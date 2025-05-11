@@ -6,6 +6,7 @@ use App\Http\Controllers\ContentDisciplineController;
 use App\Http\Controllers\DisciplineController;
 use App\Http\Controllers\MissionCommentController;
 use App\Http\Controllers\MissionController;
+use App\Http\Controllers\MissionProgressController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
@@ -179,5 +180,10 @@ Route::prefix('class-rooms')->middleware('auth:sanctum')->group(function () {
     Route::delete('/{id}', [ClassModelController::class, 'destroy']);
     Route::post('/{id}/students', [ClassModelController::class, 'addStudents']);
 });
+
+// Endpoint de progresso de usuário nas missions
+Route::post('/missions/{userId}/{missionId}/progress', [MissionProgressController::class, 'updateProgress']);
+Route::post('/missions/{userId}/{missionId}/check-badge', [MissionProgressController::class, 'checkAndUnlockBadge']);
+
 
 require __DIR__ . '/auth.php';

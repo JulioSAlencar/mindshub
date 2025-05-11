@@ -49,4 +49,9 @@ class Mission extends Model
         return $this->hasMany(MissionFeedback::class);
     }
 
+    public function userProgresses()
+    {
+        return $this->hasMany(MissionUserProgress::class);
+    }
+
 }

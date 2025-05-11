@@ -113,4 +113,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(ClassModel::class,'class_model_user')->withTimestamps();
     }
+
+    public function missionProgresses()
+    {
+        return $this->hasMany(MissionUserProgress::class);
+    }
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Badges;
 use App\Models\Mission;
 use App\Models\Discipline;
 use App\Models\MissionAnswer;
@@ -317,4 +318,20 @@ class MissionController extends Controller
     
         return back()->with('success', 'Missão concluída! XP recebido.');
     }
+
+    public function completeMission(Request $request)
+{
+    $user = auth()->user();
+    $missionId = $request->input('mission_id');
+
+    $user->missions()->updateExistingPivot($missionId, ['progress' => 100]);
+
+    $badge = Badges::where('name', 'Conquistador de Missão')->first();
+
+    if ($badge && !$user->badges()->where('badge_id', $badge->id)->exists()) {
+        $user->badges()->attach($badge->id, ['unlocked_at' => now()]);
+    }
+
+    return response()->json(['message' => 'Missão concluída e badge avaliado.']);
+}
 }
