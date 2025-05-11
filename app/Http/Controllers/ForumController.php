@@ -32,4 +32,69 @@ public function replyToTopic(Request $request, $topicId)
     ]);
 }
 
+public function updateTopic(Request $request, $topicId) 
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'required|string',
+    ]);
+
+    $topic = ForumTopic::findOrFail($topicId);
+
+    if ($topic->user_id !== auth()->id()) {
+        abort(403, 'Acesso não autorizado.');
+    }
+
+    $topic->update([
+        'title' => $request->title,
+        'content' => $request->content,
+    ]);
+
+    return back()->with('success', 'Tópico atualizado com sucesso!');
+}
+
+public function destroyTopic($id)
+{
+    $topic = ForumTopic::findOrFail($id);
+
+    if ($topic->user_id !== auth()->id()) {
+        abort(403, 'Acesso negado.');
+    }
+
+    $topic->delete();
+
+    return redirect()->route('forum.index')->with('success', 'Tópico deletado.');
+}
+
+public function updateReply(Request $request, $id)
+{
+    $request->validate([
+        'body' => 'required|string'
+    ]);
+
+    $reply = ForumReply::findOrFail($id);
+
+    if ($reply->user_id !== auth()->id()) {
+        abort(403, 'Sem permissão');
+    }
+
+    $reply->body = $request->body;
+    $reply->save();
+
+    return back()->with('success', 'Resposta editada.');
+}
+
+public function destroyReply($id)
+{
+    $reply = ForumReply::findOrFail($id);
+
+    if ($reply->user_id !== auth()->id()) {
+        abort(403, 'Sem permissão');
+    }
+
+    $reply->delete();
+
+    return back()->with('success', 'Resposta excluída.');
+}
+
 }

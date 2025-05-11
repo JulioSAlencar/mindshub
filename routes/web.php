@@ -9,9 +9,10 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
-use App\Http\Controllers\ContentController;
 use App\Http\Controllers\TrailController;
+use App\Http\Controllers\ContentController;
+use App\Http\Controllers\ForumController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
     return view('welcome');
@@ -127,7 +128,13 @@ Route::post('/missions/{mission}/remove-question', [MissionController::class, 'r
 Route::post('/missions/{mission}/submit/{index}', [MissionController::class, 'submit'])->name('missions.submit');
 Route::get('/missions/{mission}/end', [MissionController::class, 'end'])->name('missions.end');
 
+// Edição e deleção de Topic
+Route::put('/forum/topic/{id}', [ForumController::class, 'updateTopic'])->name('forum.topic.update');
+Route::delete('/forum/topic/{id}', [ForumController::class, 'destroyTopic'])->name('forum.topic.destroy');
 
+// Edição e deleção de Reply
+Route::put('/forum/reply/{id}', [ForumController::class, 'updateReply'])->name('forum.reply.update');
+Route::delete('/forum/reply/{id}', [ForumController::class, 'destroyReply'])->name('forum.reply.destroy');
 
 
 require __DIR__ . '/auth.php';
