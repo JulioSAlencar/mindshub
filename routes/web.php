@@ -12,6 +12,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TrailController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\ForumController;
+use App\Http\Controllers\EvaluationController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
@@ -132,9 +133,15 @@ Route::get('/missions/{mission}/end', [MissionController::class, 'end'])->name('
 Route::put('/forum/topic/{id}', [ForumController::class, 'updateTopic'])->name('forum.topic.update');
 Route::delete('/forum/topic/{id}', [ForumController::class, 'destroyTopic'])->name('forum.topic.destroy');
 
+// Marcar o comentário como construtitvo
+Route::post('/forum/reply/{id}/toggle-constructive', [ForumController::class, 'toggleConstructive'])->name('forum.reply.toggleConstructive');
+
 // Edição e deleção de Reply
 Route::put('/forum/reply/{id}', [ForumController::class, 'updateReply'])->name('forum.reply.update');
 Route::delete('/forum/reply/{id}', [ForumController::class, 'destroyReply'])->name('forum.reply.destroy');
+
+// Post de avaliações
+Route::post('/evaluations', [EvaluationController::class, 'store'])->name('evaluations.store')->middleware('auth');
 
 
 require __DIR__ . '/auth.php';

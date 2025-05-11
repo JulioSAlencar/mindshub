@@ -96,5 +96,18 @@ public function destroyReply($id)
 
     return back()->with('success', 'Resposta excluída.');
 }
+public function toggleConstructive($id)
+{
+    $reply = ForumReply::findOrFail($id);
+
+    if (!auth()->user()->isProfessor()) {
+        abort(403, 'Apenas professores podem fazer isso.');
+    }
+
+    $reply->is_constructive = !$reply->is_constructive;
+    $reply->save();
+
+    return back()->with('success', 'Resposta atualizada com sucesso.');
+}
 
 }
