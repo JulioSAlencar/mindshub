@@ -13,6 +13,10 @@ use App\Http\Controllers\TrailController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\EvaluationController;
+use App\Http\Controllers\TrackController;
+use App\Http\Controllers\ProgressController;
+use App\Http\Controllers\PerformanceController;
+use App\Http\Controllers\FeedbackController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
@@ -142,6 +146,19 @@ Route::delete('/forum/reply/{id}', [ForumController::class, 'destroyReply'])->na
 
 // Post de avaliações
 Route::post('/evaluations', [EvaluationController::class, 'store'])->name('evaluations.store')->middleware('auth');
+
+// Endpoint de track de missões
+Route::resource('/tracks', TrackController::class);
+
+// Endpoint de acompanhamento de progresso
+Route::post('/progress/{trackId}', [ProgressController::class, 'update']);
+
+// Endpoint de performance
+Route::post('/performances', [PerformanceController::class, 'store']);
+
+// Endpoint de feedback dos estudantes
+Route::post('/feedbacks', [FeedbackController::class, 'store']);
+Route::get('/feedbacks/student/{id}', [FeedbackController::class, 'showByStudent']);
 
 
 require __DIR__ . '/auth.php';
