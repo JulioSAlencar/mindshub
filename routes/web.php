@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Auth\TypeUserController as AuthTypeUserController;
+use App\Http\Controllers\ClassModelController;
 use App\Http\Controllers\ContentDisciplineController;
 use App\Http\Controllers\DisciplineController;
+use App\Http\Controllers\MissionCommentController;
 use App\Http\Controllers\MissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
@@ -149,6 +151,8 @@ Route::post('/evaluations', [EvaluationController::class, 'store'])->name('evalu
 
 // Endpoint de track de missões
 Route::resource('/tracks', TrackController::class);
+Route::get('/tracks/filter', [TrackController::class, 'filter']);
+
 
 // Endpoint de acompanhamento de progresso
 Route::post('/progress/{trackId}', [ProgressController::class, 'update']);
@@ -160,5 +164,20 @@ Route::post('/performances', [PerformanceController::class, 'store']);
 Route::post('/feedbacks', [FeedbackController::class, 'store']);
 Route::get('/feedbacks/student/{id}', [FeedbackController::class, 'showByStudent']);
 
+// Endpoint para missions comments
+Route::prefix('lesson-comments')->middleware('auth:sanctum')->group(function () {
+    Route::post('/', [MissionCommentController::class, 'store']);
+    Route::put('/{id}', [MissionCommentController::class, 'update']);
+    Route::delete('/{id}', [MissionCommentController::class, 'destroy']);
+});
+
+// Endpoint de class models/classrooms
+Route::prefix('class-rooms')->middleware('auth:sanctum')->group(function () {
+    Route::get('/', [ClassModelController::class, 'index']);
+    Route::post('/', [ClassModelController::class, 'store']);
+    Route::put('/{id}', [ClassModelController::class, 'update']);
+    Route::delete('/{id}', [ClassModelController::class, 'destroy']);
+    Route::post('/{id}/students', [ClassModelController::class, 'addStudents']);
+});
 
 require __DIR__ . '/auth.php';
