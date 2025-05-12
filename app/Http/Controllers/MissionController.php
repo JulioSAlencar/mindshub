@@ -334,4 +334,32 @@ class MissionController extends Controller
 
     return response()->json(['message' => 'Missão concluída e badge avaliado.']);
 }
+
+public function uploadMaterial(Request $request)
+    {
+    $request->validate([
+        'material' => 'required|file|mimes:pdf,docx,zip,mp4|max:10240' // 10MB
+    ]);
+
+    if ($request->hasFile('material')) {
+        $filename = time().'_'.$request->file('material')->getClientOriginalName();
+        $path = $request->file('material')->storeAs('materials', $filename, 'public');
+
+        return response()->json(['success' => true, 'path' => $path]);
+    }
+
+    return response()->json(['success' => false], 400);
+    }
+
+    public function associateMaterial(Request $request, $missionId)
+    {
+    $request->validate([
+        'material_id' => 'required|exists:materials,id'
+    ]);
+
+    $mission = Mission::findOrFail($missionId);
+    $mission->materials()->attach($request->material_id);
+
+    return response()->json(['message' => 'Material associado com sucesso.']);
+    }
 }

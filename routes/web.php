@@ -88,6 +88,9 @@ Route::get('/trails/{id}/average-progress', [TrailController::class, 'averagePro
 
 Route::get('/trails/{discipline}', [TrailController::class, 'show'])->name('trails.show');
 
+// Checa se a trilha tá completa
+Route::post('/trails/{trail}/check-completion', [TrailController::class, 'checkCompletion'])->name('trails.checkCompletion');
+
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])
     // ->middleware(['auth', 'verified']) // descomente quando for para produção
     ->name('dashboard');
@@ -137,6 +140,10 @@ Route::post('/missions/{mission}/remove-question', [MissionController::class, 'r
 // Submissão e Finalização de Missões
 Route::post('/missions/{mission}/submit/{index}', [MissionController::class, 'submit'])->name('missions.submit');
 Route::get('/missions/{mission}/end', [MissionController::class, 'end'])->name('missions.end');
+
+// Upload de Material
+Route::post('/missions/upload-material', [MissionController::class, 'uploadMaterial'])->name('missions.uploadMaterial');
+Route::post('/missions/{mission}/associate-material', [MissionController::class, 'associateMaterial'])->name('missions.associateMaterial');
 
 // Edição e deleção de Topic
 Route::put('/forum/topic/{id}', [ForumController::class, 'updateTopic'])->name('forum.topic.update');
