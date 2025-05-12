@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Discipline;
 use App\Models\Trail;
 
 
@@ -31,4 +32,12 @@ class TrailController extends Controller
             'average_progress' => $average,
         ]);
     }
+
+    public function show($disciplineId)
+{
+    $discipline = Discipline::findOrFail($disciplineId);
+    $missions = $discipline->missions;
+
+    return view('trails.show', compact('discipline', 'missions'));
+}
 }

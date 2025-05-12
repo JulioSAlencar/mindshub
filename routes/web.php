@@ -84,7 +84,9 @@ Route::prefix('contents')->group(function () {
 
 
 Route::get('/trails/{id}/average-progress', [TrailController::class, 'averageProgress']);
+// Endpoint das disciplinas das trilhas
 
+Route::get('/trails/{discipline}', [TrailController::class, 'show'])->name('trails.show');
 
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])
     // ->middleware(['auth', 'verified']) // descomente quando for para produção
