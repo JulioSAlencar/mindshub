@@ -48,9 +48,16 @@
                     <a href="{{ route('missions.responses', $mission->id) }}" class="btn btn-primary">
                       Ver respostas dos alunos
                     </a>
-                    <a href="{{ route('missions.editQuestions', $mission->id )}}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                    <a href="{{ route('questions.edit', $mission->id )}}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
                         Editar Questões
                     </a>
+                    <div>
+                        <form action="{{ route('missions.destroy', $mission->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta missão?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Excluir</button>
+                        </form>
+                    </div>
                   @endcan
                 </div>
             </div>

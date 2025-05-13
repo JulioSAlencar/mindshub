@@ -63,7 +63,7 @@
             <div class="block mt-4">
                 <label for="terms" class="inline-flex items-center">
                     <input id="terms" type="checkbox" class="rounded border-gray-300 text-blue-600 shadow-sm focus:ring-blue-500" name="terms" required>
-                    <span class="ml-2 text-sm text-gray-600">Aceito os <a class="text-blue-500 hover:underline" href="#">termos e condições</a></span>
+                    <span class="ml-2 text-sm text-gray-600">Aceito os <a class="text-blue-500 hover:underline" href="{{ route('termos')}}">termos e condições</a></span>
                 </label>
                 @error('terms')
                     <p class="text-red-500 text-sm">{{ $message }}</p>

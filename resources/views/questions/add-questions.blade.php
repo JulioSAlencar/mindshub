@@ -28,7 +28,7 @@
                 $oldQuestions = session()->get('temp_questions', old('questions', []));
             @endphp
             
-            <form action="{{ route('missions.storeQuestions', $mission) }}" method="POST" id="questions-form">
+            <form action="{{ route('questions.store', $mission) }}" method="POST" id="questions-form">
                 @csrf
                 <input type="hidden" name="total_questions" id="total_questions" value="{{ $questionCount }}">
                 

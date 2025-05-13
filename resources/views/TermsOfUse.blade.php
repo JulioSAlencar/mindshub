@@ -1,6 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.appweb')
 
 @section('content')
+
+<a href="{{ route('typeuser.page')}}">Go back</a>
 <section class="p-6">
   <div class="mb-6">
     <p class="text-sm text-gray-500">Termos de Uso</p>

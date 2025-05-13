@@ -15,7 +15,7 @@
   </div>
 @endif
 
-<div x-data="{ tab: 'missoes' }"> <!-- Adicionei o x-data aqui para englobar toda a seção -->
+<div x-data="{ tab: 'missoes' }">
   <div class="flex items-center justify-between p-8">
     <div class="flex items-center">
       <picture>

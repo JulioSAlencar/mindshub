@@ -20,6 +20,7 @@ use App\Http\Controllers\TrackController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\PerformanceController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\QuestionController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
@@ -123,18 +124,21 @@ Route::get('/missions/{mission}/responses', [MissionController::class, 'response
 // Criação de Missões
 Route::get('/missions/create/{discipline}', [MissionController::class, 'create'])->name('missions.create');
 Route::post('/missions', [MissionController::class, 'store'])->name('missions.store');
-
-// Adição e Atualização de Questões
-Route::get('/missions/{mission}/add-questions/{disciplineId}', [MissionController::class, 'createQuestions'])->name('missions.indexQuestions');
-Route::get('/missions/{mission}/edit-questions', [MissionController::class, 'editQuestionsPage'])->name('missions.editQuestions');
-Route::put('/missions/{mission}/update-questions', [MissionController::class, 'updateQuestions'])->name('missions.updateQuestions');
-Route::post('/missions/{mission}/questions', [MissionController::class, 'storeQuestions'])->name('missions.storeQuestions');
-Route::post('/missions/{mission}/add-question', [MissionController::class, 'addQuestion'])->name('missions.addQuestion');
-Route::post('/missions/{mission}/remove-question', [MissionController::class, 'removeQuestion'])->name('missions.removeQuestion');
+Route::delete('/missions/{mission}', [MissionController::class, 'destroy'])->name('missions.destroy');
 
 // Submissão e Finalização de Missões
 Route::post('/missions/{mission}/submit/{index}', [MissionController::class, 'submit'])->name('missions.submit');
 Route::get('/missions/{mission}/end', [MissionController::class, 'end'])->name('missions.end');
+
+Route::prefix('questions')->name('questions.')->group(function () {
+    Route::get('create/{mission}/{disciplineId}', [QuestionController::class, 'createQuestions'])->name('create');
+    Route::post('add/{mission}', [QuestionController::class, 'addQuestion'])->name('add');
+    Route::post('remove/{mission}', [QuestionController::class, 'removeQuestion'])->name('remove');
+    Route::put('update/{mission}', [QuestionController::class, 'updateQuestions'])->name('update');
+    Route::get('edit/{mission}', [QuestionController::class, 'editQuestionsPage'])->name('edit');
+    Route::get('show-add/{missionId}/{disciplineId}', [QuestionController::class, 'showAddQuestionsPage'])->name('showAdd');
+    Route::post('store/{mission}', [QuestionController::class, 'storeQuestions'])->name('store');
+});
 
 // Edição e deleção de Topic
 Route::put('/forum/topic/{id}', [ForumController::class, 'updateTopic'])->name('forum.topic.update');
