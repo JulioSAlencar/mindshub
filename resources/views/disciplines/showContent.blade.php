@@ -34,7 +34,10 @@
         </div>
       </div>
     </div>
-
+    
+      <a href="{{ route('certificates.generate', $discipline->id) }}" class="btn btn-primary">
+          Baixar Certificado
+      </a>
     @can("is-teacher")
     <div class="text-right mb-4">
         <a href="{{ route('contents.createForm', ['id' => $discipline->id]) }}" x-show="tab === 'conteudo'" 
@@ -86,25 +89,29 @@
   <div x-show="tab === 'conteudo'" class="bg-gray-900 p-6 rounded-b-lg text-white grid grid-cols-2">
 
     <!-- div mãe items -->
-    <div class="w-3/4 flex flex-col gap-6 justify-center">
-      @foreach ($discipline->contents as $content)
-        <div class="bg-gray-600 rounded-md p-2 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <img src="{{ asset('assets/icons/prancheta.svg') }}" alt="icone" class="w-10 h-10">
-                <div>
-                    <p class="text-lg font-medium mb-2">{{ $content->title }}</p>
-                    <p class="text-sm text-gray-400">
-                        Publicado em {{ $content->created_at->format('d/m/y') }} - {{ strtoupper($content->file_type) }} - {{ number_format($content->file_size / 1048576, 2) }} MB
-                    </p>
-                </div>
-            </div>
-            <a href="{{ url($content->file_path) }}" target="_blank">
-                <button class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">Ver</button>
-            </a>
-        </div>
-      @endforeach
-    </div>
-
+  <div class="w-3/4 flex flex-col gap-6 justify-center">
+    @foreach ($discipline->contents as $content)
+      <div class="bg-gray-600 rounded-md p-2 flex justify-between items-center">
+          <div class="flex items-center gap-3">
+              <img src="{{ asset('assets/icons/prancheta.svg') }}" alt="icone" class="w-10 h-10">
+              <div>
+                  <p class="text-lg font-medium mb-2">{{ $content->title }}</p>
+                  <p class="text-sm text-gray-400">
+                      Publicado em {{ $content->created_at->format('d/m/y') }} - {{ strtoupper($content->file_type) }} - {{ number_format($content->file_size / 1048576, 2) }} MB
+                  </p>
+              </div>
+          </div>
+          <div class="flex gap-2">
+              <a href="{{ url($content->file_path) }}" target="_blank">
+                  <button class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">Ver</button>
+              </a>
+              <a href="{{ url($content->file_path) }}" download>
+                  <button class="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 transition">Download</button>
+              </a>
+          </div>
+      </div>
+    @endforeach
+  </div>
     <!-- div mãe img -->
     <picture class="grid justify-center">
       {{-- <img src="{{ asset('assets/images/bgConteudo.png') }}" alt="imagem de ilustrativa"> --}}

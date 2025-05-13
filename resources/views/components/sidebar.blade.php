@@ -13,8 +13,8 @@
       @endcan
       <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="{{ route('disciplines.participating') }}"><i class="fas fa-book"></i></a>
       <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="#"><i class="fas fa-bullseye"></i></a>
-      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="#"><i class="fas fa-trophy"></i></a>
-      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="#"><i class="fas fa-flag"></i></a>
+      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="{{ route('raking.page')}}"><i class="fas fa-trophy"></i></a>
+      <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="{{ route('trails.show')}}"><i class="fas fa-flag"></i></a>
       <a class="hover:translate-x-1 hover:text-blue-500 transition-all duration-300" href="{{ route('profile.edit')}}"><i class="fas fa-cog"></i></a>
     </div>
   </nav>
@@ -39,11 +39,11 @@
         <i class="fas fa-bullseye text-3xl"></i>
         <p class="text-lg">Missões</p>
       </a>
-      <a href="#" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
+      <a href="{{ route('raking.page')}}" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
         <i class="fas fa-trophy text-3xl"></i>
         <p class="text-lg">Ranking</p>
       </a>
-      <a href="#" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
+      <a href="{{route('trails.show')}}" class="flex items-center gap-4 hover:translate-x-1 hover:text-blue-500 transition-all duration-300">
         <i class="fas fa-flag text-3xl"></i>
         <p class="text-lg">Trilhas</p>
       </a>

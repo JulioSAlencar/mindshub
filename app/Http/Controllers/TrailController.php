@@ -33,24 +33,32 @@ class TrailController extends Controller
         ]);
     }
 
-    public function show($disciplineId)
+    public function show()
     {
-    $discipline = Discipline::findOrFail($disciplineId);
-    $missions = $discipline->missions;
+        $user = auth()->user();
 
-    return view('trails.show', compact('discipline', 'missions'));
+        // Buscar todas as disciplinas que o usuário está inscrito
+        $disciplines = $user->disciplinesParticipant()->with('missions')->get();
+
+        // Coletar todas as missões dessas disciplinas
+        $missions = $disciplines->flatMap(function ($discipline) {
+            return $discipline->missions;
+        });
+
+        return view('trails.show', compact('disciplines', 'missions'));
     }
 
-public function checkCompletion($trailId)
+
+    public function checkCompletion($trailId)
     {
-    $trail = Trail::with('missions')->findOrFail($trailId);
-    $user = auth()->user();
+        $trail = Trail::with('missions')->findOrFail($trailId);
+        $user = auth()->user();
 
-    $missionsRequired = $trail->missions->pluck('id')->toArray();
-    $missionsCompleted = $user->missions()->whereIn('mission_id', $missionsRequired)->where('progress', 100)->pluck('mission_id')->toArray();
+        $missionsRequired = $trail->missions->pluck('id')->toArray();
+        $missionsCompleted = $user->missions()->whereIn('mission_id', $missionsRequired)->where('progress', 100)->pluck('mission_id')->toArray();
 
-    $completed = count(array_diff($missionsRequired, $missionsCompleted)) === 0;
+        $completed = count(array_diff($missionsRequired, $missionsCompleted)) === 0;
 
-    return response()->json(['completed' => $completed]);
+        return response()->json(['completed' => $completed]);
     }
 }

@@ -50,7 +50,7 @@
         <a class="text-blue-500 hover:underline" href="{{ route('typeuser.page') }}">Se registre agora!</a>
       </p>
       
-      <a href="{{ route('password.request') }}">Esqueci minha senha</a>
+      <a class="text-blue-500 hover:underline" href="{{ route('password.request') }}">Esqueci minha senha</a>
     </form>
 
   </div>

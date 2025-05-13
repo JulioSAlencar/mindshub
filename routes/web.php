@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\TypeUserController as AuthTypeUserController;
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ClassModelController;
 use App\Http\Controllers\ContentDisciplineController;
 use App\Http\Controllers\DisciplineController;
@@ -39,6 +40,10 @@ Route::get('/home', function () {
 Route::get('/termos', function () {
     return view('TermsOfUse');
 })->name('termos');
+
+Route::get('/raking', function () {
+    return view('raking.globraking');
+})->name('raking.page');
 
 Route::middleware(['auth'])->group(function () {
 
@@ -87,7 +92,7 @@ Route::prefix('contents')->group(function () {
 Route::get('/trails/{id}/average-progress', [TrailController::class, 'averageProgress']);
 // Endpoint das disciplinas das trilhas
 
-Route::get('/trails/{discipline}', [TrailController::class, 'show'])->name('trails.show');
+Route::get('/trails', [TrailController::class, 'show'])->name('trails.show');
 
 // Checa se a trilha tá completa
 Route::post('/trails/{trail}/check-completion', [TrailController::class, 'checkCompletion'])->name('trails.checkCompletion');
@@ -194,5 +199,9 @@ Route::prefix('class-rooms')->middleware('auth:sanctum')->group(function () {
 Route::post('/missions/{userId}/{missionId}/progress', [MissionProgressController::class, 'updateProgress']);
 Route::post('/missions/{userId}/{missionId}/check-badge', [MissionProgressController::class, 'checkAndUnlockBadge']);
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/certificates/generate/{disciplineId}', [CertificateController::class, 'generate'])->name('certificates.generate');
+    Route::get('/certificates/download/{id}', [CertificateController::class, 'download'])->name('certificates.download');
+});
 
 require __DIR__ . '/auth.php';
