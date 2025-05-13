@@ -193,18 +193,19 @@ class MissionController extends Controller
     }
 
     public function completeMission(Request $request)
-{
-    $user = auth()->user();
-    $missionId = $request->input('mission_id');
+    {
+        $user = auth()->user();
+        $missionId = $request->input('mission_id');
 
-    $user->missions()->updateExistingPivot($missionId, ['progress' => 100]);
+        $user->missions()->updateExistingPivot($missionId, ['progress' => 100]);
 
-    $badge = Badges::where('name', 'Conquistador de Missão')->first();
+        $badge = Badges::where('name', 'Conquistador de Missão')->first();
 
-    if ($badge && !$user->badges()->where('badge_id', $badge->id)->exists()) {
-        $user->badges()->attach($badge->id, ['unlocked_at' => now()]);
+        if ($badge && !$user->badges()->where('badge_id', $badge->id)->exists()) {
+            $user->badges()->attach($badge->id, ['unlocked_at' => now()]);
+        }
+
+        return response()->json(['message' => 'Missão concluída e badge avaliado.']);
     }
 
-    return response()->json(['message' => 'Missão concluída e badge avaliado.']);
-}
 }

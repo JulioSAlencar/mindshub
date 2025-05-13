@@ -54,4 +54,8 @@ class Mission extends Model
         return $this->hasMany(MissionUserProgress::class);
     }
 
+    public function materials()
+    {
+        return $this->belongsToMany(Material::class, 'material_mission');
+    }
 }

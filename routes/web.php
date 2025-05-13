@@ -85,7 +85,12 @@ Route::prefix('contents')->group(function () {
 
 
 Route::get('/trails/{id}/average-progress', [TrailController::class, 'averageProgress']);
+// Endpoint das disciplinas das trilhas
 
+Route::get('/trails/{discipline}', [TrailController::class, 'show'])->name('trails.show');
+
+// Checa se a trilha tá completa
+Route::post('/trails/{trail}/check-completion', [TrailController::class, 'checkCompletion'])->name('trails.checkCompletion');
 
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])
     // ->middleware(['auth', 'verified']) // descomente quando for para produção

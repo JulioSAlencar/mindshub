@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Discipline;
 use App\Models\Trail;
 
 
@@ -30,5 +31,26 @@ class TrailController extends Controller
             'trail_id' => $trailId,
             'average_progress' => $average,
         ]);
+    }
+
+    public function show($disciplineId)
+    {
+    $discipline = Discipline::findOrFail($disciplineId);
+    $missions = $discipline->missions;
+
+    return view('trails.show', compact('discipline', 'missions'));
+    }
+
+public function checkCompletion($trailId)
+    {
+    $trail = Trail::with('missions')->findOrFail($trailId);
+    $user = auth()->user();
+
+    $missionsRequired = $trail->missions->pluck('id')->toArray();
+    $missionsCompleted = $user->missions()->whereIn('mission_id', $missionsRequired)->where('progress', 100)->pluck('mission_id')->toArray();
+
+    $completed = count(array_diff($missionsRequired, $missionsCompleted)) === 0;
+
+    return response()->json(['completed' => $completed]);
     }
 }
