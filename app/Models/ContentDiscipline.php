@@ -11,7 +11,8 @@ class ContentDiscipline extends Model
         'title', 
         'file_path', 
         'file_type', 
-        'file_size'
+        'file_size',
+        'category',
     ];
     
     public function discipline()

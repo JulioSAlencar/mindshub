@@ -4,6 +4,9 @@
 /public/hot
 /public/storage
 /public/assets/disciplines
+/public/assets/contents
+/public/assets/profile_photos
+!/public/assets/profile_photos/default.png
 /storage/*.key
 /storage/pail
 /vendor

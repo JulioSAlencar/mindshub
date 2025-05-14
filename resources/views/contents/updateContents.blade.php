@@ -18,7 +18,15 @@
             <input type="file" name="file" class="form-control">
             <small class="form-text text-muted">Deixe em branco para manter o arquivo atual.</small>
         </div>
-
+        <div class="mb-3">
+            <select name="category" id="category" required>
+                <option value="teoria" {{ $content->category == 'teoria' ? 'selected' : '' }}>Teoria</option>
+                <option value="resumo" {{ $content->category == 'resumo' ? 'selected' : '' }}>Resumo</option>
+                <option value="revisao" {{ $content->category == 'revisao' ? 'selected' : '' }}>Revisão</option>
+                <option value="exercicio" {{ $content->category == 'exercicio' ? 'selected' : '' }}>Exercício</option>
+                <option value="prova" {{ $content->category == 'prova' ? 'selected' : '' }}>Prova</option>
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">Atualizar</button>
         <a href="{{ route('disciplines.showContent', $content->discipline_id) }}" class="btn btn-secondary">Cancelar</a>
     </form>

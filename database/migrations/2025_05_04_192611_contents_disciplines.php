@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('file_path');
             $table->string('file_type');
             $table->bigInteger('file_size')->nullable();
+            $table->string('category')->nullable();
             $table->timestamps();
         
             $table->foreign('discipline_id')->references('id')->on('disciplines')->onDelete('cascade');
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('content_disciplines');
     }
 };

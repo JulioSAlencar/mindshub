@@ -21,7 +21,7 @@
                 name="profile_photo"
                 type="file"
                 accept="image/*"
-                class="mt-1 block w-full"
+                class="text-sm text-purple-600 hover:text-purple-800 mb-2"
                 onchange="previewImage(event)"
             />
             <x-input-error class="mt-2" :messages="$errors->get('profile_photo')" />
@@ -31,10 +31,14 @@
                 <img
                     id="photo-preview"
                     alt="Foto de perfil"
-                    class="w-10 h-10 rounded-full object-cover border border-gray-300 shadow-sm"
+                    class="mt-1 block w-full"
                     style="width: 300px; height: 200px; display: none;"
                 >
-            </div>   
+            </div>
+            <div class="text-xs text-gray-500 text-left">
+                JPEG, PNG ou GIF. Máx 5MB.<br />
+                Dimensões entre 200x200 e 1000x1000 pixels.
+            </div>
         </div>
 
         <div>

@@ -22,6 +22,7 @@ class ContentDisciplineController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'file' => 'required|file|mimes:pdf,doc,docx,png,jpg,jpeg',
+            'category' => 'required|string|in:teoria,resumo,revisao,exercicio,prova',
         ]);
 
         $file = $request->file('file');
@@ -35,6 +36,7 @@ class ContentDisciplineController extends Controller
             'file_path' => 'assets/contents/' . $filename,
             'file_type' => $file->getClientOriginalExtension(),
             'file_size' => filesize(public_path('assets/contents/' . $filename)),
+            'category' => $request->category,
         ]);
 
         return redirect()->route('disciplines.showContent', ['id' => $disciplineId])
@@ -64,6 +66,7 @@ class ContentDisciplineController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'file' => 'nullable|file|mimes:pdf,doc,docx,png,jpg,jpeg',
+            'category' => 'required|string|in:teoria,resumo,revisao,exercicio,prova',
         ]);
 
         if ($request->hasFile('file')) {
@@ -88,6 +91,7 @@ class ContentDisciplineController extends Controller
         }
 
         $content->title = $request->title;
+        $content->category = $request->category;
         $content->save();
 
         return redirect()->route('disciplines.showContent', ['id' => $content->discipline_id])

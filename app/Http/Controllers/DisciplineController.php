@@ -109,6 +109,10 @@ class DisciplineController extends Controller
     {
         $discipline = Discipline::findOrFail($id);
         $disciplineOwner = $discipline->creator->toArray(); // atualizado
+        $missions = Mission::where('discipline_id', $discipline->id)->with('questions')->get();
+
+
+         $groupedContents = $discipline->contents->groupBy('category');
 
         $missions = Mission::where('discipline_id', $discipline->id)->get();
 
@@ -117,7 +121,7 @@ class DisciplineController extends Controller
             ->pluck('mission_id')
             ->toArray();
 
-        return view('disciplines.showContent', compact('discipline', 'disciplineOwner', 'missions', 'answeredMissionIds'));
+        return view('disciplines.showContent', compact('discipline', 'disciplineOwner', 'missions', 'answeredMissionIds', 'groupedContents'));
     }
 
     public function mission($id)
