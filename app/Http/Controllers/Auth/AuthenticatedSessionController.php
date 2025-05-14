@@ -25,40 +25,40 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      */
     public function store(LoginRequest $request): RedirectResponse
-{
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-    ]);
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-    $credentials = $request->only('email', 'password');
-    $remember = $request->filled('remember');
+        $credentials = $request->only('email', 'password');
+        $remember = $request->filled('remember');
 
-    // Verifica se o email existe
-    $user = \App\Models\User::where('email', $credentials['email'])->first();
+        // Verifica se o email existe
+        $user = \App\Models\User::where('email', $credentials['email'])->first();
 
-    if (!$user) {
-        return back()->withErrors([
-            'email' => 'Usuário não cadastrado',
-        ])->withInput();
+        if (!$user) {
+            return back()->withErrors([
+                'email' => 'Usuário não cadastrado',
+            ])->withInput();
+        }
+
+        // Verifica se a senha está correta
+        if (!Auth::attempt($credentials, $remember)) {
+            return back()->withErrors([
+                'password' => 'Senha incorreta',
+            ])->withInput();
+        }
+
+        $request->session()->regenerate();
+
+        DB::table('sessions')
+            ->where('user_id', Auth::id())
+            ->where('id', '!=', Session::getId())
+            ->delete();
+
+        return redirect()->intended(route('dashboard', absolute: false));
     }
-
-    // Verifica se a senha está correta
-    if (!Auth::attempt($credentials, $remember)) {
-        return back()->withErrors([
-            'password' => 'Senha incorreta',
-        ])->withInput();
-    }
-
-    $request->session()->regenerate();
-
-    DB::table('sessions')
-        ->where('user_id', Auth::id())
-        ->where('id', '!=', Session::getId())
-        ->delete();
-
-    return redirect()->intended(route('dashboard', absolute: false));
-}
 
 
     /**
