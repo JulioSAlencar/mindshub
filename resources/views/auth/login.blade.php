@@ -27,21 +27,38 @@
         <p class="text-gray-950 text-2xl mt-5">Seja <span class="text-blue-500">Bem-Vindo!</span></p>
       </div>
 
+      {{-- Mensagem de erro geral (credenciais incorretas) --}}
+      @if ($errors->has('email'))
+        <div class="text-red-600 text-sm mb-4">
+          {{ $errors->first('email') }}
+        </div>
+      @endif
+
+      {{-- Mensagem de status (ex: link de verificação enviado) --}}
+      @if (session('status'))
+        <div class="text-green-600 text-sm mb-4">
+          {{ session('status') }}
+        </div>
+      @endif
+
       <div class="grid gap-6 w-full">
         <input type="email" name="email" placeholder="Email" value="{{ old('email') }}"
           class="bg-gray-200 rounded-lg text-lg border-none p-3 text-black placeholder-black ">
         <input type="password" name="password" placeholder="Senha"
           class="bg-gray-200 rounded-lg text-lg border-none p-3 text-black placeholder-black ">
       </div>
+
       <!-- Remember Me -->
       <div class="block mt-4">
         <label for="remember_me" class="inline-flex items-center">
           <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-blue-600 shadow-sm focus:ring-blue-500" name="remember">
-          <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+          <span class="ml-2 text-sm text-gray-600">{{ __('Lembrar de mim') }}</span>
         </label>
       </div>
 
-      <button class="bg-blue-500 hover text-white text-xl rounded-lg py-3 mt-10 w-full hover:bg-blue-700 transition" type="submit">Entrar</button>
+      <button class="bg-blue-500 hover text-white text-xl rounded-lg py-3 mt-10 w-full hover:bg-blue-700 transition" type="submit">
+        Entrar
+      </button>
 
       <!-- Linhas horizontais -->
       <div class="w-full h-px bg-gray-400 mt-10"></div>
@@ -50,7 +67,7 @@
         <a class="text-blue-500 hover:underline" href="{{ route('typeuser.page') }}">Se registre agora!</a>
       </p>
       
-      <a class="text-blue-500 hover:underline" href="{{ route('password.request') }}">Esqueci minha senha</a>
+      <a href="{{ route('password.request') }}">Esqueci minha senha</a>
     </form>
 
   </div>
