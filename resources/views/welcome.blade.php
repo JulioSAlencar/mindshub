@@ -37,7 +37,9 @@
         <div class="text-white grid items-center justify-items-center mt-20">
             <p class="text-6xl font-bold">Aprender nunca foi tão divertido</p>
             <p class="text-3xl mb-6">Gamifique seus estudos com desafios, rankings e recompensa.</p>
+
             <a href="{{ route('typeuser.page') }}" class="bg-blue-500 hover:bg-blue-600 transition-all px-6 py-3 text-2xl rounded-lg duration-300">Comece agora mesmo</a>
+
         </div>
     </main>
 </body>

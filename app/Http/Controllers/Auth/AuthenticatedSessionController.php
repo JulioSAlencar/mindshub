@@ -34,15 +34,19 @@ class AuthenticatedSessionController extends Controller
         $credentials = $request->only('email', 'password');
         $remember = $request->filled('remember');
 
-        if(!Auth::attempt($credentials, $remember)) {
-            \Log::warning("Tentativa de login falhou para o e-mail: {$credentials['email']}", [
-                'ip' => $request->ip(),
-                'time' => now(),
-            ]);
+        // Verifica se o email existe
+        $user = \App\Models\User::where('email', $credentials['email'])->first();
 
-            // Retorna com erro
+        if (!$user) {
             return back()->withErrors([
-                'email' => 'As credenciais informadas estão incorretas',
+                'email' => 'Usuário não cadastrado',
+            ])->withInput();
+        }
+
+        // Verifica se a senha está correta
+        if (!Auth::attempt($credentials, $remember)) {
+            return back()->withErrors([
+                'password' => 'Senha incorreta',
             ])->withInput();
         }
 
@@ -55,6 +59,7 @@ class AuthenticatedSessionController extends Controller
 
         return redirect()->intended(route('dashboard', absolute: false));
     }
+
 
     /**
      * Destroy an authenticated session.
