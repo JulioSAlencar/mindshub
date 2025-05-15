@@ -42,29 +42,29 @@
     </a>
     
     @can("is-teacher")
-    <nav class="text-right mb-4 space-x-4">
-        <a href="{{ route('contents.createForm', ['id' => $discipline->id]) }}" x-show="tab === 'conteudo'" 
-          class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
-            Adicionar Conteúdo
-        </a>
-        <a href="{{ route('contents.editContents', $discipline->id) }}" x-show="tab === 'conteudo'" 
-          class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
-            Editar Conteúdo
-        </a>
-        <a href="{{ route('missions.create', $discipline->id) }}" x-show="tab === 'missoes'" 
-          class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
-            Criar Missão
-        </a>
-        <a href="{{ route('missions.index', $discipline->id) }}" x-show="tab === 'missoes'" 
-          class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
-            Ver Missões
-        </a>
-        <a href="{{ route('disciplines.edit', $discipline->id) }}">
-          <button class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
-                  Configurações da Disciplina
-          </button>
-        </a>
-    </nav>
+      <nav class="text-right mb-4 space-x-4">
+          <a href="{{ route('contents.createForm', ['id' => $discipline->id]) }}" x-show="tab === 'conteudo'" 
+            class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
+              Adicionar Conteúdo
+          </a>
+          <a href="{{ route('contents.view', $discipline->id) }}" x-show="tab === 'conteudo'" 
+            class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
+              Ver Conteúdo
+          </a>
+          <a href="{{ route('missions.create', $discipline->id) }}" x-show="tab === 'missoes'" 
+            class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
+              Criar Missão
+          </a>
+          <a href="{{ route('missions.index', $discipline->id) }}" x-show="tab === 'missoes'" 
+            class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
+              Ver Missões
+          </a>
+          <a href="{{ route('disciplines.edit', $discipline->id) }}">
+            <button class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
+                    Configurações da Disciplina
+            </button>
+          </a>
+      </nav>
     @endcan
   </header>
 
@@ -101,9 +101,13 @@
                     <div>
                         <h3 class="text-lg font-medium mb-2">{{ $content->title }}</h3>
                         <p class="text-sm text-gray-400">
-                            Publicado em {{ $content->created_at->format('d/m/y') }} -
+                            Publicado em {{ $content->created_at->format('d/m/y') }}
                             {{ strtoupper($content->file_type) }} -
-                            {{ number_format($content->file_size / 1048576, 2) }} MB
+                            @if($content->file_size >= 1048576)
+                                {{ number_format($content->file_size / 1048576, 2) }} MB
+                            @else
+                                {{ number_format($content->file_size / 1024, 2) }} KB
+                            @endif
                         </p>
                     </div>
                 </div>

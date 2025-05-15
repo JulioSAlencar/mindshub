@@ -39,18 +39,17 @@ class ContentDisciplineController extends Controller
             'category' => $request->category,
         ]);
 
-        return redirect()->route('disciplines.showContent', ['id' => $disciplineId])
+        return redirect()->route('contents.view', ['id' => $disciplineId])
                          ->with('success', 'Conteúdo adicionado com sucesso!');
     }
 
    //gerenciador de conteudo
-   public function edit($id)
-   {
-       $content = ContentDiscipline::findOrFail($id);
-       $discipline = Discipline::findOrFail($content->discipline_id);
-       return view('contents.editContents', compact('content', 'discipline'));
-   }   
-    
+    public function showContents($id)
+    {
+        $discipline = Discipline::with('contents')->findOrFail($id);
+        return view('contents.viewContents', compact('discipline'));
+    }
+
     public function editContent($id)
     {
         $content = ContentDiscipline::findOrFail($id);
@@ -94,7 +93,7 @@ class ContentDisciplineController extends Controller
         $content->category = $request->category;
         $content->save();
 
-        return redirect()->route('disciplines.showContent', ['id' => $content->discipline_id])
+        return redirect()->route('contents.view', ['id' => $content->discipline_id])
                          ->with('success', 'Conteúdo atualizado com sucesso!');
     }
 
@@ -111,7 +110,7 @@ class ContentDisciplineController extends Controller
         $content = ContentDiscipline::findOrFail($id);
         $content->delete();
 
-        return redirect()->route('disciplines.showContent', ['id' => $content->discipline_id])
+        return redirect()->route('contents.view', ['id' => $content->discipline_id])
                          ->with('success', 'Conteúdo excluído com sucesso!');
     }
 }

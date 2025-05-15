@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Content;
 use App\Models\Discipline;
 use App\Models\Mission;
 use App\Models\MissionAnswer;
 use App\Models\RecentDisciplineView;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class DisciplineController extends Controller
 {
     public function index()
     {
+        if (!Gate::allows('is-teacher')) {
+        abort(403, 'Você não é professor >:(');
+        }
+
         $disciplines = Discipline::all();
         return view('disciplines.page', compact('disciplines'));
     }
@@ -95,9 +101,16 @@ class DisciplineController extends Controller
     public function destroy($id)
     {
         $discipline = Discipline::findOrFail($id);
+        $imagePath = public_path('assets/disciplines/' . $discipline->image);
 
-        if ($discipline->image && file_exists(public_path('assets/disciplines/' . $discipline->image))) {
-            unlink(public_path('assets/disciplines/' . $discipline->image));
+        if ($discipline->image && file_exists($imagePath)) {
+            if (unlink($imagePath)) {
+                logger("Imagem {$discipline->image} apagada com sucesso.");
+            } else {
+                logger("Erro ao apagar a imagem {$discipline->image}.");
+            }
+        } else {
+            logger("Imagem não encontrada em: $imagePath");
         }
 
         $discipline->delete();
@@ -105,16 +118,15 @@ class DisciplineController extends Controller
         return redirect()->route('disciplines.page')->with('msg', 'Disciplina excluída com sucesso!');
     }
 
+
     public function showContent($id)
     {
-        $discipline = Discipline::findOrFail($id);
-        $disciplineOwner = $discipline->creator->toArray(); // atualizado
+        $discipline = Discipline::with('contents')->findOrFail($id);
+        $disciplineOwner = $discipline->creator->toArray();
+
         $missions = Mission::where('discipline_id', $discipline->id)->with('questions')->get();
 
-
-         $groupedContents = $discipline->contents->groupBy('category');
-
-        $missions = Mission::where('discipline_id', $discipline->id)->get();
+        $groupedContents = $discipline->contents->groupBy('category');
 
         $answeredMissionIds = MissionAnswer::whereIn('mission_id', $missions->pluck('id'))
             ->where('user_id', auth()->id())
@@ -123,6 +135,8 @@ class DisciplineController extends Controller
 
         return view('disciplines.showContent', compact('discipline', 'disciplineOwner', 'missions', 'answeredMissionIds', 'groupedContents'));
     }
+
+
 
     public function mission($id)
     {

@@ -70,15 +70,17 @@ Route::prefix('disciplines')->group(function () {
 
     // Salvar novo conteúdo
     Route::post('{id}/contents', [ContentDisciplineController::class, 'store'])->name('contents.store');
+
 });
+// routes/web.php
+Route::get('/disciplinas/{id}/conteudos', [ContentDisciplineController::class, 'showContents'])
+    ->name('contents.view');
 
-Route::prefix('contents')->group(function () {
-    // Formulário de edição de conteúdo
-    Route::get('{id}/editar', [ContentDisciplineController::class, 'edit'])->name('contents.editContents');
-    
-    Route::get('{id}/editar-content', [ContentDisciplineController::class, 'editContent'])->name('contents.editContent');
-    
 
+// Formulário de edição de conteúdo
+    
+    Route::get('{id}/editarcontent', [ContentDisciplineController::class, 'editContent'])->name('contents.updateContents');
+    
     // Atualizar conteúdo
     Route::put('{id}', [ContentDisciplineController::class, 'update'])->name('contents.update');
 
@@ -86,7 +88,7 @@ Route::prefix('contents')->group(function () {
     Route::delete('{id}', [ContentDisciplineController::class, 'destroy'])->name('contents.destroy');
 
     Route::put('{id}/approve', [ContentController::class, 'approve'])->name('contents.approve');
-});
+
 
 
 Route::get('/trails/{id}/average-progress', [TrailController::class, 'averageProgress']);

@@ -1,68 +1,93 @@
-<footer class="bg-slate-900 w-full p-5">
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-items-center gap-4 text-white">
-    <div class="p-4">
-      <img src="{{ asset('assets/images/logoFooter.png') }}" alt="">
+<footer class="bg-slate-900 w-full p-8 text-white">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center">
+
+    <!-- Logo -->
+    <div class="flex items-center justify-center sm:justify-start">
+      <img src="{{ asset('assets/images/logoFooter.png') }}" alt="Logo MindsHub" class="h-16 w-auto" />
     </div>
 
-    <div class="p-4">
-      <h1 class="inline-block text-xl font-medium relative mb-4">
+    <!-- Navegação -->
+    <nav aria-label="Navegação" class="w-full max-w-xs">
+      <h2 class="text-xl font-semibold mb-4 relative inline-block">
         Navegação
-        <span class="absolute inset-x-0 mx-auto left-0 -bottom-0.5 w-full h-0.5 bg-blue-500"></span>
-      </h1>
-      <ul class="grid gap-2">
-        <a class="transition-all duration-300 ease-in-out hover:translate-x-1 hover:text-blue-500 hover:underline decoration-blue-500" href="#">
-          <li>DashBoard</li>
-        </a>
-        <a class="transition-all duration-300 ease-in-out hover:translate-x-1 hover:text-blue-500 hover:underline decoration-blue-500" href="#">
-          <li>Disciplinas</li>
-        </a>
-        <a class="transition-all duration-300 ease-in-out hover:translate-x-1 hover:text-blue-500 hover:underline decoration-blue-500" href="#">
-          <li>Configurações</li>
-        </a>
+        <span class="absolute left-0 bottom-0 w-full h-1 rounded bg-blue-500"></span>
+      </h2>
+      <ul class="space-y-3">
+        <li>
+          <a href="#" class="block transition transform hover:text-blue-500 hover:translate-x-2 hover:underline decoration-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">
+            DashBoard
+          </a>
+        </li>
+        <li>
+          <a href="#" class="block transition transform hover:text-blue-500 hover:translate-x-2 hover:underline decoration-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">
+            Disciplinas
+          </a>
+        </li>
+        <li>
+          <a href="#" class="block transition transform hover:text-blue-500 hover:translate-x-2 hover:underline decoration-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">
+            Configurações
+          </a>
+        </li>
       </ul>
-    </div>
+    </nav>
 
-    <div class=" p-4">
-      <h1 class="inline-block text-xl font-medium relative mb-4">
+    <!-- Créditos & Parceiros -->
+    <section aria-label="Créditos e Parceiros" class="w-full max-w-xs">
+      <h2 class="text-xl font-semibold mb-4 relative inline-block">
         Créditos & Parceiros
-        <span class="absolute inset-x-0 mx-auto left-0 -bottom-0.5 w-full h-0.5 bg-blue-500"></span>
-      </h1>
-      <ul class="grid gap-2">
-        <a class="transition-all duration-300 ease-in-out hover:translate-x-1 hover:text-blue-500 hover:underline decoration-blue-500" href="#">
-          <li>Desenvolvido por The dry liter</li>
-        </a>
-        <a class="transition-all duration-300 ease-in-out hover:translate-x-1 hover:text-blue-500 hover:underline decoration-blue-500" href="#">
-          <li>Programadores</li>
-        </a>
-        <a class="transition-all duration-300 ease-in-out hover:translate-x-1 hover:text-blue-500 hover:underline decoration-blue-500" href="#">
-          <li>Gestão de Projeto</li>
-        </a>
+        <span class="absolute left-0 bottom-0 w-full h-1 rounded bg-blue-500"></span>
+      </h2>
+      <ul class="space-y-3">
+        <li>
+          <a href="#" class="block transition transform hover:text-blue-500 hover:translate-x-2 hover:underline decoration-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">
+            Desenvolvido por The dry liter
+          </a>
+        </li>
+        <li>
+          <a href="#" class="block transition transform hover:text-blue-500 hover:translate-x-2 hover:underline decoration-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">
+            Programadores
+          </a>
+        </li>
+        <li>
+          <a href="#" class="block transition transform hover:text-blue-500 hover:translate-x-2 hover:underline decoration-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">
+            Gestão de Projeto
+          </a>
+        </li>
       </ul>
-    </div>
+    </section>
 
-    <div class="p-4">
-      <h1 class="inline-block text-xl font-medium relative mb-4">
-        Suporte e contato
-        <span class="absolute inset-x-0 mx-auto left-0 -bottom-0.5 w-full h-0.5 bg-white"></span>
-      </h1>
-      <ul class="grid gap-2">
-        <a class="transition-all duration-300 ease-in-out hover:translate-x-1 hover:text-blue-500 hover:underline decoration-blue-500" href="#">
-          <li>FAQ</li>
-        </a>
-        <a class="transition-all duration-300 ease-in-out hover:translate-x-1 hover:text-blue-500 hover:underline decoration-blue-500" href="{{ route('termos') }}">
-          <li>Termos de Uso</li>
-        </a>
-        <a class="transition-all duration-300 ease-in-out hover:translate-x-1 hover:text-blue-500 hover:underline decoration-blue-500" href="#">
-          <li>Política de Privacidade</li>
-        </a>
-        <a class="hover:text-white transition-all duration-300 ease-in-out hover:translate-x-1 text-blue-500 hover:underline" href="mailto:suporte@fleetmax.com">
-          <li>suporte@mindshub.com</li>
-        </a>
+    <!-- Suporte e Contato -->
+    <section aria-label="Suporte e Contato" class="w-full max-w-xs">
+      <h2 class="text-xl font-semibold mb-4 relative inline-block">
+        Suporte e Contato
+        <span class="absolute left-0 bottom-0 w-full h-1 rounded bg-blue-500"></span>
+      </h2>
+      <ul class="space-y-3">
+        <li>
+          <a href="#" class="block transition transform hover:text-blue-500 hover:translate-x-2 hover:underline decoration-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">
+            FAQ
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('termos') }}" class="block transition transform hover:text-blue-500 hover:translate-x-2 hover:underline decoration-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">
+            Termos de Uso
+          </a>
+        </li>
+        <li>
+          <a href="#" class="block transition transform hover:text-blue-500 hover:translate-x-2 hover:underline decoration-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">
+            Política de Privacidade
+          </a>
+        </li>
+        <li>
+          <a href="mailto:suporte@mindshub.com" class="block text-blue-500 transition transform hover:text-blue-400 hover:translate-x-2 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">
+            suporte@mindshub.com
+          </a>
+        </li>
       </ul>
-    </div>
+    </section>
   </div>
 
-  <div class="text-right text-white mt-4 p-4">
+  <div class="max-w-7xl mx-auto mt-10 border-t border-slate-700 pt-4 text-right text-sm text-slate-400">
     <p>MindsHub © Alguns direitos reservados. 2025</p>
   </div>
 </footer>

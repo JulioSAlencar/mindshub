@@ -2,6 +2,7 @@
 
 @section('content')
 
+
 <!-- Formulário de envio -->
 <form method="POST" action="{{ route('contents.store', $discipline->id) }}" enctype="multipart/form-data" class="mt-6">
     @csrf
