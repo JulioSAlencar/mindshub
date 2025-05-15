@@ -10,26 +10,15 @@ class TrailController extends Controller
 {
     public function averageProgress($trailId)
     {
-        $trail = Trail::with(['users.missions' => function ($query) use ($trailId) {
-            $query->where('trail_id', $trailId);
-        }])->findOrFail($trailId);
+        $trail = Trail::with('missions')->findOrFail($trailId);
+        $user = auth()->user();
 
-        $totalProgress = 0;
-        $totalMissions = 0;
-
-        foreach ($trail->users as $user) {
-            foreach ($user->missions as $mission) {
-                $progress = $mission->pivot->progress ?? 0;
-                $totalProgress += $progress;
-                $totalMissions++;
-            }
-        }
-
-        $average = $totalMissions > 0 ? round($totalProgress / $totalMissions, 2) : 0;
+        $completionPercentage = $trail->getCompletionPercentageForUser($user);
 
         return response()->json([
-            'trail_id' => $trailId,
-            'average_progress' => $average,
+            'trail_id' => $trail->id,
+            'user_id' => $user->id,
+            'completion_percentage' => $completionPercentage
         ]);
     }
 

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\TrailFeedback;
 use App\Models\Mission;
+use App\Models\User;
 
 
 class Trail extends Model
@@ -31,5 +32,26 @@ class Trail extends Model
     public function missions()
     {
         return $this->hasMany(Mission::class);
+    }
+
+    public function getCompletionPercentageForUser(User $user): float
+    {
+        $missions = $this->missions;
+
+        $total = $missions->count();
+
+        if ($total === 0) {
+            return 0;
+        }
+
+        $completed = $missions->filter(function ($mission) use ($user) {
+            return $mission
+                ->userProgresses()
+                ->where('user_id', $user->id)
+                ->whereNotNull('completed_at')
+                ->exists();
+        })->count();
+
+        return round(($completed / $total) * 100, 2);
     }
 }
