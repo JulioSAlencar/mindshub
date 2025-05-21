@@ -26,5 +26,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('is-creator', function ($user, Discipline $discipline) {
             return $discipline->creator_id === $user->id;
         });
+
     }
 }

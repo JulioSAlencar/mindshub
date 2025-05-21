@@ -192,4 +192,26 @@ class DisciplineController extends Controller
     
         return view('disciplines.participating', compact('disciplines')); // substitua 'nome_da_view' pelo nome da view que exibirá
     }
+
+    public function complete($id)
+    {
+        $discipline = Discipline::findOrFail($id);
+
+        $discipline->is_completed = true;
+        $discipline->save();
+
+        return back()->with('success', 'Disciplina concluída com sucesso!');
+    }
+
+    public function undo($id)
+    {
+        $discipline = Discipline::findOrFail($id);
+
+        $discipline->is_completed = false;
+        $discipline->save();
+
+        return back()->with('success', 'Conclusão da disciplina desfeita com sucesso!');
+    }
+
+
 }

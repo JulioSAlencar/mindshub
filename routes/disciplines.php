@@ -33,3 +33,6 @@ Route::delete('{id}', [ContentDisciplineController::class, 'destroy'])->name('co
 Route::put('{id}/approve', [ContentController::class, 'approve'])->name('contents.approve');
 
 Route::get('/disciplines/students/{id}', [DisciplineStudentController::class, 'showStudents'])->name('disciplines.showStudents');
+Route::patch('/disciplines/{id}/complete', [DisciplineController::class, 'complete'])->name('disciplines.complete');
+Route::patch('/disciplines/{id}/undo', [DisciplineController::class, 'undo'])->name('disciplines.undo');
+

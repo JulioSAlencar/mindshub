@@ -38,12 +38,18 @@
     </div>
     <div class="space-y-2">
     
-      <button href="{{ route('certificates.generate', $discipline->id) }}" class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-          Baixar Certificado
-      </button>
-      <a href="{{ route('disciplines.manager', ['id' => $discipline->id])}}" class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
-        Gerenciar disicplina
-      </a>
+      @if ($discipline->is_completed)
+          <a href="{{ route('certificates.generate', $discipline->id) }}"
+              class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
+              Baixar Certificado
+          </a>
+      @endif
+
+      @can('is-creator', $discipline)        
+        <a href="{{ route('disciplines.manager', ['id' => $discipline->id])}}" class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
+          Gerenciar disicplina
+        </a>
+      @endcan
     </div>
     
   </header>
@@ -105,7 +111,7 @@
         @endforeach
       </div>
       <figure class="grid justify-center">
-        <!-- Imagem ilustrativa (mantido como placeholder) -->
+        <img src="{{ asset('assets/images/bgConteudo.png') }}" alt="Imagem de ilustrativa" />
       </figure>
     </section>
 
@@ -148,6 +154,9 @@
           </article>
         @endforeach
       </div>
+      <figure class="grid justify-center">
+        <img src="{{ asset('assets/images/BglogoMiss.png') }}" alt="Imagem de ilustrativa" />
+      </figure>
     </section>
   </div>
 </div>

@@ -53,6 +53,63 @@
                     </a>
                 </div>
             </div>
+            <div x-data="{ open: false, isCompleted: {{ $discipline->is_completed ? 'true' : 'false' }} }">
+                <!-- Botão que abre o popup -->
+                <button 
+                    @click="open = true"
+                    type="button"
+                    :class="isCompleted 
+                        ? 'bg-green-600 hover:bg-green-800' 
+                        : 'bg-red-600 hover:bg-red-800'"
+                    class="text-white font-medium py-2 px-4 rounded transition"
+                    x-text="isCompleted ? 'Desfazer Conclusão' : 'Concluir Disciplina'"
+                ></button>
+
+                <!-- Modal de confirmação -->
+                <div 
+                    x-show="open"
+                    x-transition
+                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+                >
+                    <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full">
+                        <h2 class="text-lg font-semibold mb-4 text-gray-800" 
+                            x-text="isCompleted 
+                                ? 'Tem certeza que deseja desfazer a conclusão desta disciplina?' 
+                                : 'Tem certeza que deseja concluir esta disciplina?'">
+                        </h2>
+
+                        <div class="flex justify-end space-x-4">
+                            <!-- Cancelar -->
+                            <button 
+                                @click="open = false"
+                                type="button"
+                                class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition"
+                            >
+                                Cancelar
+                            </button>
+
+                            <!-- Confirmar -->
+                            <form 
+                                method="POST" 
+                                :action="isCompleted 
+                                    ? '{{ route('disciplines.undo', $discipline->id) }}' 
+                                    : '{{ route('disciplines.complete', $discipline->id) }}'"
+                            >
+                                @csrf
+                                @method('PATCH')
+                                <button
+                                    type="submit"
+                                    :class="isCompleted 
+                                        ? 'bg-green-600 hover:bg-green-700' 
+                                        : 'bg-red-600 hover:bg-red-700'"
+                                    class="px-4 py-2 text-white rounded transition"
+                                    x-text="isCompleted ? 'Desfazer' : 'Concluir'"
+                                ></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div>
                 <a href="{{ route('disciplines.edit', $discipline->id) }}"

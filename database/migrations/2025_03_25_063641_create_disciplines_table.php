@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text("description");
             $table->string('image');
             $table->foreignId('creator_id')->constrained('users');
+            $table->boolean('is_completed')->default(false);
             $table->timestamps();
         });
     }

@@ -13,8 +13,30 @@ class CertificateController extends Controller
     public function generate($disciplineId)
     {
         $user = Auth::user();
+        $discipline = Discipline::with('missions')->findOrFail($disciplineId);
 
-        // Verifica se o certificado já existe
+        if (!$discipline->is_completed) {
+            return back()->with('error', 'A disciplina ainda não foi concluída pelo professor.');
+        }
+
+        $allGrades = \DB::table('mission_user')
+            ->join('missions', 'missions.id', '=', 'mission_user.mission_id')
+            ->where('missions.discipline_id', $disciplineId)
+            ->pluck('mission_user.grade');
+
+        $userGrades = \DB::table('mission_user')
+            ->join('missions', 'missions.id', '=', 'mission_user.mission_id')
+            ->where('missions.discipline_id', $disciplineId)
+            ->where('mission_user.user_id', $user->id)
+            ->pluck('mission_user.grade');
+
+        $mediaGeral = $allGrades->avg();
+        $mediaAluno = $userGrades->avg();
+
+        if ($mediaAluno < $mediaGeral) {
+            return back()->with('error', 'Você não atingiu a média necessária para receber o certificado.');
+        }
+
         $certificate = Certificate::firstOrCreate(
             ['user_id' => $user->id, 'discipline_id' => $disciplineId],
             ['issued_at' => now()]
@@ -22,6 +44,7 @@ class CertificateController extends Controller
 
         return redirect()->route('certificates.download', $certificate->id);
     }
+
 
     public function download($id)
     {
