@@ -68,6 +68,12 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Medal');
     }
 
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'discipline_user'); // ou o nome correto da sua tabela pivot
+    }
+
+
     public function disciplinePreferences() 
     {
         return $this->hasMany(DisciplinePreference::class);
@@ -107,11 +113,6 @@ class User extends Authenticatable
         $this->xp += $amount;
         $this->level = floor($this->xp / 100) + 1;
         $this->save();
-    }
-
-    public function classModels()
-    {
-        return $this->belongsToMany(ClassModel::class,'class_model_user')->withTimestamps();
     }
 
     public function missionProgresses()

@@ -14,12 +14,25 @@ class DisciplineController extends Controller
 {
     public function index()
     {
-        if (!Gate::allows('is-teacher')) {
-        abort(403, 'Você não é professor >:(');
+        if (!Gate::allows('is-teacher')) 
+        {
+            abort(403, 'Você não é professor >:(');
         }
 
         $disciplines = Discipline::all();
         return view('disciplines.page', compact('disciplines'));
+    }
+
+    public function manager($id)
+    {
+        if (!Gate::allows('is-teacher')) 
+        {
+            abort(403, 'Você não é professor >:(');
+        }
+
+        $discipline = Discipline::findOrFail($id);
+        return view('disciplines.manager', compact('discipline'));
+
     }
 
     public function create()

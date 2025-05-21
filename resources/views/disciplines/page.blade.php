@@ -34,11 +34,6 @@
                         <td><a href="/disciplines/{{ $discipline->id }}">{{ $discipline->title }}</a></td>
                         <td>{{ count($discipline->users) }}</td>
                         <td>
-                            {{-- Se o usuário estiver inscrito, mostra o botão Entrar --}}
-                            @if ($discipline->users->contains(auth()->user()))
-                                <a class="btn btn-primary" href="{{ route('disciplines.showContent', ['id' => $discipline->id]) }}">Entrar</a>
-                            @endif
-            
                             {{-- Somente o criador pode editar ou excluir --}}
                             @if ($discipline->creator_id === auth()->user()->id)
                                 <a class="btn btn-primary" href="{{ route('disciplines.showContent', ['id' => $discipline->id]) }}">Entrar</a>

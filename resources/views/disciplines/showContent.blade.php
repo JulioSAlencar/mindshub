@@ -36,36 +36,16 @@
         </div>
       </div>
     </div>
+    <div class="space-y-2">
     
-    <a href="{{ route('certificates.generate', $discipline->id) }}" class="btn btn-primary">
-        Baixar Certificado
-    </a>
+      <button href="{{ route('certificates.generate', $discipline->id) }}" class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+          Baixar Certificado
+      </button>
+      <a href="{{ route('disciplines.manager', ['id' => $discipline->id])}}" class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
+        Gerenciar disicplina
+      </a>
+    </div>
     
-    @can("is-teacher")
-      <nav class="text-right mb-4 space-x-4">
-          <a href="{{ route('contents.createForm', ['id' => $discipline->id]) }}" x-show="tab === 'conteudo'" 
-            class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
-              Adicionar Conteúdo
-          </a>
-          <a href="{{ route('contents.view', $discipline->id) }}" x-show="tab === 'conteudo'" 
-            class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
-              Ver Conteúdo
-          </a>
-          <a href="{{ route('missions.create', $discipline->id) }}" x-show="tab === 'missoes'" 
-            class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
-              Criar Missão
-          </a>
-          <a href="{{ route('missions.index', $discipline->id) }}" x-show="tab === 'missoes'" 
-            class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
-              Ver Missões
-          </a>
-          <a href="{{ route('disciplines.edit', $discipline->id) }}">
-            <button class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
-                    Configurações da Disciplina
-            </button>
-          </a>
-      </nav>
-    @endcan
   </header>
 
   <div class="px-8 pb-10">

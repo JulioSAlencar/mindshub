@@ -11,6 +11,9 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\TypeUserController;
+
+Route::get('/auth/typeuser', [TypeUserController::class, 'index'])->name('typeuser.page');
 
 // 📌 Páginas públicas (acessíveis durante o desenvolvimento)
 Route::middleware('guest')->group(function () {
