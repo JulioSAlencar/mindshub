@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
 class Mission extends Model
 {
     use HasFactory;
@@ -17,6 +17,11 @@ class Mission extends Model
         'created_at',
         'updated_at',
         'duration_minutes'
+    ];
+
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
     ];
 
     // Se uma missão pertence a uma disciplina

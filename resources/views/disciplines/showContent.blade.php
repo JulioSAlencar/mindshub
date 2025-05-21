@@ -126,17 +126,24 @@
                 <h3 class="text-lg font-medium mb-2">{{ $mission->title }}</h3>
                 <p class="text-sm text-gray-400">
                   Quantidade de questões: {{ $mission->questions->count() }}<br>
-                  Publicado em {{ $mission->created_at->format('d/m/y') }}
+                  Publicado em {{ $mission->start_date->format('d/m/Y') }}<br>
+                  Termina em {{ $mission->end_date->format('d/m/Y') }}
                 </p>
               </div>
             </div>
             <div class="flex items-center gap-2">
               @can("is-student")
-                @if (in_array($mission->id, $answeredMissionIds))
+                @if ($mission->end_date < now())
+                  {{-- Missão expirada: mostrar somente resultado --}}
+                  <a href="{{ route('missions.result', $mission->id) }}" class="inline-block bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600 transition font-medium">
+                    Ver meu resultado
+                  </a>
+                @elseif (in_array($mission->id, $answeredMissionIds))
                   <a href="{{ route('missions.result', $mission->id) }}" class="inline-block bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 transition font-medium">
                     Ver meu resultado
                   </a>
                 @else
+                  {{-- Missão ainda válida e não respondida --}}
                   @if (!(Auth::user()->role === 'teacher' && $mission->discipline->user_id === Auth::id()))
                     <a href="{{ route('missions.show', $mission->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition font-medium">
                       Responder
@@ -144,9 +151,8 @@
                   @endif
                 @endif
               @endcan
-
-              @can("is-teacher")
-                <a href="{{ route('missions.responses', $mission->id) }}" class="btn btn-primary">
+              @can('is-creator', $mission->discipline)
+                <a href="{{ route('missions.responses', $mission->id) }}" class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">
                   Ver respostas dos alunos
                 </a>
               @endcan

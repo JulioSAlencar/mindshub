@@ -9,6 +9,7 @@ use App\Models\MissionAnswer;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class MissionController extends Controller
 {
@@ -31,15 +32,24 @@ class MissionController extends Controller
         $alreadyAnswered = MissionAnswer::where('mission_id', $mission->id)
             ->where('user_id', $userId)
             ->exists();
-    
+
         if ($alreadyAnswered) {
             return redirect()->back()->with('error', 'Você já respondeu essa missão.');
         }
 
+        $appTimezone = config('app.timezone');
+        $nowInAppTimezone = Carbon::now($appTimezone);
+
+        $minValidTime = $nowInAppTimezone->copy()->startOfMinute();
+
         $request->validate([
             'title' => 'required|string|max:255',
             'discipline_id' => 'required|exists:disciplines,id',
-            'start_date' => 'required|date',
+            'start_date' => [
+                'required',
+                'date',
+                'after_or_equal:' . $minValidTime->toDateTimeString(),
+            ],
             'end_date' => 'required|date|after:start_date',
             'duration_minutes' => 'nullable|integer|min:1'
         ]);
@@ -57,6 +67,7 @@ class MissionController extends Controller
             'disciplineId' => $mission->discipline_id
         ]);
     }
+
     
     public function destroy(Mission $mission)
     {
