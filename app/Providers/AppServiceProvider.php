@@ -4,8 +4,11 @@ namespace App\Providers;
 
 use App\Models\Discipline;
 use App\Models\User;
+use App\Observers\UserObserver;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,5 +30,14 @@ class AppServiceProvider extends ServiceProvider
             return $discipline->creator_id === $user->id;
         });
 
+        User::observe(UserObserver::class);
+
+        View::composer('*', function ($view) {
+        if (Auth::check()) {
+            $view->with('unreadNotifications', Auth::user()->unreadNotifications);
+        } else {
+            $view->with('unreadNotifications', collect());
+        }
+    });
     }
 }

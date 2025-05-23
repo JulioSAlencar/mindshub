@@ -10,20 +10,15 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Models\User;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Display the login view.
-     */
     public function create(): View
     {
         return view('auth.login');
     }
 
-    /**
-     * Handle an incoming authentication request.
-     */
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->validate([
@@ -34,8 +29,7 @@ class AuthenticatedSessionController extends Controller
         $credentials = $request->only('email', 'password');
         $remember = $request->filled('remember');
 
-        // Verifica se o email existe
-        $user = \App\Models\User::where('email', $credentials['email'])->first();
+        $user = User::where('email', $credentials['email'])->first();
 
         if (!$user) {
             return back()->withErrors([
@@ -43,7 +37,6 @@ class AuthenticatedSessionController extends Controller
             ])->withInput();
         }
 
-        // Verifica se a senha está correta
         if (!Auth::attempt($credentials, $remember)) {
             return back()->withErrors([
                 'password' => 'Senha incorreta',
@@ -57,19 +50,21 @@ class AuthenticatedSessionController extends Controller
             ->where('id', '!=', Session::getId())
             ->delete();
 
+        // Verifica se é o primeiro login
+        if ($user->first_login) {
+            $user->gainXp(1); // chama direto o método da model
+            $user->first_login = false;
+            $user->save();
+        }
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
-
-    /**
-     * Destroy an authenticated session.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');

@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('medals', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->text('description')->nullable();
+            $table->string('icon')->nullable();
             $table->unsignedInteger('xp_required');
-            $table->enum('condition_type', ['xp', 'completed_missions', 'trail_completed']);
+            $table->enum('condition_type', ['xp', 'completed_missions', 'trail_completed', 'level']);
             $table->integer('condition_value');
             $table->timestamps();
         });

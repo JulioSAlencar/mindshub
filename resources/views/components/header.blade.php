@@ -56,13 +56,53 @@
 
     <!-- Ícones de ação -->
     <div class="flex items-center gap-4 text-blue-600 text-xl">
+
       <!-- Notificação -->
-      <a 
-        href="#" 
-        class="hover:text-blue-800 transition transform hover:-translate-y-0.5"
-      >
-        <i class="fas fa-bell"></i>
-      </a>
+    <div class="relative" x-data="{ open: false }">
+        <a href="#" @click.prevent="open = !open" class="relative">
+            <i class="fas fa-bell"></i>
+            @if(Auth::check() && $unreadNotifications->count() > 0)
+                <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+                    {{ $unreadNotifications->count() }}
+                </span>
+            @endif
+        </a>
+
+        <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-80 bg-white rounded shadow-lg p-4 z-50">
+            <h4 class="text-lg font-bold mb-2">Notificações</h4>
+            @forelse($unreadNotifications as $notification)
+              <form action="{{ route('notifications.markAllRead') }}" method="POST" class="text-right mb-2">
+                    @csrf
+                    <button type="submit" class="text-sm text-blue-600 hover:underline">
+                        Marcar todas como lidas
+                    </button>
+                </form>
+                  <div class="mb-2 border-b pb-3 flex items-start gap-3">
+                      {{-- Ícone da medalha --}}
+                      <div class="w-16 h-16 flex items-center justify-center">
+                          <img src="{{ asset($notification->data['icon']) }}" alt="Medal Icon" class="w-14 h-14 object-contain">
+                      </div>
+                      {{-- Conteúdo da notificação --}}
+                      <div class="flex-1">
+                        <a href="{{ route('notifications.read', $notification->id) }}" class="block hover:bg-gray-50 p-2 rounded transition">
+                            <p class="text-sm font-semibold text-gray-800">
+                                Medalha conquistada: <span class="text-blue-600">{{ $notification->data['name'] }}</span>
+                            </p>
+                            <p class="text-sm text-gray-600">
+                                {{ $notification->data['description'] }}
+                            </p>
+                            <p class="text-xs text-gray-400 mt-1">
+                                Recebida em {{ $notification->created_at->format('d/m/Y H:i') }}
+                            </p>
+                          </a>
+                      </div>
+                  </div>
+              @empty
+                  <p class="text-gray-500 text-sm">Sem notificações novas.</p>
+              @endforelse
+        </div>
+    </div>
+
 
       <!-- Logout -->
       <a 

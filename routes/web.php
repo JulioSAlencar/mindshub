@@ -24,3 +24,4 @@ require __DIR__.'/performance.php';
 require __DIR__.'/feedback.php';
 require __DIR__.'/trails.php';
 require __DIR__.'/lesson_comments.php';
+require __DIR__.'/Notification.php';

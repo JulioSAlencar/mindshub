@@ -29,8 +29,8 @@
             @endauth
         </div>
         <div>
-          <p class="font-medium">Nycolas Galdino</p>
-          <p class="text-xs text-gray-500">nycolasgaldino@gmail.com</p>
+          <p class="font-medium">{{ $user->name }}</p>
+          <p class="text-xs text-gray-500">{{ $user->email }}</p>
         </div>
         <a class="ml-auto px-3 py-1 border text-sm rounded border-blue-500 text-blue-500 hover:bg-blue-50" href="{{ route('profile.edit')}}">Editar Perfil</a>
       </div>
@@ -118,26 +118,48 @@
       </div>
       <div class="bg-white shadow rounded-lg p-4">
         <h2 class="text-sm font-semibold flex items-center gap-2 mb-3 cursor-pointer" onclick="toggle('conquistasExtra')">
-          <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          Conquistas
+            <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+            </svg>
+            Conquistas
         </h2>
-        <div class="bg-gray-900 rounded-lg p-4 text-white text-center">
-          <div class="text-pink-400 text-3xl mb-1">🧠</div>
-          <p class="font-semibold">Nota perfeita</p>
-          <p class="text-sm text-gray-300">Obteve 100% em qualquer avaliação</p>
-          <p class="text-xs text-blue-400 mt-2">+250XP</p>
-        </div>
-        <div id="conquistasExtra" class="hidden mt-2">
-          <div class="bg-gray-900 rounded-lg p-4 text-white text-center mt-2">
-            <div class="text-yellow-400 text-3xl mb-1">🏅</div>
-            <p class="font-semibold">Participação ativa</p>
-            <p class="text-sm text-gray-300">Participou de todas as aulas do mês</p>
-            <p class="text-xs text-blue-400 mt-2">+100XP</p>
-          </div>
-        </div>
-      </div>
-    </div>
 
+        @php
+            $reversedMedals = Auth::user()->medals->reverse()->values(); // Inverte a ordem das medalhas
+        @endphp
+
+        @if($reversedMedals->isNotEmpty())
+            {{-- Medalha mais recente (sempre visível) --}}
+            <div class="bg-gray-900 rounded-lg p-4 text-white text-center mt-2">
+                @if($reversedMedals[0]->icon)
+                    <img src="{{ asset($reversedMedals[0]->icon) }}" alt="{{ $reversedMedals[0]->name }}" class="w-12 h-12 mx-auto mb-2" title="{{ $reversedMedals[0]->description ?? $reversedMedals[0]->name }}">
+                @else
+                    <div class="text-yellow-400 text-3xl mb-1">🏅</div>
+                @endif
+                <p class="font-semibold">{{ $reversedMedals[0]->name }}</p>
+                <p class="text-sm text-gray-300">{{ $reversedMedals[0]->description }}</p>
+                <p class="text-xs text-blue-400 mt-2">+{{ $reversedMedals[0]->xp_required }}XP</p>
+            </div>
+
+            {{-- Outras medalhas (escondidas inicialmente) --}}
+            <div id="conquistasExtra" class="hidden mt-2">
+                @foreach($reversedMedals->slice(1) as $medal)
+                    <div class="bg-gray-900 rounded-lg p-4 text-white text-center mt-2">
+                        @if($medal->icon)
+                            <img src="{{ asset($medal->icon) }}" alt="{{ $medal->name }}" class="w-12 h-12 mx-auto mb-2" title="{{ $medal->description ?? $medal->name }}">
+                        @else
+                            <div class="text-yellow-400 text-3xl mb-1">🏅</div>
+                        @endif
+                        <p class="font-semibold">{{ $medal->name }}</p>
+                        <p class="text-sm text-gray-300">{{ $medal->description }}</p>
+                        <p class="text-xs text-blue-400 mt-2">+{{ $medal->xp_required }}XP</p>
+                    </div>
+                @endforeach
+            </div>
+        @else
+            <p class="text-gray-500 text-sm">Você ainda não conquistou nenhuma medalha.</p>
+        @endif
+      </div>
   </div>
 
   <!-- Modal de Confirmação -->
@@ -152,17 +174,15 @@
     </div>
   </div>
   
-  <script>
-    
-    function toggle(id) {
-      const el = document.getElementById(id);
-      const icon = document.getElementById(id + 'Icon');
-      el.classList.toggle('hidden');
-      if (icon) {
-        icon.classList.toggle('rotate-90');
-        icon.classList.toggle('rotate-270');
+<script>
+  function toggle(id) {
+      const element = document.getElementById(id);
+      if (element.classList.contains('hidden')) {
+          element.classList.remove('hidden');
+      } else {
+          element.classList.add('hidden');
       }
-    }
+  }
+</script>
 
-  </script>
 @endsection
