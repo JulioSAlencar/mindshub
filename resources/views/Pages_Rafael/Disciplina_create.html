@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nova Disciplina</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100 font-sans">
+    <div class="flex min-h-screen">
+      <!-- Sidebar -->
+      <aside class="w-16 bg-black text-white flex flex-col items-center py-4 space-y-6">
+        <div class="text-3xl font-bold">.MH</div>
+        <nav class="space-y-6">
+          <a href="#"><img src="/icons/home.svg" class="w-5" /></a>
+          <a href="#"><img src="/icons/book.svg" class="w-5" /></a>
+          <a href="#"><img src="/icons/calendar.svg" class="w-5" /></a>
+          <a href="#"><img src="/icons/settings.svg" class="w-5" /></a>
+        </nav>
+      </aside>
+
+      <!-- Main content -->
+      <div class="flex-1 flex flex-col">
+        <!-- Header -->
+        <header class="flex justify-between items-center bg-white px-8 py-4 shadow">
+          <div>
+            <h1 class="text-xl font-bold">Nova Disciplina</h1>
+            <p class="text-sm text-gray-500">Preencha as informações para adicionar uma nova disciplina</p>
+          </div>
+          <div class="flex items-center space-x-4">
+            <button class="px-4 py-2 bg-red-600 text-white rounded-md">Cancelar</button>
+            <button class="px-4 py-2 bg-blue-600 text-white rounded-md">Salvar</button>
+            <div class="bg-gray-600 text-white px-4 py-2 rounded">PROFESSOR: Manoel Francisco</div>
+          </div>
+        </header>
+
+        <!-- Form card -->
+        <main class="p-8 flex-1">
+          <div class="bg-white rounded-xl shadow p-8 flex gap-6">
+            <!-- Left -->
+            <div class="flex-1 space-y-6">
+              <div>
+                <h2 class="text-lg font-bold">Nome da disciplina</h2>
+                <input type="text" value="Cálculo III" class="mt-2 w-full border rounded-md px-4 py-2 bg-gray-100" />
+              </div>
+              <div>
+                <h2 class="text-lg font-bold">Área de conhecimento</h2>
+                <div class="mt-2 border-2 border-dashed border-purple-400 p-4 rounded-md">
+                  <select class="w-full border rounded-md px-4 py-2">
+                    <option>Selecione uma opção</option>
+                    <option>Humanas</option>
+                    <option>Exatas</option>
+                    <option>Biológicas</option>
+                    <option>Linguagens</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right -->
+            <div class="flex-1 space-y-6 border-l pl-6">
+              <div>
+                <h2 class="text-lg font-bold">Adicionar Descrição da Disciplina</h2>
+                <p class="mt-2 bg-gray-100 p-4 rounded text-sm">
+                  Cálculo estuda limites, derivadas e integrais, focando na resolução de problemas envolvendo variações e taxas de mudança, essenciais para áreas como engenharia e ciências exatas.
+                </p>
+              </div>
+              <div>
+                <h2 class="text-lg font-bold">Adicionar foto da Disciplina</h2>
+                <div class="mt-2 border-2 border-dashed border-gray-300 p-6 text-center rounded-md">
+                  <p class="text-blue-600 font-medium">Fazer upload de arquivo</p>
+                  <p class="text-sm text-gray-500">ou arraste e solte</p>
+                  <p class="text-xs text-gray-400 mt-2">PNG, JPG, PDF, DOC até 10MB</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-black text-white px-8 py-6 text-sm grid grid-cols-4 gap-6">
+          <div>
+            <h3 class="text-2xl font-bold text-blue-500">.MH Minds Hub</h3>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-2">Navegação</h4>
+            <ul class="space-y-1">
+              <li>Dashboard</li>
+              <li>Disciplinas</li>
+              <li>Configurações</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-2">Créditos & Parceiros</h4>
+            <ul class="space-y-1">
+              <li>Desenvolvido por The dry liter</li>
+              <li>Programadores</li>
+              <li>Gestão de Projeto</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold mb-2">Suporte e contato</h4>
+            <ul class="space-y-1">
+              <li>FAQ</li>
+              <li>Termos de Uso</li>
+              <li>Política de Privacidade</li>
+              <li><a href="mailto:suporte@Mindashub.com" class="text-blue-400">suporte@Mindashub.com</a></li>
+            </ul>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>
