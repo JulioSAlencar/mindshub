@@ -9,10 +9,11 @@ class UserObserver
 
     public function updated(User $user): void
     {
-        // Verifica se houve mudança em xp ou level
+
         if ($user->wasChanged('xp') || $user->wasChanged('level')) {
-            $user->checkAndAwardNewMedals($user);
+            $user->checkAndAwardMedals();
         }
     }
+
 
 }
