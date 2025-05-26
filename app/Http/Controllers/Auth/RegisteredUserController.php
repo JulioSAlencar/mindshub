@@ -58,10 +58,6 @@ class RegisteredUserController extends Controller
             }
         }
 
-        // Alternativamente, a medalha de nível 1 seria pega pelo $user->checkAndAwardNewMedals()
-        // se chamada aqui, mas atribuir explicitamente a "Início" é mais claro.
-        // $user->checkAndAwardNewMedals(); // Poderia ser chamado aqui também.
-
         event(new Registered($user));
         Auth::login($user);
 

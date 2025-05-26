@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string("title");
             $table->text("description");
-            $table->string('image');
-            $table->foreignId('creator_id')->constrained('users');
+            $table->string('image')->default('defalt_discipline.png')->change();
+            $table->string('category')->nullable();
+            $table->foreignId('creator_id')->constrained('users')->onDelete('cascade');
             $table->boolean('is_completed')->default(false);
             $table->timestamps();
         });

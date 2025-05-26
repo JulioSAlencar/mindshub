@@ -52,6 +52,15 @@
                     class="w-full h-32 resize-none border border-gray-300 p-2 rounded-md 
                            focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
             </div>
+            <div class="mb-4">
+                <label for="category" class="block text-sm font-medium text-gray-700">Área de Conhecimento</label>
+                <select name="category" id="category" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                    <option value="">Selecione uma categoria</option>
+                    @foreach ($categories as $cat)
+                        <option value="{{ $cat }}" {{ old('category', $discipline->category ?? '') == $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                    @endforeach
+                </select>
+            </div>
 
             <input 
                 type="submit" 

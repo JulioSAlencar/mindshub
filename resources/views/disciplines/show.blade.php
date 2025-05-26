@@ -19,16 +19,19 @@
             <h5 class="text-gray-600">{{ $discipline->description }}</h5>
             <p class="text-sm text-gray-500">Professor: <span class="font-medium text-gray-700">{{ $disciplineOwner['name'] }}</span></p>
             <p class="text-sm text-gray-500">{{ count($discipline->users) }} pessoas se inscreveram</p>
-
-            <form action="/disciplines/join/{{ $discipline->id }}" method="POST">
-                @csrf
-                <button 
-                    type="submit" 
-                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-                >
-                    Inscrever-se
-                </button>
-            </form>
+            @cannot('is-creator', $discipline)
+                <form action="/disciplines/join/{{ $discipline->id }}" method="POST">
+                    @csrf
+                    <button 
+                        type="submit" 
+                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                    >
+                        Inscrever-se
+                    </button>
+                </form>
+            @else
+                <p class="text-green-600 font-semibold">Você é o criador desta disciplina.</p>
+            @endcannot
         </div>
     </div>
 @endsection

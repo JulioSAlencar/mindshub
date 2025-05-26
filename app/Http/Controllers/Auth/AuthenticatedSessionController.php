@@ -52,7 +52,7 @@ class AuthenticatedSessionController extends Controller
 
         // Verifica se é o primeiro login
         if ($user->first_login) {
-            $user->gainXp(1); // chama direto o método da model
+            $user->gainXp(1);
             $user->first_login = false;
             $user->save();
         }

@@ -70,13 +70,13 @@
 
         <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-80 bg-white rounded shadow-lg p-4 z-50">
             <h4 class="text-lg font-bold mb-2">Notificações</h4>
+            <form action="{{ route('notifications.markAllRead') }}" method="POST" class="text-right mb-2">
+                  @csrf
+                  <button type="submit" class="text-sm text-blue-600 hover:underline">
+                      Marcar todas como lidas
+                  </button>
+            </form>
             @forelse($unreadNotifications as $notification)
-              <form action="{{ route('notifications.markAllRead') }}" method="POST" class="text-right mb-2">
-                    @csrf
-                    <button type="submit" class="text-sm text-blue-600 hover:underline">
-                        Marcar todas como lidas
-                    </button>
-                </form>
                   <div class="mb-2 border-b pb-3 flex items-start gap-3">
                       {{-- Ícone da medalha --}}
                       <div class="w-16 h-16 flex items-center justify-center">

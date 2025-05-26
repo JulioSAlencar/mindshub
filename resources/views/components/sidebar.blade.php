@@ -24,10 +24,6 @@
         <i class="fas fa-book"></i>
       </a>
 
-      <a class="hover:translate-x-1 hover:text-blue-500 transition text-xl" href="#">
-        <i class="fas fa-bullseye"></i>
-      </a>
-
       <a class="hover:translate-x-1 hover:text-blue-500 transition text-xl" href="{{ route('raking.page') }}">
         <i class="fas fa-trophy"></i>
       </a>
@@ -66,10 +62,6 @@
 
       <a href="{{ route('disciplines.participating') }}" class="flex items-center gap-4 hover:scale-105 hover:text-blue-500 transition font-bold">
         <i class="fas fa-book text-xl"></i> Disciplinas
-      </a>
-      
-      <a href="#" class="flex items-center gap-4 hover:scale-105 hover:text-blue-500 transition font-bold">
-        <i class="fas fa-bullseye text-xl"></i> Missões
       </a>
 
       <a href="{{ route('raking.page') }}" class="flex items-center gap-4 hover:scale-105 hover:text-blue-500 transition font-bold">

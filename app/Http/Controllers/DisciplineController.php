@@ -9,6 +9,7 @@ use App\Models\MissionAnswer;
 use App\Models\RecentDisciplineView;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 class DisciplineController extends Controller
 {
@@ -37,23 +38,30 @@ class DisciplineController extends Controller
 
     public function create()
     {
-        return view('disciplines.create');
+        $categories = ['Matemática', 'Linguagens', 'Ciências Humanas', 'Ciências da Natureza', 'Tecnologia'];
+        return view('disciplines.create', compact('categories'));
     }
+
 
     public function store(Request $request)
     {
 
         $this->authorize('manage', Discipline::class);
 
+        $categories = ['Matemática', 'Linguagens', 'Ciências Humanas', 'Ciências da Natureza', 'Tecnologia'];
+
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
+            'category' => ['required', Rule::in($categories)],
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
+
 
         $discipline = new Discipline();
         $discipline->title = $request->title;
         $discipline->description = $request->description;
+        $discipline->category = $request->category;
 
         // Upload de imagem
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
@@ -91,9 +99,19 @@ class DisciplineController extends Controller
 
     public function update(Request $request, $id)
     {
+        $categories = ['Matemática', 'Linguagens', 'Ciências Humanas', 'Ciências da Natureza', 'Tecnologia'];
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category' => ['required', Rule::in($categories)],
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
         $discipline = Discipline::findOrFail($id);
         $discipline->title = $request->title;
         $discipline->description = $request->description;
+        $discipline->category = $request->category; // certifique-se de que a coluna existe no banco
 
         // Atualiza imagem se houver nova
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
@@ -213,5 +231,18 @@ class DisciplineController extends Controller
         return back()->with('success', 'Conclusão da disciplina desfeita com sucesso!');
     }
 
+    public function allDisciplines()
+    {
+        $categories = ['Matemática', 'Linguagens', 'Ciências Humanas', 'Ciências da Natureza', 'Tecnologia'];
+
+        // Cria um array associativo com disciplinas por categoria
+        $disciplinesByCategory = [];
+
+        foreach ($categories as $category) {
+            $disciplinesByCategory[$category] = Discipline::where('category', $category)->get();
+        }
+
+        return view('dash_disciplines.allDisciplines', compact('disciplinesByCategory', 'categories'));
+    }
 
 }

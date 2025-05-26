@@ -26,8 +26,8 @@
     
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-2xl font-bold">Missões</h1>
-        <a href="{{ route('missions.create', $discipline->id) }}">
-            <button>Criar Missão para {{ $discipline->name }}</button>
+        <a href="{{ route('missions.create', $discipline->id) }}" class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
+            Criar Missão para {{ $discipline->title }}
         </a>
     </div>
 

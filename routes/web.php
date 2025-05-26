@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DisciplineController;
 use Illuminate\Support\Facades\Route;
 
 // Rotas públicas básicas
@@ -8,6 +9,9 @@ Route::view('/escolha', 'users.escolha-usuario');
 Route::view('/home', 'users.home');
 Route::view('/termos', 'TermsOfUse')->name('termos');
 Route::view('/raking', 'raking.globraking')->name('raking.page');
+Route::get('/disciplines/all', [DisciplineController::class, 'allDisciplines'])->name('dash_disciplines.allDisciplines');
+
+
 
 // Importando arquivos de rotas separados
 require __DIR__.'/auth.php';

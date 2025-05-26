@@ -46,6 +46,7 @@
             </h2>
         @else
             <h2 class="text-xl font-semibold text-gray-700 mb-4">Todas as Disciplinas</h2>
+            <a href="{{ route('dash_disciplines.allDisciplines')}}">Ver mais</a>
         @endif
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

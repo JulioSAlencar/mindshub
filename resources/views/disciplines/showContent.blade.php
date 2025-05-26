@@ -19,7 +19,7 @@
   <header class="flex items-center justify-between p-8">
     <div class="flex items-center">
       <figure>
-        <img src="/assets/disciplines/{{ $discipline->image }}" alt="{{ $discipline->title }}"
+        <img src="{{ $discipline->image ? asset('assets/disciplines/' . $discipline->image) : asset('assets/disciplines/defalt_discipline.png') }}" alt="{{ $discipline->title }}"
               class="w-48 h-48 object-cover rounded-lg">
       </figure>
       <div class="ml-11">
