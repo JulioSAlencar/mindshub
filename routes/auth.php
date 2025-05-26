@@ -15,6 +15,10 @@ use App\Http\Controllers\Auth\TypeUserController;
 
 Route::get('/auth/typeuser', [TypeUserController::class, 'index'])->name('typeuser.page');
 
+Route::get('/material-history', function () {
+    return view('auth.material-history');
+})->name('material.history');
+
 // 📌 Páginas públicas (acessíveis durante o desenvolvimento)
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
