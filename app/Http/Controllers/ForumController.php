@@ -110,4 +110,11 @@ public function toggleConstructive($id)
     return back()->with('success', 'Resposta atualizada com sucesso.');
 }
 
+public function likeReply($id)
+{
+    $reply = ForumReply::findOrFail($id);
+    $reply->increment('likes');
+    return back();
+}
+
 }
