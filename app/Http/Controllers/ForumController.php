@@ -21,15 +21,21 @@ class ForumController extends Controller
     ]);
 }
 
+
+
 public function replyToTopic(Request $request, $topicId)
 {
-    $data = $request->validate(['content' => 'required|string']);
+    $data = $request->validate([
+    'content' => 'required|string',
+    'parent_id' => 'nullable|exists:forum_replies,id'
+]);
 
     return ForumReply::create([
-        'user_id' => auth()->id(),
-        'topic_id' => $topicId,
-        'content' => $data['content'],
-    ]);
+    'user_id' => auth()->id(),
+    'topic_id' => $topicId,
+    'content' => $data['content'],
+    'parent_id' => $data['parent_id'] ?? null,
+]);
 }
 
 public function updateTopic(Request $request, $topicId) 

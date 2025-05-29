@@ -26,4 +26,14 @@ class ForumReply extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function parent()
+{
+    return $this->belongsTo(ForumReply::class, 'parent_id');
+}
+
+public function children()
+{
+    return $this->hasMany(ForumReply::class, 'parent_id');
+}
 }
