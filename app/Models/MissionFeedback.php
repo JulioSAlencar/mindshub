@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MissionFeedback extends Model
 {
-    protected $fillable = ['user_id', 'mission_id', 'content'];
+    protected $fillable = ['user_id', 'mission_id', 'content', 'category'];
 
     public function user() {
         return $this->belongsTo(User::class);

@@ -6,6 +6,7 @@ use App\Models\Badges;
 use App\Models\Mission;
 use App\Models\Discipline;
 use App\Models\MissionAnswer;
+use App\Models\MissionFeedback;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -149,14 +150,19 @@ class MissionController extends Controller
     public function end(Mission $mission)
     {
         $discipline = $mission->discipline;
-    
+
         if (!$discipline) {
             return redirect()->route('dashboard')->with('error', 'Disciplina da missão não encontrada.');
         }
-    
+
+        $hasFeedback = MissionFeedback::where('user_id', auth()->id())
+            ->where('mission_id', $mission->id)
+            ->exists();
+
         return view('questions.end', [
             'discipline' => $discipline,
             'mission' => $mission,
+            'hasFeedback' => $hasFeedback,
         ]);
     }
     
@@ -198,8 +204,7 @@ class MissionController extends Controller
         $user->missions()->attach($mission->id, ['completed_at' => now()]);
     
         // Adiciona XP e verifica level/medalhas
-        $user->addXp($mission->xp_reward);
-    
+        $user->addXp($user->id, $mission->xp_reward);    
         return back()->with('success', 'Missão concluída! XP recebido.');
     }
 

@@ -1,33 +1,39 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="max-w-lg mx-auto bg-gray-700 rounded-lg shadow-md p-8 text-center">
+<div class="container mt-4">
+    <div class="max-w-2xl mx-auto bg-gray-800 text-white p-6 rounded-lg shadow-md">
+        <h1 class="text-2xl font-bold mb-4">Missão Concluída!</h1>
 
-        <h1 class="text-3xl font-bold mb-4 text-green-400">Missão Concluída!</h1>
+        <p class="mb-4">Parabéns por concluir a missão <strong>{{ $mission->title }}</strong>!</p>
 
-        @if (session('success'))
-            <p class="text-lg mb-6 text-gray-200">{{ session('success') }}</p>
+        @if (!$hasFeedback)
+            <form method="POST" action="{{ route('mission.feedback.store', $mission->id) }}">
+                @csrf
+
+                <div class="mb-4">
+                    <label for="category" class="block mb-2 text-sm font-medium">Categoria do Feedback (opcional)</label>
+                    <select id="category" name="category" class="w-full bg-gray-700 border border-gray-600 text-white p-2 rounded">
+                        <option value="">Nenhuma</option>
+                        <option value="dificuldade">Dificuldade</option>
+                        <option value="qualidade">Qualidade</option>
+                        <option value="elogio">Elogio</option>
+                        <option value="sugestão">Sugestão</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label for="content" class="block mb-2 text-sm font-medium">Deixe seu feedback (opcional)</label>
+                    <textarea id="content" name="content" rows="4" class="w-full bg-gray-700 border border-gray-600 text-white p-2 rounded"></textarea>
+                </div>
+
+                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    Enviar Feedback
+                </button>
+            </form>
         @else
-            <p class="text-lg mb-6 text-gray-200">Você respondeu todas as questões desta missão.</p>
+            <p class="text-green-400">Você já enviou seu feedback para esta missão. Obrigado!</p>
         @endif
-
-        {{-- Botão para ver resultado da missão específica --}}
-        @if($mission)
-            <a href="{{ route('missions.result', $mission->id) }}" class="inline-block bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 transition font-medium mb-4">
-                Ver meu resultado
-            </a>
-            <br> {{-- Quebra de linha para separar os botões --}}
-        @else
-            {{-- Este bloco é menos provável de ser atingido agora --}}
-            <p class="text-red-400">Não foi possível encontrar os detalhes da missão.</p>
-        @endif
-
-
-        {{-- Botão para voltar para a disciplina relacionada --}}
-        {{-- CORRIGIDO: usar $discipline->id consistentemente --}}
-        <a href="{{ route('disciplines.showContent', $discipline->id) }}" class="inline-block bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition font-medium">
-            Voltar para {{ $discipline->name ?? 'Disciplina' }}
-        </a>
-
     </div>
+</div>
 @endsection

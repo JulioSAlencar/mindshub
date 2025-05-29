@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
+
 class Mission extends Model
 {
     use HasFactory;
@@ -61,6 +61,6 @@ class Mission extends Model
 
     public function materials()
     {
-        return $this->belongsToMany(Material::class, 'material_mission');
+        return $this->belongsToMany(ContentDiscipline::class, 'material_mission');
     }
 }
