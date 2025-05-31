@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Discipline;
 use App\Models\User;
 use App\Observers\UserObserver;
+use App\Services\UserRewardService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -14,6 +15,9 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->singleton(UserRewardService::class, function ($app) {
+            return new UserRewardService();
+        });
     }
 
     public function boot(): void

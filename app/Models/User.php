@@ -2,15 +2,12 @@
 
 namespace App\Models;
 
-use App\Http\Controllers\NotificationController;
+use App\Notifications\MedalAwardedNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Session;
-use App\Notifications\MedalAwardedNotification;
 use Illuminate\Notifications\DatabaseNotification;
+use App\Services\UserRewardService;
 
 class User extends Authenticatable
 {
@@ -41,16 +38,12 @@ class User extends Authenticatable
         'first_login' => 'boolean',
     ];
 
+    // RELACIONAMENTOS
     public function medals()
     {
         return $this->belongsToMany(Medal::class, 'user_medals')
                     ->withPivot('earned_at')
                     ->withTimestamps();
-    }
-
-    public function hasMedal(Medal $medal): bool
-    {
-        return $this->medals()->where('medal_id', $medal->id)->exists();
     }
 
     public function disciplines()
@@ -93,8 +86,6 @@ class User extends Authenticatable
         return $this->belongsToMany(Badges::class, 'user_badges')->withTimestamps();
     }
 
-
-
     public function missions()
     {
         return $this->belongsToMany(Mission::class, 'mission_user')
@@ -114,133 +105,30 @@ class User extends Authenticatable
 
     protected static function booted()
     {
+        static::created(function ($user) {
+            app(UserRewardService::class)->initializeNewUser($user);
+        });
+
         static::deleting(function ($user) {
             $user->notifications()->delete();
         });
     }
 
-    // Lógica que deveria ir para um service
-
-    public function addXp(Request $request, $id)
+    public function hasMedal(Medal $medal): bool
     {
-        $user = User::findOrFail($id);
-        $amount = $request->input('xp');
-
-        $user->gainXp($amount);
-
-        return redirect()->back()->with('message', 'XP adicionado!');
+        return $this->medals()->where('medal_id', $medal->id)->exists();
     }
 
-    public function gainXp(int $amount): void
+    public function awardMedal(Medal $medal): void
     {
-        if ($amount <= 0) return;
+        // Evita atribuir medalha duplicada
+        if (!$this->medals()->where('medal_id', $medal->id)->exists()) {
+            $this->medals()->attach($medal->id);
 
-        $this->xp += $amount;
-        $levelBefore = $this->level;
-        $this->level = $this->calculateLevelFromXp($this->xp);
-        $this->save();
-
-        $this->syncMedalsByLevel();
-        $this->checkAndAwardMedals();
-
-        if ($this->level > $levelBefore) {
-            Session::flash('level_up', 'Parabéns! Você subiu para o Nível ' . $this->level . '!');
+            // Notificação, se desejar
+            $this->notify(new MedalAwardedNotification ($medal));
         }
     }
-
-    public static function getLevelXpRequirementsMapping(): array
-    {
-        $xpMap = [1 => 1];
-        for ($level = 2; $level <= 100; $level++) {
-            $ratio = ($level - 1) / 99;
-            $xpMap[$level] = 1 + intval(pow($ratio, 2) * (10000 - 1));
-        }
-        return $xpMap;
-    }
-
-
-    public function calculateLevelFromXp(int $xp): int
-    {
-        if ($xp <= 0) return 1;
-
-        $levelMap = $this->getLevelXpRequirementsMapping();
-        krsort($levelMap);
-
-        foreach ($levelMap as $level => $requiredXp) {
-            if ($xp >= $requiredXp) {
-                return $level;
-            }
-        }
-
-        return 1;
-    }
-
-    public function checkAndAwardMedals()
-    {
-        $newlyAwardedMedals = [];
-        $currentUserLevel = $this->level;
-
-        $potentialMedals = \App\Models\Medal::where('condition_type', 'level')
-            ->where('condition_value', '<=', $currentUserLevel)
-            ->orderBy('condition_value', 'asc')
-            ->get();
-
-        foreach ($potentialMedals as $medal) {
-            if (!$this->hasMedal($medal)) {
-                $this->medals()->attach($medal->id, ['earned_at' => now()]);
-                $newlyAwardedMedals[] = $medal;
-
-                // 🔔 Dispara a notificação
-                $this->notify(new MedalAwardedNotification($medal));
-            }
-        }
-
-        if (!empty($newlyAwardedMedals)) {
-            $messages = [];
-            foreach ($newlyAwardedMedals as $medal) {
-                $iconHtml = $medal->icon ? "<img src='" . asset($medal->icon) . "' alt='{$medal->name}' style='width: 24px;'>" : "🏅 ";
-                $messages[] = $iconHtml . " <strong>{$medal->name}</strong>: {$medal->description}";
-            }
-            Session::flash('awarded_medals_messages', $messages);
-        }
-    }
-
-
-    public function syncMedalsByLevel(): void
-    {
-        // Pega todas as medalhas do tipo "level" até o nível atual do usuário
-        $medalsToAssign = Medal::where('condition_type', 'level')
-            ->where('condition_value', '<=', $this->level)
-            ->get();
-
-        foreach ($medalsToAssign as $medal) {
-            // Verifica se o usuário já tem a medalha
-            if (!$this->medals()->where('medal_id', $medal->id)->exists()) {
-                // Atribui a medalha ao usuário (assumindo relacionamento many-to-many)
-                $this->medals()->attach($medal->id);
-            }
-        }
-    }
-    public function awardMedal(Medal $medal)
-    {
-        if (!$this->hasMedal($medal)) {
-            $this->medals()->attach($medal->id, ['earned_at' => now()]);
-            $this->notify(new MedalAwardedNotification($medal));
-        }
-    }
-
-    public function verificarMedalhas()
-    {
-        $medalhas = Medal::where('condition_type', 'level')
-            ->where('condition_value', '<=', $this->level)
-            ->get();
-
-        foreach ($medalhas as $medalha) {
-            if (!$this->medals->contains($medalha->id)) {
-                $this->medals()->attach($medalha->id);
-                $this->notify(new MedalAwardedNotification($medalha));
-            }
-        }
-    }
+    
 
 }

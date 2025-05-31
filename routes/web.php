@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DisciplineController;
+use App\Http\Controllers\RankingController;
 use Illuminate\Support\Facades\Route;
 
 // Rotas públicas básicas
@@ -8,7 +9,7 @@ Route::view('/', 'welcome');
 Route::view('/escolha', 'users.escolha-usuario');
 Route::view('/home', 'users.home');
 Route::view('/termos', 'TermsOfUse')->name('termos');
-Route::view('/raking', 'raking.globraking')->name('raking.page');
+Route::get('/ranking', [RankingController::class, 'index'])->name('ranking.global');
 Route::get('/disciplines/all', [DisciplineController::class, 'allDisciplines'])->name('dash_disciplines.allDisciplines');
 
 

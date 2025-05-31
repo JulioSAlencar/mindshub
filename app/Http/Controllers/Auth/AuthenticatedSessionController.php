@@ -50,13 +50,6 @@ class AuthenticatedSessionController extends Controller
             ->where('id', '!=', Session::getId())
             ->delete();
 
-        // Verifica se é o primeiro login
-        if ($user->first_login) {
-            $user->gainXp(1);
-            $user->first_login = false;
-            $user->save();
-        }
-
         return redirect()->intended(route('dashboard', absolute: false));
     }
 

@@ -24,7 +24,7 @@
         <i class="fas fa-book"></i>
       </a>
 
-      <a class="hover:translate-x-1 hover:text-blue-500 transition text-xl" href="{{ route('raking.page') }}">
+      <a class="hover:translate-x-1 hover:text-blue-500 transition text-xl" href="{{ route('ranking.global') }}">
         <i class="fas fa-trophy"></i>
       </a>
 
@@ -64,7 +64,7 @@
         <i class="fas fa-book text-xl"></i> Disciplinas
       </a>
 
-      <a href="{{ route('raking.page') }}" class="flex items-center gap-4 hover:scale-105 hover:text-blue-500 transition font-bold">
+      <a href="{{ route('ranking.global') }}" class="flex items-center gap-4 hover:scale-105 hover:text-blue-500 transition font-bold">
         <i class="fas fa-trophy text-xl"></i> Ranking
       </a>
 

@@ -13,8 +13,8 @@
         </div>
         <div class="flex-1 space-y-4">
             <div class="flex">
-                <img src="{{ asset('assets/icons/bookIcon.png') }}" alt="" class="w-[2rem] h-[2rem] mr-4">
-                <h1 class="text-2xl font-bold text-gray-800">{{ $discipline->title }}</h1>
+                 <img src="{{ $discipline->image ? asset('assets/disciplines/' . $discipline->image) : asset('assets/disciplines/defalt_discipline.png') }}"</img>
+                <h1> class="text-2xl font-bold text-gray-800">{{ $discipline->title }}</h1>
             </div>
             <h5 class="text-gray-600">{{ $discipline->description }}</h5>
             <p class="text-sm text-gray-500">Professor: <span class="font-medium text-gray-700">{{ $disciplineOwner['name'] }}</span></p>

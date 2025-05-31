@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('role')->default('student');
             $table->unsignedInteger('xp')->default(0);
             $table->unsignedInteger('level')->default(0);
-            $table->boolean('first_login')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

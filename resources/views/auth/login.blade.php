@@ -27,13 +27,6 @@
         <p class="text-gray-950 text-2xl mt-5">Seja <span class="text-blue-500">Bem-Vindo!</span></p>
       </div>
 
-      {{-- Mensagem de erro geral (credenciais incorretas) --}}
-      @if ($errors->has('email'))
-        <div class="text-red-600 text-sm mb-4">
-          {{ $errors->first('email') }}
-        </div>
-      @endif
-
       {{-- Mensagem de status (ex: link de verificação enviado) --}}
       @if (session('status'))
         <div class="text-green-600 text-sm mb-4">
@@ -43,10 +36,24 @@
 
       <div class="grid gap-6 w-full">
         <input type="email" name="email" placeholder="Email" value="{{ old('email') }}"
-          class="bg-gray-200 rounded-lg text-lg border-none p-3 text-black placeholder-black ">
+        class="bg-gray-200 rounded-lg text-lg border-none p-3 text-black placeholder-black ">
+      </div>
+      {{-- Mensagem de erro geral (credenciais incorretas) --}}
+      @if ($errors->has('email'))
+        <div class="text-red-600 text-sm mb-2">
+          {{ $errors->first('email') }}
+        </div>
+      @endif
+      <div class="grid gap-6 w-full mt-6">
         <input type="password" name="password" placeholder="Senha"
           class="bg-gray-200 rounded-lg text-lg border-none p-3 text-black placeholder-black ">
       </div>
+            {{-- Mensagem de erro de senha --}}
+      @if ($errors->has('password'))
+        <div class="text-red-600 text-sm mb-2">
+          {{ $errors->first('password') }}
+        </div>
+      @endif
 
       <!-- Remember Me -->
       <div class="block mt-4">

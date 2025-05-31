@@ -11,16 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('forum_reply_votes', function (Blueprint $table) {
+        Schema::create('mission_feedback', function (Blueprint $table) {
             $table->id();
+            $table->text('content');
+            $table->string('category')->nullable(); // apenas remova o "->after('content')"
+            $table->foreignId('mission_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('reply_id')->constrained('forum_replies')->onDelete('cascade');
-            $table->boolean('is_upvote');
             $table->timestamps();
-
-            $table->unique(['user_id', 'reply_id']);
         });
-
     }
 
     /**
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('forum_reply_votes');
+        Schema::dropIfExists('mission_feedback');
     }
 };
