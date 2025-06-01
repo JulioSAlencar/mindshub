@@ -4,29 +4,53 @@ namespace App\Http\Controllers;
 
 use App\Models\Mission;
 use App\Models\MissionFeedback;
+use App\Services\UserRewardService;
 use Illuminate\Http\Request;
 
 class MissionFeedbackController extends Controller
 {
-    public function store(Request $request, Mission $mission)
+    protected $rewardService;
+
+    public function __construct(UserRewardService $rewardService)
+    {
+        $this->rewardService = $rewardService;
+    }
+
+    public function store(Request $request)
     {
         $request->validate([
-            'content' => 'nullable|string|max:1000',
-            'category' => 'nullable|string|max:255'
+            'mission_id' => 'required|exists:missions,id',
+            'category'   => 'nullable|string|max:255',
+            'content'    => 'nullable|string|max:1000',
         ]);
 
-        MissionFeedback::create([
-            'mission_id' => $mission->id,
-            'user_id' => auth()->id(),
-            'content' => $request->content,
-            'category' => $request->category
-        ]);
+        $userId = auth()->id();
 
-        // Recompensa automática (critério: feedback com +20 caracteres)
-        if (strlen($request->content) >= 20) {
-            auth()->user()->addXp(20);
+        $exists = MissionFeedback::where('user_id', $userId)
+            ->where('mission_id', $request->mission_id)
+            ->exists();
+
+        if ($exists) {
+            if ($request->ajax()) {
+                return response()->json(['message' => 'Você já enviou um feedback.'], 422);
+            }
+            return redirect()->back()->with('success', 'Você já enviou um feedback.');
         }
 
-        return redirect()->route('missions.result', $mission)->with('success', 'Feedback enviado com sucesso!');
+        MissionFeedback::create([
+            'user_id'    => $userId,
+            'mission_id' => $request->mission_id,
+            'category'   => $request->category,
+            'content'    => $request->content,
+        ]);
+
+        $this->rewardService->gainXp(auth()->user(), 2);
+
+        if ($request->ajax()) {
+            return response()->json(['message' => 'Feedback enviado com sucesso! Você ganhou 2 de XP!']);
+        }
+
+        return redirect()->back()->with('success', 'Feedback enviado com sucesso! Você ganhou 2 de XP!');
     }
+
 }

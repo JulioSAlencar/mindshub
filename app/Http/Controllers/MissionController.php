@@ -26,21 +26,10 @@ class MissionController extends Controller
         return view('missions.create', compact('discipline'));
     }
 
-    public function store(Request $request, Mission $mission)
+    public function store(Request $request)
     {
-        $userId = auth()->id();
-
-        $alreadyAnswered = MissionAnswer::where('mission_id', $mission->id)
-            ->where('user_id', $userId)
-            ->exists();
-
-        if ($alreadyAnswered) {
-            return redirect()->back()->with('error', 'Você já respondeu essa missão.');
-        }
-
         $appTimezone = config('app.timezone');
         $nowInAppTimezone = Carbon::now($appTimezone);
-
         $minValidTime = $nowInAppTimezone->copy()->startOfMinute();
 
         $request->validate([
@@ -49,7 +38,7 @@ class MissionController extends Controller
             'start_date' => [
                 'required',
                 'date',
-                'after_or_equal:' . $minValidTime->toDateTimeString(),
+                'after_or_equal:' . $minValidTime->format('Y-m-d H:i')
             ],
             'end_date' => 'required|date|after:start_date',
             'duration_minutes' => 'nullable|integer|min:1'
@@ -183,13 +172,15 @@ class MissionController extends Controller
     public function responses(Mission $mission)
     {
         $discipline = Discipline::findOrFail($mission->discipline_id); 
+        
+        $feedbacks = MissionFeedback::with('user')->where('mission_id', $mission->id)->latest()->get();
     
         $responses = MissionAnswer::with('user', 'question')
             ->where('mission_id', $mission->id)
             ->get()
             ->groupBy('user_id');
 
-        return view('missions.responses', compact('mission', 'responses', 'discipline'));
+        return view('missions.responses', compact('mission', 'responses', 'discipline', 'feedbacks'));
     }
 
     public function complete(Mission $mission)

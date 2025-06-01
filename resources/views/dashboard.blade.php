@@ -11,7 +11,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @foreach ($recentDisciplines as $view)
                 <div class="bg-white shadow-md rounded-xl p-4">
-                    <img src="{{ asset($view->discipline->image ? 'assets/disciplines/' . $view->discipline->image : 'assets/disciplines/defalt_discipline.png') }}"
+                    <img src="{{ asset($view->discipline->image ? 'assets/disciplines/' . $view->discipline->image : 'assets/disciplines/default_discipline.png') }}"
                          alt="{{ $view->discipline->title }}"
                          class="w-full h-48 object-cover rounded-lg mt-2">
                     <div class="mt-4">
@@ -52,7 +52,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @foreach ($disciplines as $discipline)
                 <div class="bg-white shadow-md rounded-xl p-4">
-                    <img src="{{ $discipline->image ? asset('assets/disciplines/' . $discipline->image) : asset('assets/disciplines/defalt_discipline.png') }}"
+                    <img src="{{ $discipline->image ? asset('assets/disciplines/' . $discipline->image) : asset('assets/disciplines/default_discipline.png') }}"
                          alt="{{ $discipline->title }}"
                          class="w-full h-48 object-cover rounded-lg">
                     <div class="mt-4">

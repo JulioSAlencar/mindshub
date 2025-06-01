@@ -21,7 +21,7 @@
 
             <div class="mb-4">
                 <label class="block text-base font-medium text-gray-700">Imagem atual da disciplina</label>
-                <img src="{{ asset('assets/disciplines/' . $discipline->image) }}" alt="{{ $discipline->title }}" 
+                <img src="{{ $discipline->image ? asset('assets/disciplines/' . $discipline->image) : asset('assets/disciplines/default_discipline.png') }}" alt="{{ $discipline->title }}"
                     class="w-48 h-48 object-cover rounded-lg mt-2">
             </div>
 

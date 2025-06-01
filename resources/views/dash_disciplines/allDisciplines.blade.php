@@ -15,7 +15,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     @foreach($disciplinesByCategory[$category] as $discipline)
                         <div class="bg-white shadow-md rounded-xl overflow-hidden">
-                            <img src="{{ $discipline->image ? asset('assets/disciplines/' . $discipline->image) : asset('assets/disciplines/defalt_discipline.png') }}"
+                            <img src="{{ $discipline->image ? asset('assets/disciplines/' . $discipline->image) : asset('assets/disciplines/default_discipline.png') }}"
                                 alt="{{ $discipline->title }}"
                                 class="w-full h-48 object-cover rounded-lg">
 

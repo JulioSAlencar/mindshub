@@ -4,167 +4,166 @@
 
 @section('content')
 
+{{-- Alerta de sucesso --}}
 @if(session('msg'))
-  <div class="alert alert-success">
-      {{ session('msg') }}
-  </div>
-@endif
-@if(session('error'))
-  <div class="alert alert-danger">
-      {{ session('error') }}
+  <div class="flex items-center gap-2 p-4 mb-6 text-green-800 bg-green-100 border border-green-400 rounded-lg shadow-sm" role="alert">
+    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.707a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 10-1.414 1.414L9 13.414l4.707-4.707z" clip-rule="evenodd"/>
+    </svg>
+    <span>{{ session('msg') }}</span>
   </div>
 @endif
 
+{{-- Alerta de erro --}}
+@if(session('error'))
+  <div class="flex items-center gap-2 p-4 mb-6 text-red-800 bg-red-100 border border-red-400 rounded-lg shadow-sm" role="alert">
+    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M18 10A8 8 0 11.001 10 8 8 0 0118 10zM9 4a1 1 0 012 0v4a1 1 0 01-2 0V4zm1 8a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" clip-rule="evenodd"/>
+    </svg>
+    <span>{{ session('error') }}</span>
+  </div>
+@endif
+
+{{-- Container principal --}}
 <div x-data="{ tab: 'missoes' }">
-  <header class="flex items-center justify-between p-8">
-    <div class="flex items-center">
-      <figure>
-        <img src="{{ $discipline->image ? asset('assets/disciplines/' . $discipline->image) : asset('assets/disciplines/defalt_discipline.png') }}" alt="{{ $discipline->title }}"
-              class="w-48 h-48 object-cover rounded-lg">
+  <header class="flex flex-col lg:flex-row items-center justify-between gap-8 px-8 py-10 bg-white shadow rounded-lg mb-10">
+    <div class="flex items-center gap-8">
+      <figure class="flex-shrink-0">
+        <img src="{{ $discipline->image ? asset('assets/disciplines/' . $discipline->image) : asset('assets/disciplines/defalt_discipline.png') }}"
+             alt="{{ $discipline->title }}"
+             class="w-40 h-40 object-cover rounded-xl shadow-md">
       </figure>
-      <div class="ml-11">
-        <h1 class="text-4xl mb-8">{{ $discipline->title }}</h1>
-        <div class="flex items-center">
-          @if (!empty($disciplineOwner['profile_photo']))
-              <img src="{{ asset($disciplineOwner['profile_photo']) }}" alt="Imagem do professor"  
-                   class="w-10 h-10 rounded-full object-cover border border-gray-300 shadow-sm">
-          @else
-              <img src="{{ asset('assets/profile_photos/default.png') }}" alt="Imagem padrão" 
-                   class="w-10 h-10 rounded-full object-cover border border-gray-300 shadow-sm">
-          @endif
-          <p class="text-2xl ml-2">Prof. {{ $disciplineOwner['name'] }}</p>
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ $discipline->title }}</h1>
+        <div class="flex items-center gap-3">
+          <img src="{{ asset($disciplineOwner['profile_photo'] ?? 'assets/profile_photos/default.png') }}"
+               alt="Foto do professor"
+               class="w-10 h-10 rounded-full object-cover border border-gray-300 shadow-sm">
+          <p class="text-xl font-medium text-gray-700">Prof. {{ $disciplineOwner['name'] }}</p>
         </div>
       </div>
     </div>
-    <div class="space-y-2">
-    
+
+    <div class="flex flex-col gap-3">
       @if ($discipline->is_completed)
-          <a href="{{ route('certificates.generate', $discipline->id) }}"
-              class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
-              Baixar Certificado
-          </a>
+        <a href="{{ route('certificates.generate', $discipline->id) }}"
+           class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition shadow">
+          Baixar Certificado
+        </a>
       @endif
 
-      @can('is-creator', $discipline)        
-        <a href="{{ route('disciplines.manager', ['id' => $discipline->id])}}" class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
-          Gerenciar disicplina
+      @can('is-creator', $discipline)
+        <a href="{{ route('disciplines.manager', ['id' => $discipline->id]) }}"
+           class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition shadow">
+          Gerenciar disciplina
         </a>
       @endcan
     </div>
-    
   </header>
 
-  <div class="px-8 pb-10">
-    <!-- Navegação por abas -->
-    <nav class="flex bg-gray-700 rounded-t-lg overflow-hidden">
-      <button
-        class="w-1/2 py-3 text-center font-semibold transition-all"
-        :class="tab === 'conteudo' ? 'bg-gray-900 text-white text-lg' : 'text-gray-300'"
-        @click="tab = 'conteudo'">
-        Conteúdo
-      </button>
-      <button
-        class="w-1/2 py-3 text-center font-semibold transition-all"
-        :class="tab === 'missoes' ? 'bg-gray-900 text-white text-lg' : 'text-gray-300'"
-        @click="tab = 'missoes'">
-        Missões
-      </button>
-    </nav>
+  {{-- Abas de navegação --}}
+  <nav class="flex rounded-t-lg overflow-hidden text-center bg-gray-700 text-white font-semibold shadow-md">
+    <button @click="tab = 'conteudo'"
+            :class="tab === 'conteudo' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-800'"
+            class="w-1/2 px-4 py-3 transition">
+      Conteúdo
+    </button>
+    <button @click="tab = 'missoes'"
+            :class="tab === 'missoes' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-800'"
+            class="w-1/2 px-4 py-3 transition">
+      Missões
+    </button>
+  </nav>
 
-    <!-- Seção de Conteúdo -->
-    <section id="conteudo" x-show="tab === 'conteudo'" class="bg-gray-900 p-6 rounded-b-lg text-white grid grid-cols-2">
-      <div class="w-3/4 flex flex-col gap-6 justify-center">
-        @foreach ($groupedContents as $category => $contents)
-          <article>
-            <h2 class="text-2xl font-bold text-white mb-4 capitalize">
-                {{ $category }}
-            </h2>
-
-            @foreach ($contents as $content)
-              <div class="bg-gray-600 rounded-md p-2 flex justify-between items-center mb-3">
-                <div class="flex items-center gap-3">
-                    <img src="{{ asset('assets/icons/prancheta.svg') }}" alt="ícone de conteúdo" class="w-10 h-10">
-                    <div>
-                        <h3 class="text-lg font-medium mb-2">{{ $content->title }}</h3>
-                        <p class="text-sm text-gray-400">
-                            Publicado em {{ $content->created_at->format('d/m/y') }}
-                            {{ strtoupper($content->file_type) }} -
-                            @if($content->file_size >= 1048576)
-                                {{ number_format($content->file_size / 1048576, 2) }} MB
-                            @else
-                                {{ number_format($content->file_size / 1024, 2) }} KB
-                            @endif
-                        </p>
-                    </div>
-                </div>
-                <div class="flex gap-2">
-                    <a href="{{ url($content->file_path) }}" target="_blank" rel="noopener noreferrer">
-                        <button class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">Ver</button>
-                    </a>
-                    <a href="{{ url($content->file_path) }}" download>
-                        <button class="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 transition">Download</button>
-                    </a>
+  {{-- Seção Conteúdo --}}
+  <section x-show="tab === 'conteudo'" class="bg-gray-900 text-white px-8 py-10 rounded-b-lg grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="space-y-8">
+      @foreach ($groupedContents as $category => $contents)
+        <div>
+          <h2 class="text-2xl font-semibold mb-4 capitalize">{{ $category }}</h2>
+          @foreach ($contents as $content)
+            <div class="bg-gray-700 p-4 rounded-lg shadow flex justify-between items-center gap-4">
+              <div class="flex items-center gap-4">
+                <img src="{{ asset('assets/icons/prancheta.svg') }}" alt="" class="w-10 h-10">
+                <div>
+                  <h3 class="text-lg font-semibold">{{ $content->title }}</h3>
+                  <p class="text-sm text-gray-400">
+                    {{ $content->created_at->format('d/m/y') }} —
+                    {{ strtoupper($content->file_type) }} •
+                    @if($content->file_size >= 1048576)
+                      {{ number_format($content->file_size / 1048576, 2) }} MB
+                    @else
+                      {{ number_format($content->file_size / 1024, 2) }} KB
+                    @endif
+                  </p>
                 </div>
               </div>
-            @endforeach
-          </article>
-        @endforeach
-      </div>
-      <figure class="grid justify-center">
-        <img src="{{ asset('assets/images/bgConteudo.png') }}" alt="Imagem de ilustrativa" />
-      </figure>
-    </section>
-
-    <!-- Seção de Missões -->
-    <section id="missoes" x-show="tab === 'missoes'" class="bg-gray-900 p-6 rounded-b-lg text-white grid grid-cols-2">
-      <div class="w-3/4 flex flex-col gap-6 justify-center">
-        @foreach ($missions as $mission)
-          <article class="bg-gray-600 rounded-md p-2 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-              <img src="{{ asset('assets/icons/grafico.svg') }}" alt="ícone de missão" class="w-10 h-10">
-              <div>
-                <h3 class="text-lg font-medium mb-2">{{ $mission->title }}</h3>
-                <p class="text-sm text-gray-400">
-                  Quantidade de questões: {{ $mission->questions->count() }}<br>
-                  Publicado em {{ $mission->start_date->format('d/m/Y') }}<br>
-                  Termina em {{ $mission->end_date->format('d/m/Y') }}
-                </p>
+              <div class="flex gap-2">
+                <a href="{{ url($content->file_path) }}" target="_blank" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition">Ver</a>
+                <a href="{{ url($content->file_path) }}" download class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition">Download</a>
               </div>
             </div>
-            <div class="flex items-center gap-2">
-              @can("is-student")
-                @if ($mission->end_date < now())
-                  {{-- Missão expirada: mostrar somente resultado --}}
-                  <a href="{{ route('missions.result', $mission->id) }}" class="inline-block bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600 transition font-medium">
-                    Ver meu resultado
-                  </a>
-                @elseif (in_array($mission->id, $answeredMissionIds))
-                  <a href="{{ route('missions.result', $mission->id) }}" class="inline-block bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 transition font-medium">
-                    Ver meu resultado
-                  </a>
-                @else
-                  {{-- Missão ainda válida e não respondida --}}
-                  @if (!(Auth::user()->role === 'teacher' && $mission->discipline->user_id === Auth::id()))
-                    <a href="{{ route('missions.show', $mission->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition font-medium">
-                      Responder
-                    </a>
-                  @endif
-                @endif
-              @endcan
-              @can('is-creator', $mission->discipline)
-                <a href="{{ route('missions.responses', $mission->id) }}" class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">
-                  Ver respostas dos alunos
+          @endforeach
+        </div>
+      @endforeach
+    </div>
+    <figure class="flex justify-center items-center">
+      <img src="{{ asset('assets/images/bgConteudo.png') }}" alt="Ilustração" class="rounded-lg max-w-full">
+    </figure>
+  </section>
+
+  {{-- Seção Missões --}}
+  <section x-show="tab === 'missoes'" class="bg-gray-900 text-white px-8 py-10 rounded-b-lg grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="space-y-6">
+      @foreach ($missions as $mission)
+        <div class="bg-gray-700 p-4 rounded-lg shadow flex justify-between items-center gap-4">
+          <div class="flex items-center gap-4">
+            <img src="{{ asset('assets/icons/grafico.svg') }}" alt="" class="w-10 h-10">
+            <div>
+              <h3 class="text-lg font-semibold">{{ $mission->title }}</h3>
+              <p class="text-sm text-gray-400">
+                Questões: {{ $mission->questions->count() }}<br>
+                Início: {{ $mission->start_date->format('d/m/Y') }}<br>
+                Término: {{ $mission->end_date->format('d/m/Y') }}
+              </p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2 justify-end">
+            @can("is-student")
+              @if ($mission->end_date < now())
+                <a href="{{ route('missions.result', $mission->id) }}"
+                   class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded transition">
+                  Ver meu resultado
                 </a>
-              @endcan
-            </div>
-          </article>
-        @endforeach
-      </div>
-      <figure class="grid justify-center">
-        <img src="{{ asset('assets/images/BglogoMiss.png') }}" alt="Imagem de ilustrativa" />
-      </figure>
-    </section>
-  </div>
+              @elseif (in_array($mission->id, $answeredMissionIds))
+                <a href="{{ route('missions.result', $mission->id) }}"
+                   class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition">
+                  Ver meu resultado
+                </a>
+              @else
+                @if (!(Auth::user()->role === 'teacher' && $mission->discipline->user_id === Auth::id()))
+                  <a href="{{ route('missions.show', $mission->id) }}"
+                     class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition">
+                    Responder
+                  </a>
+                @endif
+              @endif
+            @endcan
+
+            @can('is-creator', $mission->discipline)
+              <a href="{{ route('missions.responses', $mission->id) }}"
+                 class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition">
+                Ver respostas
+              </a>
+            @endcan
+          </div>
+        </div>
+      @endforeach
+    </div>
+    <figure class="flex justify-center items-center">
+      <img src="{{ asset('assets/images/BglogoMiss.png') }}" alt="Ilustração" class="rounded-lg max-w-full">
+    </figure>
+  </section>
 </div>
 
 @endsection
