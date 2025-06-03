@@ -4,15 +4,10 @@
 <div class="container mt-6">
 
     {{-- Caixa de conclusão da missão --}}
-    <div class="max-w-2xl mx-auto bg-gray-900 text-white p-8 rounded-xl shadow-lg mb-8">
-        <h1 class="text-3xl font-bold mb-4 text-green-400 text-center">Missão Concluída!</h1>
-
+    <div class="max-w-2xl mx-auto bg-white text-gray-900 p-8 rounded-xl shadow-lg mb-8">
+        <h1 class="text-3xl font-bold mb-4 text-green-600 text-center">Missão Concluída!</h1>
+        <p class="text-xl text-center mb-4">Você ganhou <span class="font-bold text-green-600">{{ $xpEarned ?? '?' }}</span> XP!</p>
         <div class="text-center">
-            @if (session('success'))
-                <p class="text-lg mb-6 text-gray-200">{{ session('success') }}</p>
-            @else
-                <p class="text-lg mb-6 text-gray-200">Você respondeu todas as questões desta missão.</p>
-            @endif
 
             {{-- Botão para ver resultado da missão específica --}}
             @if ($mission)
@@ -20,7 +15,7 @@
                     Ver meu resultado
                 </a>
             @else
-                <p class="text-red-400">Não foi possível encontrar os detalhes da missão.</p>
+                <p class="text-red-500">Não foi possível encontrar os detalhes da missão.</p>
             @endif
 
             <br>
@@ -33,8 +28,8 @@
     </div>
 
     {{-- Caixa de feedback separada --}}
-    <div class="max-w-2xl mx-auto bg-gray-900 text-white p-8 rounded-xl shadow-lg">
-        <h2 class="text-2xl font-semibold mb-6 text-center text-gray-200">Deixe seu Feedback</h2>
+    <div class="max-w-2xl mx-auto bg-white text-gray-900 p-8 rounded-xl shadow-lg">
+        <h2 class="text-2xl font-semibold mb-6 text-center text-gray-700">Deixe seu Feedback</h2>
 
         @if (!$hasFeedback)
             <form id="feedback-form" method="POST" action="{{ route('feedback.store') }}">
@@ -42,8 +37,8 @@
                 <input type="hidden" name="mission_id" value="{{ $mission->id }}">
 
                 <div class="mb-4">
-                    <label for="category" class="block mb-2 text-sm font-medium">Categoria do Feedback (opcional)</label>
-                    <select id="category" name="category" class="w-full bg-gray-700 border border-gray-600 text-white p-2 rounded">
+                    <label for="category" class="block mb-2 text-sm font-medium text-gray-700">Categoria do Feedback (opcional)</label>
+                    <select id="category" name="category" class="w-full bg-gray-100 border border-gray-300 text-gray-900 p-2 rounded">
                         <option value="">Nenhuma</option>
                         <option value="dificuldade">Dificuldade</option>
                         <option value="qualidade">Qualidade</option>
@@ -53,18 +48,18 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="content" class="block mb-2 text-sm font-medium">Deixe seu feedback (opcional)</label>
-                    <textarea id="content" name="content" rows="4" class="w-full bg-gray-700 border border-gray-600 text-white p-2 rounded"></textarea>
+                    <label for="content" class="block mb-2 text-sm font-medium text-gray-700">Deixe seu feedback (opcional)</label>
+                    <textarea id="content" name="content" rows="4" class="w-full bg-gray-100 border border-gray-300 text-gray-900 p-2 rounded"></textarea>
                 </div>
 
                 <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                     Enviar Feedback
                 </button>
 
-                <p id="feedback-message" class="mt-4 text-center text-green-400 font-semibold hidden"></p>
+                <p id="feedback-message" class="mt-4 text-center text-green-600 font-semibold hidden"></p>
             </form>
         @else
-            <p class="text-green-400 text-center text-lg">Você já enviou seu feedback para esta missão. Obrigado!</p>
+            <p class="text-green-600 text-center text-lg">Você já enviou seu feedback para esta missão. Obrigado!</p>
         @endif
     </div>
 </div>
@@ -98,8 +93,8 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(data => {
             message.textContent = data.message;
-            message.classList.remove('hidden', 'text-red-400');
-            message.classList.add('text-green-400');
+            message.classList.remove('hidden', 'text-red-500');
+            message.classList.add('text-green-600');
 
             // Opcional: limpar campos do formulário
             form.reset();
@@ -110,8 +105,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 errorMsg = error.message;
             }
             message.textContent = errorMsg;
-            message.classList.remove('hidden', 'text-green-400');
-            message.classList.add('text-red-400');
+            message.classList.remove('hidden', 'text-green-600');
+            message.classList.add('text-red-500');
         });
     });
 });

@@ -1,69 +1,65 @@
 @extends('layouts.app')
 
+@section('title', 'Todas as Disciplinas')
+
 @section('content')
-<div class="min-h-screen bg-[#F6F7F9] px-6 py-8">
-    {{-- Cabeçalho --}}
-    <div class="flex items-center gap-2 mb-8">
-        <i class="fas fa-flag text-blue-600 text-3xl"></i>
-        <h1 class="text-3xl font-semibold text-gray-900">Trilhas</h1>
-    </div>
+<div class="max-w-6xl mx-auto px-4 py-10">
+    <h1 class="text-4xl font-bold text-gray-800 mb-10">Todas as Disciplinas</h1>
 
-    {{-- Cards das Trilhas --}}
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        @foreach($disciplines as $discipline)
-        <div class="bg-[#0D162B] rounded-2xl shadow-lg">
-            
-            {{-- Nível --}}
-            <div class="flex justify-start p-4">
-                @if($discipline->level === 'básico')
-                    <span class="bg-green-500 text-white text-xs font-semibold px-4 py-[2px] rounded-full">Básico</span>
-                @elseif($discipline->level === 'intermediário')
-                    <span class="bg-yellow-400 text-black text-xs font-semibold px-4 py-[2px] rounded-full">Intermediário</span>
-                @elseif($discipline->level === 'avançado')
-                    <span class="bg-red-600 text-white text-xs font-semibold px-4 py-[2px] rounded-full">Avançado</span>
-                @endif
-            </div>
-
-            {{-- Conteúdo --}}
-            <div class="bg-[#1B2438] p-6 rounded-b-2xl">
-                <h3 class="text-gray-200 text-sm mb-3">Trilha: <span class="font-medium">{{ $discipline->title }}</span></h3>
-
-                {{-- Matéria e XP --}}
-                <div class="flex justify-between items-center text-xs text-gray-300 mb-1">
-                    <span>matéria</span>
-                    <span>{{ $discipline->xp ?? 0 }}xp</span>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        @foreach ($disciplines as $discipline)
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300">
+                <div class="relative">
+                    <img 
+                        src="{{ $discipline->image ? asset('assets/disciplines/' . $discipline->image) : asset('assets/disciplines/default_discipline.png') }}"
+                        alt="{{ $discipline->title }}"
+                        class="w-full h-48 object-cover"
+                    >
+                    <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent px-6 py-4">
+                        <h2 class="text-xl font-semibold text-white">{{ $discipline->title }}</h2>
+                    </div>
                 </div>
 
-                {{-- Barra de progresso --}}
-                <div class="w-full h-2 bg-gray-300 rounded-full mb-4">
-                    <div class="h-2 bg-blue-600 rounded-full" style="width: {{ $discipline->progress }}%;"></div>
-                </div>
+                @php
+                    $total = $discipline->total ?? 0;
+                    $completed = $discipline->completed ?? 0;
+                    $percent = $total > 0 ? ($completed / $total) * 100 : 0;
+                @endphp
 
-                {{-- Missões e Progresso --}}
-                <div class="flex justify-between text-xs text-gray-400 mb-4">
-                    <span>{{ $discipline->missions_completed ?? 0 }}/{{ $discipline->missions->count() }} missões</span>
-                    <span>{{ $discipline->progress }}% concluído</span>
-                </div>
+                <div class="px-6 py-5">
+                    <!-- Barra de progresso -->
+                    <div class="w-full bg-gray-200 h-5 rounded-full overflow-hidden mb-3">
+                        <div 
+                            class="bg-green-500 h-full text-xs text-white font-semibold text-center transition-all duration-500 ease-in-out"
+                            style="width: {{ $percent }}%"
+                        >
+                            {{ round($percent) }}%
+                        </div>
+                    </div>
 
-                {{-- Status --}}
-                <div class="flex items-center gap-2 text-gray-400 text-xs mb-6">
-                    <i class="fas fa-circle text-[6px]"></i>
-                    <span>
-                        @if($discipline->status === 'em_andamento')
-                            Em andamento - Restam {{ $discipline->dias_restantes ?? 0 }} dias
+                    <!-- Detalhes das missões -->
+                    <p class="text-gray-600 text-sm">
+                        Missões completas: 
+                        <span class="font-medium text-gray-800">{{ $completed }}</span> 
+                        de 
+                        <span class="font-medium text-gray-800">{{ $total }}</span>
+                    </p>
+
+                    <!-- Botões -->
+                    <div class="mt-4">
+                        @can('is-subscribed', $discipline)
+                            <a href="{{ route('disciplines.showContent', ['id' => $discipline->id]) }}"
+                                class="inline-block bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2 px-4 rounded-lg">Entrar</a>
+                        @elsecan('is-creator', $discipline)
+                            <a href="{{ route('disciplines.showContent', ['id' => $discipline->id]) }}"
+                                class="inline-block bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2 px-4 rounded-lg">Entrar</a>
                         @else
-                            Restam {{ $discipline->dias_restantes ?? 0 }} dias
-                        @endif
-                    </span>
+                            <a href="{{ route('disciplines.show', ['id' => $discipline->id]) }}"
+                                class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded-lg">Ver mais</a>
+                        @endcan
+                    </div>
                 </div>
-
-                {{-- Botão --}}
-                <a href="{{ route('disciplines.showContent', $discipline->id) }}" 
-                   class="w-full block text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-md transition">
-                    CONTINUAR
-                </a>
             </div>
-        </div>
         @endforeach
     </div>
 </div>

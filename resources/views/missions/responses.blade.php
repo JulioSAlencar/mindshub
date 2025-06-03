@@ -12,9 +12,10 @@
         </button>
     </div>
 
+    <a class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition my-8" href="{{ route('disciplines.showContent', $discipline->id)}}">Voltar</a>
     <!-- Aba de Respostas -->
     <div id="tab-respostas" class="tab-content">
-        <h2 class="text-3xl font-bold text-gray-800 mb-6">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6 my-6">
             <i class="fas fa-poll"></i> Respostas da Missão: <span class="text-blue-600">{{ $mission->title }}</span>
         </h2>
 
@@ -137,7 +138,7 @@
 
     <!-- Aba de Feedbacks -->
     <div id="tab-feedbacks" class="tab-content hidden">
-        <h2 class="text-3xl font-bold text-gray-800 mb-6">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6 my-6">
             <i class="fas fa-poll"></i> feedbacka da Missão: <span class="text-blue-600">{{ $mission->title }}</span>
         </h2>
         @if($feedbacks->isEmpty())

@@ -7,7 +7,10 @@ use App\Models\Mission;
 use App\Models\Discipline;
 use App\Models\MissionAnswer;
 use App\Models\MissionFeedback;
+use App\Models\MissionUserResult;
+use App\Models\MissionUserStartTime;
 use App\Models\Question;
+use App\Services\UserRewardService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -65,12 +68,25 @@ class MissionController extends Controller
 
         $mission->delete(); // isso deve deletar as questões também, automaticamente
 
-        return redirect()->route('disciplines.showContent', $disciplineId)
+        return redirect()->route('missions.index', $disciplineId)
             ->with('success', 'Missão excluída com sucesso!');
     }
 
     public function show(Mission $mission)
     {
+
+        $existingStart = MissionUserStartTime::where('mission_id', $mission->id)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        if (!$existingStart) {
+            MissionUserStartTime::create([
+                'mission_id' => $mission->id,
+                'user_id' => auth()->id(),
+                'started_at' => now(),
+            ]);
+        }
+
         $mission->load('questions');
 
         if (auth()->user()->role === 'teacher' && $mission->discipline->user_id === auth()->id()) {
@@ -135,26 +151,49 @@ class MissionController extends Controller
         ->with('success', 'Missão concluída!');
     }
 
-
-    public function end(Mission $mission)
+    public function end(Mission $mission, UserRewardService $rewardService)
     {
+        $user = auth()->user();
+        $userId = $user->id;
         $discipline = $mission->discipline;
 
-        if (!$discipline) {
-            return redirect()->route('dashboard')->with('error', 'Disciplina da missão não encontrada.');
+        $answers = MissionAnswer::where('user_id', $userId)
+            ->where('mission_id', $mission->id)
+            ->get();
+
+        $correctCount = $answers->where('is_correct', true)->count();
+        $xpEarned = $correctCount;
+
+        // Salva o resultado da missão
+        MissionUserResult::updateOrCreate(
+            ['user_id' => $userId, 'mission_id' => $mission->id],
+            ['score' => $correctCount, 'xp' => $xpEarned]
+        );
+
+        // Salva na pivot (mission_user)
+        if (!$user->missions()->where('mission_id', $mission->id)->exists()) {
+            $user->missions()->attach($mission->id, ['completed_at' => now()]);
         }
 
-        $hasFeedback = MissionFeedback::where('user_id', auth()->id())
-            ->where('mission_id', $mission->id)
-            ->exists();
+        // Concede XP
+        if ($xpEarned > 0) {
+            $rewardService->gainXp($user, $xpEarned);
+        }
+
+        // Verifica se há feedback da missão
+        $hasFeedback = MissionFeedback::where('mission_id', $mission->id)->exists();
 
         return view('questions.end', [
             'discipline' => $discipline,
             'mission' => $mission,
             'hasFeedback' => $hasFeedback,
+            'correctCount' => $correctCount,
+            'xpEarned' => $xpEarned,
+            'currentUserLevel' => $user->fresh()->level,
+            'currentUserTotalXp' => $user->fresh()->xp,
         ]);
     }
-    
+
 
     public function result(Mission $mission)
     {
@@ -184,19 +223,20 @@ class MissionController extends Controller
         return view('missions.responses', compact('mission', 'responses', 'discipline', 'feedbacks'));
     }
 
-    public function complete(Mission $mission)
+    public function complete(Mission $mission, UserRewardService $userRewardService)
     {
         $user = Auth::user();
-    
+
         // Evita concluir mais de uma vez
         if ($user->missions()->where('mission_id', $mission->id)->exists()) {
             return back()->with('message', 'Missão já concluída.');
         }
-    
+
         $user->missions()->attach($mission->id, ['completed_at' => now()]);
-    
-        // Adiciona XP e verifica level/medalhas
-        $user->addXp($user->id, $mission->xp_reward);    
+
+        // Adiciona XP via serviço e verifica medalhas/nível
+        $userRewardService->gainXp($user, $mission->xp_reward ?? 10); // usa valor padrão caso não definido
+
         return back()->with('success', 'Missão concluída! XP recebido.');
     }
 

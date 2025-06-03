@@ -131,6 +131,11 @@ class User extends Authenticatable
             $this->notify(new MedalAwardedNotification ($medal));
         }
     }
+
+    public function completedMissions() {
+        return $this->belongsToMany(Mission::class)->withTimestamps()->withPivot('completed_at');
+    }
+
     
 
 }

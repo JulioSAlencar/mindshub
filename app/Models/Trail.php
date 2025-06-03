@@ -4,54 +4,54 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\TrailFeedback;
+use App\Models\TrailFeedbacks;
 use App\Models\Mission;
 use App\Models\User;
-
+use App\Models\MissionUserResult;
 
 class Trail extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'id',
-        'name'
-    ];
+    protected $fillable = ['name']; 
 
-    /**
-     * Uma trilha pode ter vários feedbacks.
-     */
     public function feedbacks()
     {
-        return $this->hasMany(TrailFeedbacks::class);
+        return $this->hasMany(TrailFeedbacks::class); // Corrigido o nome do modelo
     }
 
-    /**
-     * Uma trilha pode conter várias missões.
-     */
     public function missions()
     {
-        return $this->hasMany(Mission::class);
+        return $this->belongsToMany(Mission::class, 'mission_trail')
+                    ->withPivot('order')
+                    ->orderBy('order', 'asc'); // use o nome real da coluna pivot
     }
 
-    public function getCompletionPercentageForUser(User $user): float
+
+    public function getProgressForUser(User $user)
     {
-        $missions = $this->missions;
+        $total = $this->missions()->count();
+        if ($total === 0) return 0;
 
-        $total = $missions->count();
+        $completed = MissionUserResult::where('user_id', $user->id)
+            ->whereIn('mission_id', $this->missions()->pluck('missions.id'))
+            ->where('progress', 100)
+            ->distinct('mission_id')
+            ->count();
 
-        if ($total === 0) {
-            return 0;
-        }
+        return ($completed / $total) * 100;
+    }
 
-        $completed = $missions->filter(function ($mission) use ($user) {
-            return $mission
-                ->userProgresses()
-                ->where('user_id', $user->id)
-                ->whereNotNull('completed_at')
-                ->exists();
-        })->count();
+    public function isCompletedBy(User $user)
+    {
+        $total = $this->missions()->count();
 
-        return round(($completed / $total) * 100, 2);
+        $completed = MissionUserResult::where('user_id', $user->id)
+        ->whereIn('mission_id', $this->missions()->pluck('missions.id'))
+        ->where('completion', 100) // usar o nome certo da coluna
+        ->distinct('mission_id')
+        ->count();
+
+        return $total > 0 && $completed === $total;
     }
 }

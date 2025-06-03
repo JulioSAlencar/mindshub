@@ -40,16 +40,6 @@ class Mission extends Model
         return $this->hasMany(MissionAnswer::class);
     }
 
-    public function complete(User $user, int $duration)
-    {
-        $this->users()->updateExistingPivot($user->id, [
-            'completed_at' => now(),
-            'duration_minutes' => $duration,
-        ]);
-
-        $user->addXp($this->xp_reward);
-    }
-
     public function feedbacks() {
         return $this->hasMany(MissionFeedback::class);
     }
@@ -62,5 +52,15 @@ class Mission extends Model
     public function materials()
     {
         return $this->belongsToMany(ContentDiscipline::class, 'material_mission');
+    }
+
+    public function results()
+    {
+        return $this->hasMany(MissionUserResult::class);
+    }
+
+    public function usersCompleted() 
+    {
+        return $this->belongsToMany(User::class)->withPivot('completed_at');
     }
 }

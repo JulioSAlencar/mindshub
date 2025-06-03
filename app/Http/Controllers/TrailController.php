@@ -4,50 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Discipline;
 use App\Models\Trail;
-
+use Illuminate\Support\Facades\Auth;
 
 class TrailController extends Controller
 {
-    public function averageProgress($trailId)
+
+    public function index()
     {
-        $trail = Trail::with('missions')->findOrFail($trailId);
-        $user = auth()->user();
+        $user = Auth::user();
 
-        $completionPercentage = $trail->getCompletionPercentageForUser($user);
+        $disciplines = Discipline::with('missions')->get()->map(function ($discipline) use ($user) {
+            $discipline->total = $discipline->missions->count();
+            $discipline->completed = $discipline->missions->filter(function ($mission) use ($user) {
+                return $mission->usersCompleted->contains($user);
+            })->count();
 
-        return response()->json([
-            'trail_id' => $trail->id,
-            'user_id' => $user->id,
-            'completion_percentage' => $completionPercentage
-        ]);
-    }
-
-    public function show()
-    {
-        $user = auth()->user();
-
-        // Buscar todas as disciplinas que o usuário está inscrito
-        $disciplines = $user->disciplinesParticipant()->with('missions')->get();
-
-        // Coletar todas as missões dessas disciplinas
-        $missions = $disciplines->flatMap(function ($discipline) {
-            return $discipline->missions;
+            return $discipline;
         });
 
-        return view('trails.show', compact('disciplines', 'missions'));
+        return view('trails.show', compact('disciplines'));
     }
 
-
-    public function checkCompletion($trailId)
-    {
-        $trail = Trail::with('missions')->findOrFail($trailId);
-        $user = auth()->user();
-
-        $missionsRequired = $trail->missions->pluck('id')->toArray();
-        $missionsCompleted = $user->missions()->whereIn('mission_id', $missionsRequired)->where('progress', 100)->pluck('mission_id')->toArray();
-
-        $completed = count(array_diff($missionsRequired, $missionsCompleted)) === 0;
-
-        return response()->json(['completed' => $completed]);
-    }
 }

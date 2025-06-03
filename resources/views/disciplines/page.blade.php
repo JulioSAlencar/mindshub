@@ -8,7 +8,6 @@
             {{ session('msg') }}
         </div>
     @endif
-
     <br>
     <div class="col-md-10 offset-md-1 dashboard-title-container">
         <h1>Minhas Disciplinas</h1>
