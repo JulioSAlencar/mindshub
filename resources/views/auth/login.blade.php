@@ -9,6 +9,52 @@
 </head>
 
 <body class="bg-gray-100 h-screen flex items-center justify-center">
+
+@if (session('suggest_password_reset'))
+    <div class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 shadow-xl">
+        <div class="bg-white rounded-xl shadow-2xl p-6 w-11/12 max-w-sm transform transition-all duration-300">
+            <div class="flex items-start gap-4">
+                <!-- Ícone de alerta -->
+                <div class="flex-shrink-0">
+                    <svg class="h-6 w-6 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                </div>
+
+                <!-- Mensagem -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900">Atenção!</h3>
+                    <p class="mt-2 text-sm text-gray-700">
+                        Você errou a senha 5 ou mais vezes. Recomendamos que clique em
+                        <a href="{{ route('password.request') }}" class="text-blue-600 hover:text-blue-800 underline font-medium">
+                            'Esqueceu sua senha?'
+                        </a> 
+                        para redefini-la.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Botão de ação -->
+            <div class="mt-5 flex justify-end">
+                <button onclick="this.closest('.fixed').remove()" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                    Entendido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fecha o alerta ao pressionar ESC
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape') {
+                const alert = document.querySelector('.fixed');
+                if(alert) alert.remove();
+            }
+        });
+    </script>
+@endif
+
+
   <div class="w-[72.75rem] h-[43.75rem] rounded-2xl bg-white flex items-center justify-between p-10 relative shadow-xl">
     
     <!-- Imagem de fundo -->
@@ -120,7 +166,7 @@
           class="text-blue-500 hover:underline" 
           href="{{ route('password.request') }}"
         >
-          Esqueci minha senha
+          Esqueceu sua senha?
         </a>
       </div>
     </form>

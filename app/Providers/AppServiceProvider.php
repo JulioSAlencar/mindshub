@@ -6,6 +6,7 @@ use App\Models\Discipline;
 use App\Models\User;
 use App\Observers\UserObserver;
 use App\Services\UserRewardService;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -26,6 +27,10 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define('is-teacher', fn ($user) => $user->role === 'teacher');
 
+        Gate::define('is-student-or-teacher', function ($user) {
+            return in_array($user->role, ['student', 'teacher']);
+        });
+
         Gate::define('is-subscribed', function (User $user, Discipline $discipline) {
             return $discipline->users->contains($user->id);
         });
@@ -37,11 +42,12 @@ class AppServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
 
         View::composer('*', function ($view) {
-        if (Auth::check()) {
-            $view->with('unreadNotifications', Auth::user()->unreadNotifications);
-        } else {
-            $view->with('unreadNotifications', collect());
-        }
-    });
+            if (Auth::check()) {
+                $view->with('unreadNotifications', Auth::user()->unreadNotifications);
+            } else {
+                $view->with('unreadNotifications', collect());
+            }
+        });
+        
     }
 }

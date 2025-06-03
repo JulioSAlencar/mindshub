@@ -58,7 +58,7 @@
                 </div>
 
                 {{-- Botão --}}
-                <a href="{{ route('disciplines.show', $discipline->id) }}" 
+                <a href="{{ route('disciplines.showContent', $discipline->id) }}" 
                    class="w-full block text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-md transition">
                     CONTINUAR
                 </a>

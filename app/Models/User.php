@@ -24,6 +24,8 @@ class User extends Authenticatable
         'xp',
         'level',
         'first_login',
+        'is_pending_deletion',
+        'deletion_requested_at',
     ];
 
     protected $hidden = [

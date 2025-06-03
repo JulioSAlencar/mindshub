@@ -2,9 +2,16 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg mt-10">
-    <h2 class="text-2xl font-bold mb-4 text-gray-800">Resultado da Missão: 
-        <span class="text-indigo-600">{{ $mission->title }}</span>
-    </h2>
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">
+            Resultado da Missão: 
+            <span class="text-indigo-600">{{ $mission->title }}</span>
+        </h2>
+        <a href="{{ route('disciplines.showContent', $discipline->id) }}" 
+           class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition font-medium">
+            Voltar para {{ $discipline->name ?? 'Disciplina' }}
+        </a>
+    </div>
 
     <div class="mb-6">
         <p class="text-lg text-gray-700">
@@ -27,6 +34,10 @@
                 <p class="mb-2">
                     <strong class="text-gray-800">Pergunta:</strong> 
                     {{ $answer->question->statement }}
+                </p>
+                <p class="mb-2">
+                    <strong class="text-gray-800">Resposta correta:</strong> 
+                    {{ $answer->question->correct_answer }}
                 </p>
                 <p class="mb-2">
                     <strong class="text-gray-800">Sua resposta:</strong> 

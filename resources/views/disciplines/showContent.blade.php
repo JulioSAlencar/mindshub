@@ -129,27 +129,26 @@
             </div>
           </div>
           <div class="flex flex-wrap gap-2 justify-end">
-            @can("is-student")
+            @can("is-student-or-teacher")
               @if ($mission->end_date < now())
                 <a href="{{ route('missions.result', $mission->id) }}"
-                   class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded transition">
+                  class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded transition">
                   Ver meu resultado
                 </a>
               @elseif (in_array($mission->id, $answeredMissionIds))
                 <a href="{{ route('missions.result', $mission->id) }}"
-                   class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition">
+                  class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition">
                   Ver meu resultado
                 </a>
               @else
-                @if (!(Auth::user()->role === 'teacher' && $mission->discipline->user_id === Auth::id()))
-                  <a href="{{ route('missions.show', $mission->id) }}"
-                     class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition">
+                {{-- Missão ainda válida e não respondida --}}
+                @if ($mission->discipline->creator_id !== Auth::id())
+                  <a href="{{ route('missions.show', $mission->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition font-medium">
                     Responder
                   </a>
                 @endif
               @endif
             @endcan
-
             @can('is-creator', $mission->discipline)
               <a href="{{ route('missions.responses', $mission->id) }}"
                  class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition">

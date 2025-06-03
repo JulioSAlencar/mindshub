@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\DisciplineController;
 use App\Http\Controllers\RankingController;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +12,8 @@ Route::view('/home', 'users.home');
 Route::view('/termos', 'TermsOfUse')->name('termos');
 Route::get('/ranking', [RankingController::class, 'index'])->name('ranking.global');
 Route::get('/disciplines/all', [DisciplineController::class, 'allDisciplines'])->name('dash_disciplines.allDisciplines');
+Route::post('/account/delete', [AccountController::class, 'requestDeletion'])->name('account.delete');
+
 
 
 

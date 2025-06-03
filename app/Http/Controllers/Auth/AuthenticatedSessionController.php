@@ -37,13 +37,38 @@ class AuthenticatedSessionController extends Controller
             ])->withInput();
         }
 
+        // Checar se está pendente de exclusão
+        if ($user->is_pending_deletion) {
+            $daysSinceRequest = now()->diffInDays($user->deletion_requested_at);
+            if ($daysSinceRequest >= 90) {
+                return back()->withErrors([
+                    'email' => 'Conta desativada permanentemente após 90 dias.',
+                ]);
+            }
+
+            // Reativar a conta
+            $user->update([
+                'is_pending_deletion' => false,
+                'deletion_requested_at' => null,
+            ]);
+        }
+
+        // Verificar credenciais
         if (!Auth::attempt($credentials, $remember)) {
+            $user->increment('failed_attempts');
+
+            if ($user->failed_attempts >= 5) {
+                Session::flash('suggest_password_reset', true);
+            }
+
             return back()->withErrors([
                 'password' => 'Senha incorreta',
             ])->withInput();
         }
 
+        // Login bem-sucedido
         $request->session()->regenerate();
+        $user->update(['failed_attempts' => 0]);
 
         DB::table('sessions')
             ->where('user_id', Auth::id())
@@ -52,6 +77,7 @@ class AuthenticatedSessionController extends Controller
 
         return redirect()->intended(route('dashboard', absolute: false));
     }
+
 
     public function destroy(Request $request): RedirectResponse
     {

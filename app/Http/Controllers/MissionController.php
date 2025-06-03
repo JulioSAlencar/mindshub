@@ -158,6 +158,7 @@ class MissionController extends Controller
 
     public function result(Mission $mission)
     {
+        $discipline = Discipline::findOrFail($mission->discipline_id); 
         $user = auth()->user();
 
         $answers = $mission->answers()->where('user_id', $user->id)->with('question')->get();
@@ -166,7 +167,7 @@ class MissionController extends Controller
         $correctAnswers = $answers->where('is_correct', true)->count();
         $score = $totalQuestions > 0 ? round(($correctAnswers / $totalQuestions) * 100, 2) : 0;
 
-        return view('missions.result', compact('mission', 'answers', 'score', 'correctAnswers', 'totalQuestions'));
+        return view('missions.result', compact('mission', 'answers', 'score', 'correctAnswers', 'totalQuestions', 'discipline'));
     }
 
     public function responses(Mission $mission)
