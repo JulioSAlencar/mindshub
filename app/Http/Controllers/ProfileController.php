@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Discipline;
+use App\Models\MissionFeedback;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -22,10 +24,33 @@ class ProfileController extends Controller
             'user' => $request->user(),
         ]);
     }
+
     public function editPerfil(Request $request): View
     {
+        $user = $request->user(); // Or auth()->user();
+        $feedbacks = collect();  // Initialize with an empty collection
+
+        if ($user) { // Ensure $user is not null
+            $feedbacksQuery = null;
+
+            if ($user->can('is-student')) {
+                $feedbacksQuery = MissionFeedback::where('user_id', $user->id);
+            } elseif ($user->can('is-teacher')) {
+                $feedbacksQuery = MissionFeedback::whereHas('mission', function ($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                });
+            }
+
+            if ($feedbacksQuery instanceof \Illuminate\Database\Eloquent\Builder) {
+                $feedbacks = $feedbacksQuery->where('category', 'Elogio') // Assuming 'Elogio' is for positive feedback
+                    ->latest()
+                    ->get();
+            }
+        }
+
         return view('profile.show', [
-            'user' => $request->user(),
+            'user' => $user,
+            'feedbacks' => $feedbacks, // Pass the feedbacks variable           
         ]);
     }
 
@@ -94,5 +119,4 @@ class ProfileController extends Controller
 
         return redirect()->back()->with('success', 'Foto de perfil removida com sucesso.');
     }
-
 }

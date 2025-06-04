@@ -67,7 +67,7 @@
  <div class="bg-white shadow rounded-lg p-4">
 
     <!-- Preferências -->
-    <div class="bg-white shadow rounded-lg p-4">
+    {{-- <div class="bg-white shadow rounded-lg p-4">
       <h2 class="text-sm font-semibold flex items-center gap-2 mb-4">
         <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
         Preferências
@@ -90,7 +90,7 @@
           <p class="text-blue-500 text-sm">Banco de Dados</p>
         </div>
       </div>
-    </div>
+    </div> --}}
 
     <!-- Feedback e Conquistas -->
     <div class="grid grid-cols-2 gap-4">
@@ -100,22 +100,32 @@
           Feedback positivo
         </h2>
         <div class="space-y-2">
-          <div class="bg-gray-100 rounded px-3 py-2 text-sm">
-            "Excelente participação nas discussões em grupo!"
-            <div class="text-xs text-gray-500">Prof. Pedro &mdash; 01/05</div>
-          </div>
-          <div class="bg-gray-100 rounded px-3 py-2 text-sm">
-            "Ótimo desempenho na entrega de projetos!"
-            <div class="text-xs text-gray-500">Prof. Ana &mdash; 25/04</div>
-          </div>
-          <div id="feedbackExtra" class="hidden">
-            <div class="bg-gray-100 rounded px-3 py-2 text-sm">
-              "Colaboração excelente em atividades em grupo."
-              <div class="text-xs text-gray-500">Prof. Lucas &mdash; 15/04</div>
+          @forelse ($feedbacks as $index => $feedback)
+            <div class="bg-gray-100 rounded px-3 py-2 text-sm {{ $index > 1 ? 'hidden' : '' }} feedback-item">
+              "{{ $feedback->content }}"
+              <div class="text-xs text-gray-500">
+                {{ $feedback->user->name ?? 'Anônimo' }} — {{ $feedback->created_at->format('d/m') }}
+              </div>
             </div>
-          </div>
+          @empty
+            <p class="text-sm text-gray-500">Nenhum feedback positivo encontrado.</p>
+          @endforelse
+
+          @if ($feedbacks->count() > 2)
+            <div id="feedbackExtra" class="space-y-2 hidden">
+              @foreach ($feedbacks->slice(2) as $feedback)
+                <div class="bg-gray-100 rounded px-3 py-2 text-sm">
+                  "{{ $feedback->content }}"
+                  <div class="text-xs text-gray-500">
+                    {{ $feedback->user->name ?? 'Anônimo' }} — {{ $feedback->created_at->format('d/m') }}
+                  </div>
+                </div>
+              @endforeach
+            </div>
+          @endif
         </div>
       </div>
+    </div>
       <div class="bg-white shadow rounded-lg p-4">
         <h2 class="text-sm font-semibold flex items-center gap-2 mb-3 cursor-pointer" onclick="toggle('conquistasExtra')">
             <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 24 24">

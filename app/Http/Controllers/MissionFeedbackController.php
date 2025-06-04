@@ -52,5 +52,4 @@ class MissionFeedbackController extends Controller
 
         return redirect()->back()->with('success', 'Feedback enviado com sucesso! Você ganhou 2 de XP!');
     }
-
 }

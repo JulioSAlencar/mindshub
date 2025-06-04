@@ -40,7 +40,8 @@ class Mission extends Model
         return $this->hasMany(MissionAnswer::class);
     }
 
-    public function feedbacks() {
+    public function feedbacks()
+    {
         return $this->hasMany(MissionFeedback::class);
     }
 
@@ -63,4 +64,6 @@ class Mission extends Model
     {
         return $this->belongsToMany(User::class)->withPivot('completed_at');
     }
+
+
 }
