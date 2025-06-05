@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('mission_id')->constrained()->onDelete('cascade');
             $table->timestamp('completed_at')->nullable();
+            $table->float('grade')->nullable();
             $table->timestamps();
         });
     }

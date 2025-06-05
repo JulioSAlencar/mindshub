@@ -171,9 +171,22 @@ class MissionController extends Controller
         );
 
         // Salva na pivot (mission_user)
-        if (!$user->missions()->where('mission_id', $mission->id)->exists()) {
-            $user->missions()->attach($mission->id, ['completed_at' => now()]);
+        $grade = $answers->count() > 0 ? round(($correctCount / $answers->count()) * 10, 2) : 0;
+
+        if ($user->missions()->where('mission_id', $mission->id)->exists()) {
+            // Atualiza grade e data de conclusão se já existe
+            $user->missions()->updateExistingPivot($mission->id, [
+                'completed_at' => now(),
+                'grade' => $grade,
+            ]);
+        } else {
+            // Cria novo registro na pivot
+            $user->missions()->attach($mission->id, [
+                'completed_at' => now(),
+                'grade' => $grade,
+            ]);
         }
+
 
         // Concede XP
         if ($xpEarned > 0) {

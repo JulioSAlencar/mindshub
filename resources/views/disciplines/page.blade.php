@@ -10,7 +10,7 @@
     @endif
     <br>
     <div class="col-md-10 offset-md-1 dashboard-title-container">
-        <h1>Minhas Disciplinas</h1>
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Minhas Disciplinas</h1>
     </div>
     <div  class="col-md-10 offset-md-1">
         <a class="btn btn-primary" href="{{ route('disciplines.create')}}">criar nova disciplina</a>

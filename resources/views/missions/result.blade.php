@@ -49,6 +49,10 @@
                         {{ $answer->is_correct ? 'Sim ✅' : 'Não ❌' }}
                     </span>
                 </p>
+                <p>
+                    <strong class="text-gray-800">Explicação:</strong> 
+                    {{ $answer->question->explanation}}
+                </p>
             </li>
         @endforeach
     </ul>

@@ -11,6 +11,9 @@
         </div>
     @endif
 
+    <a href="{{ route('disciplines.manager', ['id' => $discipline->id])}}"   class="inline-block mb-4 px-4 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition">
+        Voltar
+    </a>
     <a href="{{ route('contents.createForm', ['id' => $discipline->id]) }}"
        class="inline-block mb-4 px-4 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition">
         Adicionar Novo Conteúdo
@@ -32,7 +35,6 @@
                     @foreach($discipline->contents as $content)
                         <tr class="border-b hover:bg-gray-50">
                             <td class="p-4">{{ $content->title }}</td>
-                            <td class="p-4">{{ $content->created_at->format('d/m/y') }}</td>
                             <td class="p-4">{{ strtoupper($content->file_type) }}</td>
                             <td class="p-4">
                                 @if($content->file_size >= 1048576)
@@ -41,6 +43,7 @@
                                     {{ number_format($content->file_size / 1024, 2) }} KB
                                 @endif
                             </td>
+                            <td class="p-4">{{ $content->created_at->format('d/m/y') }}</td>
                             <td class="p-4 text-center space-x-2">
                                 <a href="{{ asset($content->file_path) }}"
                                    class="text-blue-600 hover:underline"

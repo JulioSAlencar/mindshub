@@ -16,7 +16,7 @@
 <div class="max-w-6xl mx-auto px-4 py-8">
 
     <div class="mb-6">
-        <a href="{{ route('disciplines.showContent', $discipline->id) }}">
+        <a href="{{ route('disciplines.manager', $discipline->id) }}">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition">
                 ← Voltar
             </button>
