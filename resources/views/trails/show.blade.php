@@ -6,6 +6,13 @@
 <div class="max-w-6xl mx-auto px-4 py-10">
     <h1 class="text-4xl font-bold text-gray-800 mb-10">Todas as Disciplinas</h1>
 
+        <!-- Mensagem quando não há disciplinas -->
+    @if ($disciplines->isEmpty())
+        <div class="text-center text-gray-700 mb-8">
+            <p class="text-xl font-semibold">Você ainda não está inscrito em nenhuma disciplina.</p>
+            <p class="text-gray-600 mt-2">Inscreva-se em alguma disciplina para começar a visualizar as trilhas disponíveis.</p>
+        </div>
+    @endif
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8">
         @foreach ($disciplines as $discipline)
             <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300">
