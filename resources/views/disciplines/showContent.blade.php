@@ -59,6 +59,18 @@
         </a>
       @endcan
     </div>
+    <div class="flex flex-col gap-3">
+      @can('is-student-or-teacher')
+        @if ($discipline->creator_id !== Auth::id())
+          <form action="{{ route('discipline.leave', $discipline->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja sair da disciplina?');">
+            @csrf
+            <button type="submit" class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition shadow">
+              Sair da disciplina
+            </button>
+          </form>
+        @endif
+      @endcan
+    </div>
   </header>
 
   {{-- Abas de navegação --}}

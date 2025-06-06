@@ -36,9 +36,8 @@ class Discipline extends Model
 
     public function students()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'discipline_user', 'discipline_id', 'user_id');
     }
-
 
     public function contents()
     {

@@ -231,4 +231,16 @@ class DisciplineController extends Controller
 
         return view('dash_disciplines.allDisciplines', compact('disciplinesByCategory', 'categories'));
     }
+
+    public function leave($id)
+    {
+        $discipline = Discipline::findOrFail($id);
+
+        if (!Auth::user()->disciplines->contains($discipline)) {
+            return redirect()->back()->with('error', 'Você não está inscrito nesta disciplina.');
+        }
+
+        Auth::user()->disciplines()->detach($discipline->id); // remove o vínculo
+        return redirect()->route('dashboard')->with('msg', 'Você saiu da disciplina com sucesso.');
+    }
 }
