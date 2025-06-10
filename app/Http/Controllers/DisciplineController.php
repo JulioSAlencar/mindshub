@@ -232,15 +232,25 @@ class DisciplineController extends Controller
         return view('dash_disciplines.allDisciplines', compact('disciplinesByCategory', 'categories'));
     }
 
-    public function leave($id)
+    public function leaveDiscipline($id)
     {
-        $discipline = Discipline::findOrFail($id);
+        $user = auth()->user();
 
-        if (!Auth::user()->disciplines->contains($discipline)) {
-            return redirect()->back()->with('error', 'Você não está inscrito nesta disciplina.');
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Você precisa estar logado para sair da disciplina.');
         }
 
-        Auth::user()->disciplines()->detach($discipline->id); // remove o vínculo
+        $discipline = Discipline::findOrFail($id);
+
+        // Verifica se o usuário realmente está inscrito
+        if (!$user->disciplinesParticipant()->where('discipline_id', $id)->exists()) {
+            return redirect()->route('dashboard')->with('error', 'Você não está inscrito nesta disciplina.');
+        }
+
+        // Remove o vínculo da tabela pivot
+        $user->disciplinesParticipant()->detach($id);
+
         return redirect()->route('dashboard')->with('msg', 'Você saiu da disciplina com sucesso.');
     }
+
 }

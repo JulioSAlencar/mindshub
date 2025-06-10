@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   @vite('resources/css/app.css')
+  <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 </head>
 
 <body class="bg-gray-100 h-screen flex items-center justify-center">

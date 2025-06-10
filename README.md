@@ -1,16 +1,15 @@
 # 🧠 MindsHub  
 
-Um projeto desenvolvido com Laravel, Node.js, Nginx, MySQL e Redis, utilizando Docker para facilitar a configuração e o deploy.  
+Um projeto desenvolvido com Laravel, Node.js, Nginx e MySQL, utilizando Docker para facilitar a configuração e o deploy.  
 
 ## 📌 Tecnologias Utilizadas  
 
-- **Laravel** v12.7.2
-- **PHP** v8.2.27  
-- **Nginx** v1.27.4-alpine  
-- **MySQL** v8.0  
-- **Redis** latest-alpine  
-- **phpMyAdmin** v5.2.2  
-- **Docker Compose** v3.8  
+- **Laravel**
+- **PHP** 
+- **Nginx**
+- **MySQL**
+- **phpMyAdmin** 
+- **Docker Compose**   
 
 ## 🚀 Como Rodar o Projeto  
 
@@ -35,11 +34,6 @@ Antes de começar, instale os seguintes programas na sua máquina:
     DB_DATABASE=laravel
     DB_USERNAME=laravel
     DB_PASSWORD=secret
-
-    REDIS_CLIENT=phpredis
-    REDIS_HOST=redis
-    REDIS_PASSWORD=null
-    REDIS_PORT=6379
 
    ```
 

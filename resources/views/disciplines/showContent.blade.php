@@ -52,23 +52,27 @@
         </a>
       @endif
 
-      @can('is-creator', $discipline)
-        <a href="{{ route('disciplines.manager', ['id' => $discipline->id]) }}"
-           class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition shadow">
-          Gerenciar disciplina
-        </a>
-      @endcan
+      @cannot('is-creator', $discipline)
+        @if ($discipline->is_completed)
+          <a href="{{ route('certificates.generate', $discipline->id) }}"
+            class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition shadow">
+            Baixar Certificado
+          </a>
+        @endif
+      @endcannot
+    
     </div>
     <div class="flex flex-col gap-3">
       @can('is-student-or-teacher')
-        @if ($discipline->creator_id !== Auth::id())
-          <form action="{{ route('discipline.leave', $discipline->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja sair da disciplina?');">
+        @cannot('is-creator', $discipline)
+          <form action="{{ route('disciplines.leave', $discipline->id) }}" method="POST">
             @csrf
-            <button type="submit" class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition shadow">
+            @method('DELETE')
+            <button onclick="openModal()" class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition shadow">
               Sair da disciplina
             </button>
           </form>
-        @endif
+        @endcannot
       @endcan
     </div>
   </header>
@@ -177,5 +181,36 @@
     </figure>
   </section>
 </div>
+<!-- Modal de confirmação -->
+<div id="leaveModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+  <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">Tem certeza?</h2>
+    <p class="text-gray-600 mb-6">
+      Você está prestes a se desinscrever da disciplina. <strong>Todo o seu progresso será apagado.</strong>
+    </p>
+    <div class="flex justify-end gap-4">
+      <button onclick="closeModal()" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 text-gray-800">
+        Cancelar
+      </button>
+      <form id="leaveForm" action="{{ route('disciplines.leave', $discipline->id) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="px-4 py-2 rounded bg-red-600 hover:bg-red-700 text-white">
+          Confirmar saída
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openModal() {
+    document.getElementById('leaveModal').classList.remove('hidden');
+  }
+
+  function closeModal() {
+    document.getElementById('leaveModal').classList.add('hidden');
+  }
+</script>
 
 @endsection
