@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string("title");
             $table->text("description");
-            $table->string('image');
+            $table->string('image')->default('default_discipline.png');
+            $table->string('category')->nullable();
+            $table->foreignId('creator_id')->constrained('users')->onDelete('cascade');
+            $table->boolean('is_completed')->default(false);
             $table->timestamps();
         });
     }

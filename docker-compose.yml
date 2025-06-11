@@ -38,11 +38,9 @@ services:
       MYSQL_PASSWORD: secret
       MYSQL_AUTHENTICATION_PLUGIN: mysql_native_password
     ports:
-      - "3306:3306"
+      - "3307:3306"
     networks:
       - laravel
-    volumes:
-      - mysql_data:/var/lib/mysql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -58,13 +56,6 @@ services:
     networks:
       - laravel
 
-  redis:
-    image: redis:alpine
-    container_name: laravel_redis
-    restart: unless-stopped
-    networks:
-      - laravel
-
 networks:
   laravel:
     driver: bridge
@@ -72,3 +63,4 @@ networks:
 volumes:
   mysql_data:
     driver: local
+    

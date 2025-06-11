@@ -3,6 +3,9 @@
 /public/build
 /public/hot
 /public/storage
+!/public/assets/disciplines/default_discipline.png
+/public/assets/contents
+!/public/assets/profile_photos/default.png
 /storage/*.key
 /storage/pail
 /vendor
@@ -21,7 +24,4 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
-.github/workflows/
-schema.json
-dist/
 

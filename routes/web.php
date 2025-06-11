@@ -1,50 +1,35 @@
 <?php
 
-use App\Http\Controllers\Auth\TypeUserController as AuthTypeUserController;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\DisciplineController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\TeacherController;
-use App\Http\Controllers\TypeUserController;
+use App\Http\Controllers\RankingController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/disciplines/page', [DisciplineController::class, 'index'])->name('disciplines.page');
-Route::get('/disciplines/create', [DisciplineController::class, 'create'])->name('disciplines.create');
-Route::get('/disciplines/{id}', [DisciplineController::class, 'show'])->name('disciplines.show'); // Corrigido
-Route::post('/disciplines', [DisciplineController::class, 'store']);
-
-
-Route::get('/page', [DisciplineController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('disciplines.page');
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-// Rotas para estudantes
-Route::prefix('student')->middleware(['auth', 'role:student'])->group(function () {
-    Route::get('/', [StudentController::class, 'dashboard'])->name('student.dashboard');
-
-});
-
-// Rotas para professores
-Route::prefix('teacher')->middleware(['auth', 'role:teacher'])->group(function () {
-    Route::get('/', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
-});
-
-Route::get('/auth/typeuser', [AuthTypeUserController::class, 'index'])
-     ->name('typeuser.page');
+// Rotas públicas básicas
+Route::view('/', 'welcome');
+Route::view('/escolha', 'users.escolha-usuario');
+Route::view('/home', 'users.home');
+Route::view('/termos', 'TermsOfUse')->name('termos');
+Route::get('/ranking', [RankingController::class, 'index'])->name('ranking.global');
+Route::get('/disciplines/all', [DisciplineController::class, 'allDisciplines'])->name('dash_disciplines.allDisciplines');
+Route::post('/account/delete', [AccountController::class, 'requestDeletion'])->name('account.delete');
 
 
+
+
+// Importando arquivos de rotas separados
 require __DIR__.'/auth.php';
+require __DIR__.'/dashboard.php';
+require __DIR__.'/disciplines.php';
+require __DIR__.'/missions.php';
+require __DIR__.'/questions.php';
+require __DIR__.'/certificate.php';
+require __DIR__.'/forum.php';
+require __DIR__.'/evaluation.php';
+require __DIR__.'/tracks.php';
+require __DIR__.'/progress.php';
+require __DIR__.'/performance.php';
+require __DIR__.'/feedback.php';
+require __DIR__.'/trails.php';
+require __DIR__.'/lesson_comments.php';
+require __DIR__.'/Notification.php';

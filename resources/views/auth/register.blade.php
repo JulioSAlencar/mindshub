@@ -1,109 +1,118 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
-        <input type="hidden" name="role" value="{{ $role }}">
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-        <!-- Nome -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    @vite('resources/css/app.css')
+</head>
+
+<body class="bg-gray-100 h-screen flex items-center justify-center">
+    <div class="w-[72.75rem] h-[43.75rem] rounded-2xl bg-white flex items-center justify-between p-10 relative shadow-xl">
+
+        <!-- Imagem -->
+        <div class="w-[31.125rem] h-[31.75rem] flex items-center">
+            <img class="w-full" src="{{ asset('assets/images/bgRegister.png') }}" alt="Imagem de Login">
         </div>
 
-        <!-- Endereço de E-mail -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        <!-- Linha vertical -->
+        <div class="h-[80%] w-px bg-gray-400 absolute left-1/2 transform"></div>
 
-        <!-- Senha -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+        <!-- Formulário -->
+        <form class="w-[25rem] flex flex-col justify-center items-start mr-12" method="POST" action="{{ route('register') }}">
+            @csrf
+            <input type="hidden" name="role" value="{{ $role }}">
 
-        <!-- Confirmar Senha -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-            <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
+            <div class="mb-10">
+                <h1 class="text-7xl text-gray-950 text-center">MindsHub</h1>
+                <p class="text-blue-500 text-2xl text-center">Cadastre-se</p>
+            </div>
 
-        <!-- Checkbox de Termos de Uso -->
-        <div class="mt-4 flex items-center">
-            <x-checkbox id="terms" name="terms" required />
-            <label for="terms" class="ml-2 text-sm text-gray-700">
-                Concordo com os
-                <a href="#" onclick="document.getElementById('terms-modal').showModal()" class="text-blue-600 hover:text-blue-800">
-                    Termos de Uso
-                </a>
-            </label>
-        </div>
-        <x-input-error :messages="$errors->get('terms')" class="mt-2" />
+            <div class="grid gap-6 w-full">
+                <input type="text" name="name" placeholder="Nome completo" value="{{ old('name') }}"
+                    class="bg-gray-200 rounded-lg text-lg border-none p-3 text-gray-950 placeholder-black  w-full @error('name') border-red-500 @enderror">
+                @error('name')
+                    <p class="text-red-500 text-sm">{{ $message }}</p>
+                @enderror
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
+                <input type="email" name="email" placeholder="Email" value="{{ old('email') }}"
+                    class="bg-gray-200 rounded-lg text-lg border-none p-3 text-gray-950 placeholder-black  w-full @error('email') border-red-500 @enderror">
+                @error('email')
+                    <p class="text-red-500 text-sm">{{ $message }}</p>
+                @enderror
 
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-        <dialog id="terms-modal" class="backdrop:bg-gray-800 backdrop:opacity-90 bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl">
-            <div class="max-h-[70vh] overflow-y-auto">
-                <h3 class="text-lg font-bold mb-4">Termos de Uso</h3>
-
-                <div class="space-y-4">
-                    <p>**TERMO DE USO DA PLATAFORMA GAMIFICADA MIDSHUB**
-
-                        **1. ACEITAÇÃO DOS TERMOS**
-                        Ao acessar e utilizar a Midshub, você concorda em cumprir os termos e condições aqui estabelecidos. Caso não concorde, por favor, não utilize a plataforma.
-
-                        **2. DESCRIÇÃO DO SERVIÇO**
-                        A Midshub é um ambiente gamificado que oferece desafios, recompensas, rankings e outras funcionalidades. O objetivo é proporcionar uma experiência interativa para os usuários, respeitando as diretrizes estabelecidas.
-
-                        **3. CADASTRO E CONTA**
-                        - O usuário deve fornecer informações precisas e atualizadas ao se cadastrar.
-                        - O uso da conta é pessoal e intransferível.
-                        - A plataforma se reserva o direito de suspender ou excluir contas que violem os termos de uso.
-
-                        **4. REGRAS DE CONDUTA**
-                        - Respeitar os demais usuários e a equipe da plataforma.
-                        - Não utilizar a plataforma para atividades ilegais ou que infrinjam direitos de terceiros.
-                        - Não tentar manipular rankings, pontos ou recompensas de forma fraudulenta.
-
-                        **5. RECOMPENSAS E PONTUAÇÃO**
-                        - O sistema de pontuação e recompensas está sujeito a alterações a critério da plataforma.
-                        - Recompensas são intransferíveis e podem estar sujeitas a regras específicas.
-
-                        **6. PRIVACIDADE E SEGURANÇA**
-                        - Os dados fornecidos pelo usuário serão tratados conforme a nossa [Política de Privacidade].
-                        - A plataforma adota medidas de segurança para proteger as informações dos usuários, mas não se responsabiliza por acessos indevidos causados por negligência do usuário.
-
-                        **7. RESPONSABILIDADE DA PLATAFORMA**
-                        - A plataforma não garante que o serviço estará disponível ininterruptamente.
-                        - A plataforma não se responsabiliza por prejuízos decorrentes do uso inadequado dos serviços.
-
-                        **8. ALTERAÇÕES NO TERMO DE USO**
-                        Este termo pode ser atualizado a qualquer momento. Notificações serão enviadas em caso de mudanças significativas.
-
-                        **9. CONTATO**
-                        Em caso de dúvidas ou sugestões, entre em contato pelo e-mail: [E-mail de Suporte].
-
-                        Ao utilizar a Midshub, você confirma que leu e concorda com estes termos.
-
-                    </p>
+                <div class="relative">
+                    <input type="password" id="password" name="password" placeholder="Senha"
+                        class="bg-gray-200 rounded-lg text-lg border-none p-3 text-gray-950 placeholder-black  w-full pr-10 outline-none @error('password') border-red-500 @enderror">
+                    <i class="fas fa-eye cursor-pointer absolute right-3 top-4 text-gray-500 toggle-password" data-target="password"></i>
+                    @error('password')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
-                <div class="mt-6 flex justify-end">
-                    <button onclick="document.getElementById('terms-modal').close()" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-                        Fechar
-                    </button>
+                <div class="relative">
+                    <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirmar senha"
+                        class="bg-gray-200 rounded-lg text-lg border-none p-3 text-gray-950 placeholder-black  w-full pr-10 outline-none">
+                    <i class="fas fa-eye cursor-pointer absolute right-3 top-4 text-gray-500 toggle-password" data-target="password_confirmation"></i>
+                    <p id="confirmPasswordError" class="text-red-500 text-sm hidden mt-1">As senhas não coincidem!</p>
                 </div>
             </div>
-        </dialog>
-    </form>
-</x-guest-layout>
+
+            <div class="block mt-4">
+                <label for="terms" class="inline-flex items-center">
+                    <input id="terms" type="checkbox" class="rounded border-gray-300 text-blue-600 shadow-sm focus:ring-blue-500" name="terms" required>
+                    <span class="ml-2 text-sm text-gray-600">Aceito os <a class="text-blue-500 hover:underline" href="{{ route('termos')}}">termos e condições</a></span>
+                </label>
+                @error('terms')
+                    <p class="text-red-500 text-sm">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <button class="bg-blue-500 text-white text-xl rounded-lg py-3 mt-10 w-full hover:bg-blue-700 transition" type="submit">
+                Cadastrar
+            </button>
+
+            <div class="w-full h-px bg-gray-400 mt-10"></div>
+
+            <p class="text-gray-950 text-lg mt-4">
+                Possui uma conta?
+                <a class="text-blue-500 hover:underline" href="{{ route('login') }}">Entrar</a>
+            </p>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const password = document.getElementById("password");
+            const confirm = document.getElementById("password_confirmation");
+            const error = document.getElementById("confirmPasswordError");
+
+            function checkPasswords() {
+                if (password.value !== confirm.value) {
+                    error.classList.remove("hidden");
+                } else {
+                    error.classList.add("hidden");
+                }
+            }
+
+            password.addEventListener("input", checkPasswords);
+            confirm.addEventListener("input", checkPasswords);
+
+            document.querySelectorAll(".toggle-password").forEach(icon => {
+                icon.addEventListener("click", function () {
+                    const target = document.getElementById(this.dataset.target);
+                    if (target.type === "password") {
+                        target.type = "text";
+                        this.classList.replace("fa-eye", "fa-eye-slash");
+                    } else {
+                        target.type = "password";
+                        this.classList.replace("fa-eye-slash", "fa-eye");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

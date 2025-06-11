@@ -1,16 +1,15 @@
 # 🧠 MindsHub  
 
-Um projeto desenvolvido com Laravel, Node.js, Nginx, MySQL e Redis, utilizando Docker para facilitar a configuração e o deploy.  
+**MindsHub** é uma plataforma desenvolvida com foco em colaboração educacional, utilizando uma stack moderna com Laravel, Node.js, MySQL, Nginx e Docker. O projeto é containerizado para facilitar a configuração, desenvolvimento e deploy. 
 
 ## 📌 Tecnologias Utilizadas  
 
-- **Laravel** v12.7.2
-- **PHP** v8.2.27  
-- **Nginx** v1.27.4-alpine  
-- **MySQL** v8.0  
-- **Redis** latest-alpine  
-- **phpMyAdmin** v5.2.2  
-- **Docker Compose** v3.8  
+- **Laravel**
+- **PHP** 
+- **Nginx**
+- **MySQL**
+- **phpMyAdmin** 
+- **Docker Compose**   
 
 ## 🚀 Como Rodar o Projeto  
 
@@ -27,21 +26,16 @@ Antes de começar, instale os seguintes programas na sua máquina:
    - Copie e cole o arquivo `.env.example` e renomeie para `.env`.  
    - Copie e cole o seguinte código dentro do arquivo `.env`:  
 
-   ```env
+```env
 
-    DB_CONNECTION=mysql
-    DB_HOST=db
-    DB_PORT=3306
-    DB_DATABASE=laravel
-    DB_USERNAME=laravel
-    DB_PASSWORD=secret
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=laravel
+DB_PASSWORD=secret
 
-    REDIS_CLIENT=phpredis
-    REDIS_HOST=redis
-    REDIS_PASSWORD=null
-    REDIS_PORT=6379
-
-   ```
+```
 
 2. **Subir os containers do projeto**  
    ```bash
@@ -90,15 +84,14 @@ Antes de começar, instale os seguintes programas na sua máquina:
 ## ➕ Comandos Úteis  
 
 ### 🔄 Limpar o cache e imagens do Docker
-
-```bash
-docker system prune -a
-```
+   ```bash
+   docker system prune -a
+   ```
 ### Subir os containers 
-```bash
-docker-compose up -d
-```
+   ```bash
+   docker-compose up -d
+   ```
 ### Remover containers
-```bash
-docker-compose down
-```
+   ```bash
+   docker-compose down
+   ```
