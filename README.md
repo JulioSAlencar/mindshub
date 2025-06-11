@@ -1,6 +1,6 @@
 # 🧠 MindsHub  
 
-Um projeto desenvolvido com Laravel, Node.js, Nginx e MySQL, utilizando Docker para facilitar a configuração e o deploy.  
+**MindsHub** é uma plataforma desenvolvida com foco em colaboração educacional, utilizando uma stack moderna com Laravel, Node.js, MySQL, Nginx e Docker. O projeto é containerizado para facilitar a configuração, desenvolvimento e deploy. 
 
 ## 📌 Tecnologias Utilizadas  
 
@@ -26,16 +26,16 @@ Antes de começar, instale os seguintes programas na sua máquina:
    - Copie e cole o arquivo `.env.example` e renomeie para `.env`.  
    - Copie e cole o seguinte código dentro do arquivo `.env`:  
 
-   ```env
+```env
 
-    DB_CONNECTION=mysql
-    DB_HOST=db
-    DB_PORT=3306
-    DB_DATABASE=laravel
-    DB_USERNAME=laravel
-    DB_PASSWORD=secret
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=laravel
+DB_PASSWORD=secret
 
-   ```
+```
 
 2. **Subir os containers do projeto**  
    ```bash
@@ -84,15 +84,14 @@ Antes de começar, instale os seguintes programas na sua máquina:
 ## ➕ Comandos Úteis  
 
 ### 🔄 Limpar o cache e imagens do Docker
-
-```bash
-docker system prune -a
-```
+   ```bash
+   docker system prune -a
+   ```
 ### Subir os containers 
-```bash
-docker-compose up -d
-```
+   ```bash
+   docker-compose up -d
+   ```
 ### Remover containers
-```bash
-docker-compose down
-```
+   ```bash
+   docker-compose down
+   ```

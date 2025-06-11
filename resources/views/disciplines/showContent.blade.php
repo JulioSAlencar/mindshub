@@ -65,13 +65,9 @@
     <div class="flex flex-col gap-3">
       @can('is-student-or-teacher')
         @cannot('is-creator', $discipline)
-          <form action="{{ route('disciplines.leave', $discipline->id) }}" method="POST">
-            @csrf
-            @method('DELETE')
-            <button onclick="openModal()" class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition shadow">
-              Sair da disciplina
-            </button>
-          </form>
+          <button type="button" onclick="openModal()" class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition shadow">
+            Sair da disciplina
+          </button>
         @endcannot
       @endcan
     </div>
@@ -189,7 +185,7 @@
       Você está prestes a se desinscrever da disciplina. <strong>Todo o seu progresso será apagado.</strong>
     </p>
     <div class="flex justify-end gap-4">
-      <button onclick="closeModal()" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 text-gray-800">
+      <button type="button" onclick="closeModal()" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400 text-gray-800">
         Cancelar
       </button>
       <form id="leaveForm" action="{{ route('disciplines.leave', $discipline->id) }}" method="POST">
