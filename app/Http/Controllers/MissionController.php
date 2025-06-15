@@ -187,19 +187,21 @@ class MissionController extends Controller
             ]);
         }
 
-
         // Concede XP
         if ($xpEarned > 0) {
             $rewardService->gainXp($user, $xpEarned);
         }
 
-        // Verifica se há feedback da missão
-        $hasFeedback = MissionFeedback::where('mission_id', $mission->id)->exists();
+        // ===== A LINHA CORRIGIDA ESTÁ AQUI =====
+        // Verifica se o USUÁRIO ATUAL já enviou feedback para ESTA missão.
+        $hasFeedback = MissionFeedback::where('mission_id', $mission->id)
+                                    ->where('user_id', $userId) // Adicionada a verificação do usuário
+                                    ->exists();
 
         return view('questions.end', [
             'discipline' => $discipline,
             'mission' => $mission,
-            'hasFeedback' => $hasFeedback,
+            'hasFeedback' => $hasFeedback, // Agora com o valor correto para o usuário logado
             'correctCount' => $correctCount,
             'xpEarned' => $xpEarned,
             'currentUserLevel' => $user->fresh()->level,

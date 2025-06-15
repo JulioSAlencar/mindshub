@@ -28,26 +28,26 @@
             </thead>
             <tbody>
                 @foreach($disciplines as $discipline)
-                    <tr>
-                        <td scope="row">{{ $loop->index + 1 }}</td>
-                        <td><a href="/disciplines/{{ $discipline->id }}">{{ $discipline->title }}</a></td>
-                        <td>{{ count($discipline->users) }}</td>
-                        <td>
-                            {{-- Somente o criador pode editar ou excluir --}}
-                            @if ($discipline->creator_id === auth()->user()->id)
+                    @if ($discipline->creator_id === auth()->user()->id)
+                        <tr>
+                            <td scope="row">{{ $loop->index + 1 }}</td>
+                            <td><a href="/disciplines/{{ $discipline->id }}">{{ $discipline->title }}</a></td>
+                            <td>{{ count($discipline->users) }}</td>
+                            <td>
+                                {{-- Somente o criador pode editar ou excluir --}}
                                 <a class="btn btn-primary" href="{{ route('disciplines.showContent', ['id' => $discipline->id]) }}">Entrar</a>
-                                
+
                                 <a class="btn btn-secondary" href="/disciplines/edit/{{ $discipline->id }}">Editar</a>
-            
+
                                 <form action="{{ route('disciplines.destroy', $discipline->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">Excluir</button>
                                 </form>
-                            @endif
-                        </td>
-                    </tr>                
-                @endforeach    
+                            </td>
+                        </tr>
+                    @endif
+                @endforeach
             </tbody>            
         </table>
         @else

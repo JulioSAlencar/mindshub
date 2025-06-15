@@ -24,9 +24,10 @@
   </div>
 @endif
 
-{{-- Container principal --}}
+{{-- Container principal com Alpine.js --}}
 <div x-data="{ tab: 'missoes' }">
   <header class="flex flex-col lg:flex-row items-center justify-between gap-8 px-8 py-10 bg-white shadow rounded-lg mb-10">
+    {{-- Seção de Informações da Disciplina (Esquerda) --}}
     <div class="flex items-center gap-8">
       <figure class="flex-shrink-0">
         <img src="{{ $discipline->image ? asset('assets/disciplines/' . $discipline->image) : asset('assets/disciplines/defalt_discipline.png') }}"
@@ -44,57 +45,53 @@
       </div>
     </div>
 
-    <div class="flex flex-col gap-3">
-      @if ($discipline->is_completed)
-        <a href="{{ route('certificates.generate', $discipline->id) }}"
-           class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition shadow">
-          Baixar Certificado
+    {{-- Seção de Botões (Direita) --}}
+    <div class="flex flex-col sm:flex-row items-center gap-4">
+      @can('is-creator', $discipline)
+        <a href="{{ route('disciplines.manager', ['id' => $discipline->id])}}" class="bg-blue-600 text-white text-lg py-3 px-6 rounded-md hover:bg-blue-800 transition">
+          Gerenciar disciplina
         </a>
-      @endif
+      @endcan
 
       @cannot('is-creator', $discipline)
         @if ($discipline->is_completed)
           <a href="{{ route('certificates.generate', $discipline->id) }}"
-            class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition shadow">
+             class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition shadow">
             Baixar Certificado
           </a>
         @endif
-      @endcannot
-    
-    </div>
-    <div class="flex flex-col gap-3">
-      @can('is-student-or-teacher')
-        @cannot('is-creator', $discipline)
+        
+        @can('is-student-or-teacher')
           <button type="button" onclick="openModal()" class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition shadow">
             Sair da disciplina
           </button>
-        @endcannot
-      @endcan
+        @endcan
+      @endcannot
     </div>
   </header>
 
   {{-- Abas de navegação --}}
   <nav class="flex rounded-t-lg overflow-hidden text-center bg-gray-700 text-white font-semibold shadow-md">
     <button @click="tab = 'conteudo'"
-            :class="tab === 'conteudo' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-800'"
+            :class="{ 'bg-gray-900 text-white': tab === 'conteudo', 'text-gray-300 hover:bg-gray-800': tab !== 'conteudo' }"
             class="w-1/2 px-4 py-3 transition">
       Conteúdo
     </button>
     <button @click="tab = 'missoes'"
-            :class="tab === 'missoes' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-800'"
+            :class="{ 'bg-gray-900 text-white': tab === 'missoes', 'text-gray-300 hover:bg-gray-800': tab !== 'missoes' }"
             class="w-1/2 px-4 py-3 transition">
       Missões
     </button>
   </nav>
 
   {{-- Seção Conteúdo --}}
-  <section x-show="tab === 'conteudo'" class="bg-gray-900 text-white px-8 py-10 rounded-b-lg grid grid-cols-1 lg:grid-cols-2 gap-8">
+  <section x-show="tab === 'conteudo'" x-cloak class="bg-gray-900 text-white px-8 py-10 rounded-b-lg grid grid-cols-1 lg:grid-cols-2 gap-8">
     <div class="space-y-8">
-      @foreach ($groupedContents as $category => $contents)
+      @forelse ($groupedContents as $category => $contents)
         <div>
           <h2 class="text-2xl font-semibold mb-4 capitalize">{{ $category }}</h2>
           @foreach ($contents as $content)
-            <div class="bg-gray-700 p-4 rounded-lg shadow flex justify-between items-center gap-4">
+            <div class="bg-gray-700 p-4 rounded-lg shadow flex justify-between items-center gap-4 mb-4">
               <div class="flex items-center gap-4">
                 <img src="{{ asset('assets/icons/prancheta.svg') }}" alt="" class="w-10 h-10">
                 <div>
@@ -117,17 +114,19 @@
             </div>
           @endforeach
         </div>
-      @endforeach
+      @empty
+        <p>Nenhum conteúdo adicionado a esta disciplina ainda.</p>
+      @endforelse
     </div>
-    <figure class="flex justify-center items-center">
+    <figure class="hidden lg:flex justify-center items-center">
       <img src="{{ asset('assets/images/bgConteudo.png') }}" alt="Ilustração" class="rounded-lg max-w-full">
     </figure>
   </section>
 
   {{-- Seção Missões --}}
-  <section x-show="tab === 'missoes'" class="bg-gray-900 text-white px-8 py-10 rounded-b-lg grid grid-cols-1 lg:grid-cols-2 gap-8">
+  <section x-show="tab === 'missoes'" x-cloak class="bg-gray-900 text-white px-8 py-10 rounded-b-lg grid grid-cols-1 lg:grid-cols-2 gap-8">
     <div class="space-y-6">
-      @foreach ($missions as $mission)
+      @forelse ($missions as $mission)
         <div class="bg-gray-700 p-4 rounded-lg shadow flex justify-between items-center gap-4">
           <div class="flex items-center gap-4">
             <img src="{{ asset('assets/icons/grafico.svg') }}" alt="" class="w-10 h-10">
@@ -145,18 +144,18 @@
               @if ($mission->discipline->creator_id !== Auth::id())
                 @if ($mission->end_date < now())
                   <a href="{{ route('missions.result', $mission->id) }}"
-                    class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded transition">
+                     class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded transition">
                     Ver meu resultado
                   </a>
                 @elseif (in_array($mission->id, $answeredMissionIds))
                   <a href="{{ route('missions.result', $mission->id) }}"
-                    class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition">
+                     class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition">
                     Ver meu resultado
                   </a>
                 @else
                   {{-- Missão ainda válida e não respondida --}}
                   <a href="{{ route('missions.show', $mission->id) }}"
-                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition font-medium">
+                     class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition font-medium">
                     Responder
                   </a>
                 @endif
@@ -170,14 +169,16 @@
             @endcan
           </div>
         </div>
-      @endforeach
+      @empty
+        <p>Nenhuma missão disponível no momento.</p>
+      @endforelse
     </div>
-    <figure class="flex justify-center items-center">
+    <figure class="hidden lg:flex justify-center items-center">
       <img src="{{ asset('assets/images/BglogoMiss.png') }}" alt="Ilustração" class="rounded-lg max-w-full">
     </figure>
   </section>
 </div>
-<!-- Modal de confirmação -->
+
 <div id="leaveModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
   <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full">
     <h2 class="text-xl font-semibold text-gray-800 mb-4">Tem certeza?</h2>
